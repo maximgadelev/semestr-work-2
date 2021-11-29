@@ -7,10 +7,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
     public class Character extends Pane{
        Rectangle rect;
+        private int side;
         public Point2D playerVelocity = new Point2D(0,0);
         private boolean canJump = true;
 
+        public int getSide() {
+            return side;
+        }
+
+        public void setSide(int side) {
+            this.side = side;
+        }
+
         public Character() {
+            this.side=123;
             rect=new Rectangle(40,40, Color.BLACK);
             getChildren().addAll(rect);
         }
@@ -71,4 +81,6 @@ import javafx.scene.shape.Rectangle;
             }
         }
     }
+
+
 
