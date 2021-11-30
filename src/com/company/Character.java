@@ -10,7 +10,8 @@ import javafx.scene.shape.Rectangle;
         private int side;
         public Point2D playerVelocity = new Point2D(0,0);
         private boolean canJump = true;
-
+        private boolean isJumped=false;
+        private boolean isShoot=false;
         public int getSide() {
             return side;
         }
@@ -79,6 +80,30 @@ import javafx.scene.shape.Rectangle;
                 playerVelocity = playerVelocity.add(0,-30);
                 canJump = false;
             }
+        }
+
+        public boolean isCanJump() {
+            return canJump;
+        }
+
+        public void setCanJump(boolean canJump) {
+            this.canJump = canJump;
+        }
+
+        public boolean isJumped() {
+            return isJumped;
+        }
+
+        public void setJumped(boolean jumped) {
+            isJumped = jumped;
+        }
+
+        public boolean isShoot() {
+            return isShoot;
+        }
+
+        public void setShoot(boolean shoot) {
+            isShoot = shoot;
         }
     }
 

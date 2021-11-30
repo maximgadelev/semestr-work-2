@@ -84,7 +84,8 @@ public class Game extends Application {
     }
 
     private void update() {
-        if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5) {
+        if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
+            player.setJumped(true);
             player.jumpPlayer();
         }
         if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
@@ -97,7 +98,8 @@ public class Game extends Application {
             player.setSide(1);
             player.moveX(5);
         }
-        if (isPressed(KeyCode.SPACE)) {
+        if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
+            player.setShoot(true);
             Bullet bullet = new Bullet(player.getTranslateX(), player.getTranslateY(), 20, 20,player.getSide());
             gameRoot.getChildren().add(bullet);
         }
@@ -116,8 +118,15 @@ public class Game extends Application {
         initContent();
         Scene scene = new Scene(appRoot, 1200, 620);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
-        scene.setOnKeyReleased(event -> {
-            keys.put(event.getCode(), false);
+
+        scene.setOnKeyReleased(event->{
+            if (event.getCode().equals(KeyCode.UP)){
+                player.setJumped(false);
+            }
+            if (event.getCode().equals(KeyCode.SPACE)){
+                player.setShoot(false);
+            }
+            keys.put(event.getCode(),false);
         });
         primaryStage.setTitle("My game");
         primaryStage.setScene(scene);
