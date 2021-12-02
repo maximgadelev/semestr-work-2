@@ -19,13 +19,21 @@ public  class Bullet extends Rectangle {
             @Override
             public void handle(long l) {
                 for (Node platform : Game.platforms) {
-                    if(bullet.getBoundsInParent().intersects(platform.getBoundsInParent())){
+                    if (bullet.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                         this.stop();
                         Game.gameRoot.getChildren().remove(bullet);
                     }
                 }
+                    for(Character character:Game.characters){
+                        if(bullet.getBoundsInParent().intersects(character.getBoundsInParent())){
+                            this.stop();
+                            Game.gameRoot.getChildren().remove(bullet);
+                            character.getDamage();
+                        }
+                    }
+
 if(side==1){
-    setX(getX()+10);
+    setX(getX()+1);
 }else {
     setX(getX() - 10);
 }

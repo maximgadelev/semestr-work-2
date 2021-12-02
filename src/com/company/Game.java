@@ -18,6 +18,7 @@ import java.util.HashMap;
 public class Game extends Application {
     public static ArrayList<Block> platforms = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    public static ArrayList<Character> characters = new ArrayList<>();
 
     Image backgroundImg = new Image(getClass().getResourceAsStream("list.png"));
     public static final int BLOCK_SIZE = 45;
@@ -26,6 +27,7 @@ public class Game extends Application {
     public static Pane gameRoot = new Pane();
 
     public Character player;
+    public Character player2;
 
     int levelNumber = 0;
     private int levelWidth;
@@ -71,6 +73,7 @@ public class Game extends Application {
         player = new Character();
         player.setTranslateX(0);
         player.setTranslateY(400);
+        characters.add(player);
         player.translateXProperty().addListener((obs, old, newValue) -> {
             int offset = newValue.intValue();
             if (offset > 640 && offset < levelWidth - 640) {
@@ -100,8 +103,13 @@ public class Game extends Application {
         }
         if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
             player.setShoot(true);
-            Bullet bullet = new Bullet(player.getTranslateX(), player.getTranslateY(), 20, 20,player.getSide());
-            gameRoot.getChildren().add(bullet);
+            if(player.getSide()==0){
+                Bullet bullet = new Bullet(player.getTranslateX()-50, player.getTranslateY(), 20, 20,player.getSide());
+                gameRoot.getChildren().add(bullet);
+            }else{
+                Bullet bullet = new Bullet(player.getTranslateX()+50, player.getTranslateY(), 20, 20,player.getSide());
+                gameRoot.getChildren().add(bullet);
+            }
         }
         if (player.playerVelocity.getY() < 10) {
             player.playerVelocity = player.playerVelocity.add(0, 1);

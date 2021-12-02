@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
         private boolean canJump = true;
         private boolean isJumped=false;
         private boolean isShoot=false;
+        private int hp=3;
         public int getSide() {
             return side;
         }
@@ -104,6 +105,21 @@ import javafx.scene.shape.Rectangle;
 
         public void setShoot(boolean shoot) {
             isShoot = shoot;
+        }
+
+        public int getHp() {
+            return hp;
+        }
+
+        public void setHp(int hp) {
+            this.hp = hp;
+        }
+        public void getDamage(){
+            hp=hp-1;
+            rect.setFill(Color.RED);
+            if(hp<=0){
+                getChildren().remove(rect);
+            }
         }
     }
 
