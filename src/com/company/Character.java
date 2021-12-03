@@ -1,5 +1,6 @@
 package com.company;
 
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -12,7 +13,9 @@ import javafx.scene.shape.Rectangle;
         private boolean canJump = true;
         private boolean isJumped=false;
         private boolean isShoot=false;
+        Bullet bullet;
         private int hp=3;
+        Rectangle currentBonus=null;
         public int getSide() {
             return side;
         }
@@ -45,6 +48,7 @@ import javafx.scene.shape.Rectangle;
                     }
                 }
                 this.setTranslateX(this.getTranslateX() + (movingRight ? 1 : -1));
+                isBonusEaten();
             }
         }
         public void moveY(int value){
@@ -69,6 +73,7 @@ import javafx.scene.shape.Rectangle;
                     }
                 }
                 this.setTranslateY(this.getTranslateY() + (movingDown?1:-1));
+                isBonusEaten();
                 if(this.getTranslateY()>640){
                     this.setTranslateX(0);
                     this.setTranslateY(400);
@@ -114,8 +119,8 @@ import javafx.scene.shape.Rectangle;
         public void setHp(int hp) {
             this.hp = hp;
         }
-        public void getDamage(){
-            hp=hp-1;
+        public void getDamage(int damage){
+            hp=hp-damage;
             rect.setFill(Color.RED);
             if(hp<=0){
                 getChildren().remove(rect);
@@ -123,6 +128,45 @@ import javafx.scene.shape.Rectangle;
                 Game.gameRoot.getChildren().remove(rect);
 
             }
+        }
+        public void isBonusEaten(){
+            Game.bonuses.forEach((rect)->{
+                if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS")){
+                    this.setHp(this.getHp()+2);
+                    currentBonus=rect;
+                }
+                if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("DAMAGE_BONUS")){
+                    this.getBullet().setBulletDamage(this.getBullet().getBulletDamage()+2);
+                    currentBonus=rect;
+                }
+            });
+            Game.gameRoot.getChildren().remove(currentBonus);
+            Game.bonuses.remove(currentBonus);
+        }
+        public void Shoot(){
+            Bullet bullet=this.getBullet();
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+
+                    if(side==1){
+                        bullet.setTranslateX(bullet.getTranslateX()+50);
+                        bullet.setX(bullet.getX()+1);
+                    }else {
+                        bullet.setTranslateX(bullet.getTranslateX()-50);
+                        bullet.setX(bullet.getX() - 10);
+                    }
+                }
+            };
+            timer.start();
+        }
+
+        public Bullet getBullet() {
+            return bullet;
+        }
+
+        public void setBullet(Bullet bullet) {
+            this.bullet = bullet;
         }
     }
 

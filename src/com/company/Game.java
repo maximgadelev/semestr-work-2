@@ -19,6 +19,7 @@ public class Game extends Application {
     public static ArrayList<Block> platforms = new ArrayList<>();
     private HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
+    public static ArrayList<Bonus> bonuses = new ArrayList<>();
 
     Image backgroundImg = new Image(getClass().getResourceAsStream("list.png"));
     public static final int BLOCK_SIZE = 45;
@@ -27,7 +28,6 @@ public class Game extends Application {
     public static Pane gameRoot = new Pane();
 
     public Character player;
-    public Character player2;
 
     int levelNumber = 0;
     private int levelWidth;
@@ -74,6 +74,10 @@ public class Game extends Application {
         player.setTranslateX(0);
         player.setTranslateY(400);
         characters.add(player);
+        Bonus bonus = new Bonus(300,500,40,40,"HP_BONUS",Color.RED);
+        Bonus bonus1 = new Bonus(400,500,40,40,"DAMAGE_BONUS",Color.BLUE);
+        bonuses.add(bonus);
+        bonuses.add(bonus1);
         player.translateXProperty().addListener((obs, old, newValue) -> {
             int offset = newValue.intValue();
             if (offset > 640 && offset < levelWidth - 640) {
@@ -81,6 +85,9 @@ public class Game extends Application {
 
             }
         });
+        gameRoot.getChildren().add(bonus);
+        gameRoot.getChildren().add(bonus1);
+
         gameRoot.getChildren().add(player);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
@@ -89,7 +96,7 @@ public class Game extends Application {
     private void update() {
         if (player.rect != null) {
             if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
-                player.setJumped(true);
+                player.setJumped(true);;
                 player.jumpPlayer();
             }
             if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
@@ -104,13 +111,13 @@ public class Game extends Application {
             }
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
-                Bullet bullet;
                 if (player.getSide() == 0) {
-                    bullet = new Bullet(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
+                    Bullet bullet = new Bullet(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
+                    gameRoot.getChildren().add(bullet);
                 } else {
-                    bullet = new Bullet(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
+                    Bullet bullet = new Bullet(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
+                    gameRoot.getChildren().add(bullet);
                 }
-                gameRoot.getChildren().add(bullet);
             }
             if (player.playerVelocity.getY() < 10) {
                 player.playerVelocity = player.playerVelocity.add(0, 1);
