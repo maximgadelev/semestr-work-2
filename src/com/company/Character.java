@@ -119,6 +119,9 @@ import javafx.scene.shape.Rectangle;
             rect.setFill(Color.RED);
             if(hp<=0){
                 getChildren().remove(rect);
+                rect=null;
+                Game.gameRoot.getChildren().remove(rect);
+
             }
         }
     }

@@ -87,34 +87,36 @@ public class Game extends Application {
     }
 
     private void update() {
-        if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
-            player.setJumped(true);
-            player.jumpPlayer();
-        }
-        if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
-            player.setScaleX(-1);
-            player.setSide(0);
-            player.moveX(-5);
-        }
-        if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
-            player.setScaleX(1);
-            player.setSide(1);
-            player.moveX(5);
-        }
-        if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
-            player.setShoot(true);
-            if(player.getSide()==0){
-                Bullet bullet = new Bullet(player.getTranslateX()-50, player.getTranslateY(), 20, 20,player.getSide());
-                gameRoot.getChildren().add(bullet);
-            }else{
-                Bullet bullet = new Bullet(player.getTranslateX()+50, player.getTranslateY(), 20, 20,player.getSide());
+        if (player.rect != null) {
+            if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
+                player.setJumped(true);
+                player.jumpPlayer();
+            }
+            if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
+                player.setScaleX(-1);
+                player.setSide(0);
+                player.moveX(-5);
+            }
+            if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
+                player.setScaleX(1);
+                player.setSide(1);
+                player.moveX(5);
+            }
+            if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
+                player.setShoot(true);
+                Bullet bullet;
+                if (player.getSide() == 0) {
+                    bullet = new Bullet(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
+                } else {
+                    bullet = new Bullet(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
+                }
                 gameRoot.getChildren().add(bullet);
             }
+            if (player.playerVelocity.getY() < 10) {
+                player.playerVelocity = player.playerVelocity.add(0, 1);
+            }
+            player.moveY((int) player.playerVelocity.getY());
         }
-        if (player.playerVelocity.getY() < 10) {
-            player.playerVelocity = player.playerVelocity.add(0, 1);
-        }
-        player.moveY((int) player.playerVelocity.getY());
     }
 
     private boolean isPressed(KeyCode key) {
@@ -127,25 +129,25 @@ public class Game extends Application {
         Scene scene = new Scene(appRoot, 1200, 620);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
-        scene.setOnKeyReleased(event->{
-            if (event.getCode().equals(KeyCode.UP)){
+        scene.setOnKeyReleased(event -> {
+            if (event.getCode().equals(KeyCode.UP)) {
                 player.setJumped(false);
             }
-            if (event.getCode().equals(KeyCode.SPACE)){
+            if (event.getCode().equals(KeyCode.SPACE)) {
                 player.setShoot(false);
             }
-            keys.put(event.getCode(),false);
+            keys.put(event.getCode(), false);
         });
         primaryStage.setTitle("My game");
         primaryStage.setScene(scene);
         primaryStage.show();
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update();
-            }
-        };
-        timer.start();
+            AnimationTimer timer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    update();
+                }
+            };
+            timer.start();
     }
 
     public static void main(String[] args) {

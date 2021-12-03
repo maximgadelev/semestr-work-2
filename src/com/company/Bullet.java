@@ -25,7 +25,7 @@ public  class Bullet extends Rectangle {
                     }
                 }
                     for(Character character:Game.characters){
-                        if(bullet.getBoundsInParent().intersects(character.getBoundsInParent())){
+                        if(bullet.getBoundsInParent().intersects(character.getBoundsInParent())) {
                             this.stop();
                             Game.gameRoot.getChildren().remove(bullet);
                             character.getDamage();
