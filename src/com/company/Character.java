@@ -119,13 +119,13 @@ import javafx.scene.shape.Rectangle;
             this.hp = hp;
         }
         public void getDamage(int damage){
-            hp=hp-damage;
-            rect.setFill(Color.RED);
-            if(hp<=0){
+            if(hp<=1){
                 getChildren().remove(rect);
                 rect=null;
                 Game.gameRoot.getChildren().remove(rect);
-
+            }else {
+                hp=hp-damage;
+                rect.setFill(Color.RED);
             }
         }
         public void isBonusEaten(){

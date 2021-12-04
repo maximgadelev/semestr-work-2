@@ -2,16 +2,24 @@ package com.company;
 
 public class Weapon {
     String type;
-    Bullet bullet;
     int damage;
 
     public Weapon(String type){
         this.type=type;
         this.damage=1;
     }
-    void ShootPistol(double x, double y, double width, double height, int side){
-        this.bullet = new Bullet(x,y,width,height,side,damage);
-        Game.gameRoot.getChildren().add(bullet);
+    void ShootPistol(double x, double y, int side){
+        Bullet bullet1 = new Bullet(x,y, 20, 20,side,damage);
+        Game.gameRoot.getChildren().add(bullet1);
+    }
+    void ShootShotGun(double x,double y,int side){
+        Bullet bullet1=new Bullet(x,y,20,20,side,damage);
+        Bullet bullet2=new Bullet(x,y-20,20,20,side,damage);
+        Bullet bullet3=new Bullet(x,y-30,20,20,side,damage);
+        Game.gameRoot.getChildren().add(bullet1);
+        Game.gameRoot.getChildren().add(bullet2);
+        Game.gameRoot.getChildren().add(bullet3);
+
     }
 
     public String getType() {
@@ -22,13 +30,7 @@ public class Weapon {
         this.type = type;
     }
 
-    public Bullet getBullet() {
-        return bullet;
-    }
 
-    public void setBullet(Bullet bullet) {
-        this.bullet = bullet;
-    }
 
     public int getDamage() {
         return damage;

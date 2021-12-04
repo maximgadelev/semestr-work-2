@@ -2,14 +2,12 @@ package com.company;
 
 import javafx.animation.AnimationTimer;
 import  javafx.application.Application;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -112,9 +110,9 @@ public class Game extends Application {
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
                 if (player.getSide() == 0) {
-              player.getWeapon().ShootPistol(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
+              player.getWeapon().ShootPistol(player.getTranslateX() - 50, player.getTranslateY(), player.getSide());
                 } else {
-                    player.getWeapon().ShootPistol(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
+                    player.getWeapon().ShootPistol(player.getTranslateX() + 50, player.getTranslateY(), player.getSide());
                 }
             }
             if (player.playerVelocity.getY() < 10) {
