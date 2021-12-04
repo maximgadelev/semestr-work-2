@@ -135,7 +135,7 @@ import javafx.scene.shape.Rectangle;
                     currentBonus=rect;
                 }
                 if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("DAMAGE_BONUS")){
-                    this.getWeapon().setDamage(this.weapon.getDamage()+2);
+                    this.getWeapon().setType("SHOOTGUN");
                     currentBonus=rect;
                 }
             });

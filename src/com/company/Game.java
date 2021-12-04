@@ -110,9 +110,9 @@ public class Game extends Application {
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
                 if (player.getSide() == 0) {
-              player.getWeapon().ShootPistol(player.getTranslateX() - 50, player.getTranslateY(), player.getSide());
+              player.getWeapon().Shoot(player.getTranslateX() - 50, player.getTranslateY(), player.getSide(),player.getWeapon().getType());
                 } else {
-                    player.getWeapon().ShootPistol(player.getTranslateX() + 50, player.getTranslateY(), player.getSide());
+                    player.getWeapon().Shoot(player.getTranslateX() + 50, player.getTranslateY(), player.getSide(),player.getWeapon().getType());
                 }
             }
             if (player.playerVelocity.getY() < 10) {
