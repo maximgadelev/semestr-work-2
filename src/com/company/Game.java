@@ -73,9 +73,11 @@ public class Game extends Application {
         player.setTranslateY(400);
         characters.add(player);
         Bonus bonus = new Bonus(300,500,40,40,"HP_BONUS",Color.RED);
-        Bonus bonus1 = new Bonus(400,500,40,40,"DAMAGE_BONUS",Color.BLUE);
+        Bonus bonus1 = new Bonus(400,500,40,40,"SHOTGUN_BONUS",Color.BLUE);
+        Bonus bonus2 = new Bonus(500,500,40,40,"TWO_BONUS",Color.YELLOW);
         bonuses.add(bonus);
         bonuses.add(bonus1);
+        bonuses.add(bonus2);
         player.translateXProperty().addListener((obs, old, newValue) -> {
             int offset = newValue.intValue();
             if (offset > 640 && offset < levelWidth - 640) {
@@ -83,9 +85,7 @@ public class Game extends Application {
 
             }
         });
-        gameRoot.getChildren().add(bonus);
-        gameRoot.getChildren().add(bonus1);
-
+        gameRoot.getChildren().addAll(bonuses);
         gameRoot.getChildren().add(player);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 

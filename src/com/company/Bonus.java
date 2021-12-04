@@ -1,7 +1,4 @@
 package com.company;
-
-
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 
@@ -17,17 +14,5 @@ public class Bonus extends Rectangle {
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Paint getColor() {
-        return color;
-    }
-
-    public void setColor(Paint color) {
-        this.color = color;
     }
 }

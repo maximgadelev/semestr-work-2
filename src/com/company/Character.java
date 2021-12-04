@@ -134,11 +134,17 @@ import javafx.scene.shape.Rectangle;
                     this.setHp(this.getHp()+2);
                     currentBonus=rect;
                 }
-                if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("DAMAGE_BONUS")){
-                    this.getWeapon().setType("SHOOTGUN");
+                if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("SHOTGUN_BONUS")){
+                    this.getWeapon().setType("SHOTGUN");
                     currentBonus=rect;
                 }
-            });
+                        if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("TWO_BONUS")){
+                            this.getWeapon().setType("TWO_BONUS");
+                            currentBonus=rect;
+                        }
+            }
+            );
+
             Game.gameRoot.getChildren().remove(currentBonus);
             Game.bonuses.remove(currentBonus);
         }
