@@ -1,19 +1,17 @@
 package com.company;
-
-import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
     public class Character extends Pane{
-       Rectangle rect;
+        Rectangle rect;
         private int side;
         public Point2D playerVelocity = new Point2D(0,0);
         private boolean canJump = true;
         private boolean isJumped=false;
         private boolean isShoot=false;
-        Bullet bullet;
+        Weapon weapon;
         private int hp=3;
         Rectangle currentBonus=null;
         public int getSide() {
@@ -28,6 +26,7 @@ import javafx.scene.shape.Rectangle;
             this.side=123;
             rect=new Rectangle(40,40, Color.BLACK);
             getChildren().addAll(rect);
+            this.weapon=new Weapon("PISTOL");
         }
         public void moveX(int value){
             boolean movingRight = value > 0;
@@ -136,37 +135,20 @@ import javafx.scene.shape.Rectangle;
                     currentBonus=rect;
                 }
                 if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("DAMAGE_BONUS")){
-                    this.getBullet().setBulletDamage(this.getBullet().getBulletDamage()+2);
+                    this.getWeapon().setDamage(this.weapon.getDamage()+2);
                     currentBonus=rect;
                 }
             });
             Game.gameRoot.getChildren().remove(currentBonus);
             Game.bonuses.remove(currentBonus);
         }
-        public void Shoot(){
-            Bullet bullet=this.getBullet();
-            AnimationTimer timer = new AnimationTimer() {
-                @Override
-                public void handle(long l) {
 
-                    if(side==1){
-                        bullet.setTranslateX(bullet.getTranslateX()+50);
-                        bullet.setX(bullet.getX()+1);
-                    }else {
-                        bullet.setTranslateX(bullet.getTranslateX()-50);
-                        bullet.setX(bullet.getX() - 10);
-                    }
-                }
-            };
-            timer.start();
+        public Weapon getWeapon() {
+            return weapon;
         }
 
-        public Bullet getBullet() {
-            return bullet;
-        }
-
-        public void setBullet(Bullet bullet) {
-            this.bullet = bullet;
+        public void setWeapon(Weapon weapon) {
+            this.weapon = weapon;
         }
     }
 

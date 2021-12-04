@@ -112,11 +112,9 @@ public class Game extends Application {
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
                 if (player.getSide() == 0) {
-                    Bullet bullet = new Bullet(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
-                    gameRoot.getChildren().add(bullet);
+              player.getWeapon().ShootPistol(player.getTranslateX() - 50, player.getTranslateY(), 20, 20, player.getSide());
                 } else {
-                    Bullet bullet = new Bullet(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
-                    gameRoot.getChildren().add(bullet);
+                    player.getWeapon().ShootPistol(player.getTranslateX() + 50, player.getTranslateY(), 20, 20, player.getSide());
                 }
             }
             if (player.playerVelocity.getY() < 10) {
