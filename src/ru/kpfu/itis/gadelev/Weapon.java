@@ -1,7 +1,6 @@
 package ru.kpfu.itis.gadelev;
 
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Weapon {
     String type;

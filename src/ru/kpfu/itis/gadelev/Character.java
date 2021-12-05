@@ -25,10 +25,10 @@ public class Character extends Pane {
 
     int count = 3;
     int columns = 3;
-    int offsetX = 96;
-    int offsetY = 33;
+    int offsetX = 80;
+    int offsetY = 0;
     int width = 16;
-    int height = 16;
+    int height = 32;
     SpriteAnimation spriteAnimation;
     Image characterImage = new Image(getClass().getResourceAsStream("mario1.png"));
     ImageView imageView = new ImageView(characterImage);
