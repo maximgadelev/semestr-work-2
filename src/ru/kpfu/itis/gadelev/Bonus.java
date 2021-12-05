@@ -1,4 +1,4 @@
-package com.company;
+package ru.kpfu.itis.gadelev;
 import javafx.scene.shape.Rectangle;
 
 

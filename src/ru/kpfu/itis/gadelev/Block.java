@@ -1,8 +1,9 @@
-package com.company;
+package ru.kpfu.itis.gadelev;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import ru.kpfu.itis.gadelev.Game;
 
 
 public class Block extends Pane {

@@ -1,4 +1,4 @@
-package com.company;
+package ru.kpfu.itis.gadelev;
 
 import javafx.animation.AnimationTimer;
 import  javafx.application.Application;
@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Game extends Application {
     public static ArrayList<Block> platforms = new ArrayList<>();
@@ -26,7 +28,6 @@ public class Game extends Application {
     public static Pane gameRoot = new Pane();
 
     public Character player;
-
     int levelNumber = 0;
     private int levelWidth;
 
@@ -92,19 +93,22 @@ public class Game extends Application {
     }
 
     private void update() {
-        if (player.rect != null) {
+        if (player.imageView != null) {
             if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
                 player.setJumped(true);;
                 player.jumpPlayer();
+                player.spriteAnimation.play();
             }
             if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
                 player.setScaleX(-1);
                 player.setSide(0);
+                player.spriteAnimation.play();
                 player.moveX(-5);
             }
             if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
                 player.setScaleX(1);
                 player.setSide(1);
+                player.spriteAnimation.play();
                 player.moveX(5);
             }
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
@@ -127,7 +131,7 @@ public class Game extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         initContent();
         Scene scene = new Scene(appRoot, 1200, 620);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -140,6 +144,7 @@ public class Game extends Application {
                 player.setShoot(false);
             }
             keys.put(event.getCode(), false);
+            player.spriteAnimation.stop();
         });
         primaryStage.setTitle("My game");
         primaryStage.setScene(scene);

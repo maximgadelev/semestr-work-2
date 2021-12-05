@@ -1,4 +1,4 @@
-package com.company;
+package ru.kpfu.itis.gadelev;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
@@ -27,7 +27,7 @@ public  class Bullet extends Rectangle {
                         }
                     }
 if(side==1){
-    setX(getX()+10);
+    setX(getX()+1);
 }else {
     setX(getX() - 10);
 }

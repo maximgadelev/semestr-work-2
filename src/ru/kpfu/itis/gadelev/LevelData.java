@@ -1,4 +1,4 @@
-package com.company;
+package ru.kpfu.itis.gadelev;
 
 public class LevelData {
     static  String[] LEVEL1 =new String[]{
