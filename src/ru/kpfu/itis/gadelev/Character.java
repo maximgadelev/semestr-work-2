@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -22,16 +21,12 @@ public class Character extends Pane {
     Weapon weapon;
     private int hp = 3;
     Rectangle currentBonus = null;
-
-    int count = 3;
-    int columns = 3;
-    int offsetX = 80;
-    int offsetY = 0;
-    int width = 16;
-    int height = 32;
     SpriteAnimation spriteAnimation;
-    Image characterImage = new Image(getClass().getResourceAsStream("mario1.png"));
-    ImageView imageView = new ImageView(characterImage);
+    Image runImage = new Image(getClass().getResourceAsStream("run.png"));
+    Image jumpImage = new Image(getClass().getResourceAsStream("jump.png"));
+    ImageView imageView;
+
+    String position;
 
     public int getSide() {
         return side;
@@ -41,14 +36,11 @@ public class Character extends Pane {
         this.side = side;
     }
 
-    public Character() {
+    public Character(String position) {
         this.side = 123;
-        imageView.setFitHeight(40);
-        imageView.setFitWidth(40);
-        imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
-        spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(200), count, columns, offsetX, offsetY, width, height);
-        getChildren().addAll(imageView);
         this.weapon = new Weapon("PISTOL");
+        this.position=position;
+        setSpriteAnimation(position);
     }
 
     public void moveX(int value) {
@@ -102,6 +94,7 @@ public class Character extends Pane {
                 Game.gameRoot.setLayoutX(0);
             }
         }
+
     }
 
     public void jumpPlayer() {
@@ -109,14 +102,6 @@ public class Character extends Pane {
             playerVelocity = playerVelocity.add(0, -30);
             canJump = false;
         }
-    }
-
-    public boolean isCanJump() {
-        return canJump;
-    }
-
-    public void setCanJump(boolean canJump) {
-        this.canJump = canJump;
     }
 
     public boolean isJumped() {
@@ -180,8 +165,45 @@ public class Character extends Pane {
         return weapon;
     }
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
+
+    public void setSpriteAnimation(String animationType) {
+        if (animationType.equals("run")) {
+            if (imageView != null) {
+                getChildren().remove(imageView);
+                this.imageView.setImage(runImage);
+            } else {
+                this.imageView = new ImageView(runImage);
+            }
+            this.position=animationType;
+            this.imageView.setFitHeight(40);
+            this.imageView.setFitWidth(40);
+            this.imageView.setViewport(new Rectangle2D(0, 0, 45, 52));
+            this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(1000), 6, 6, 0, 0, 45, 52);
+            getChildren().add(imageView);
+        } else {
+            if (animationType.equals("jump")) {
+                if (imageView != null) {
+                    getChildren().remove(imageView);
+                    this.imageView.setImage(jumpImage);
+                } else {
+                    this.imageView = new ImageView(jumpImage);
+                }
+                this.position=animationType;
+                this.imageView.setFitHeight(40);
+                this.imageView.setFitWidth(40);
+                this.imageView.setViewport(new Rectangle2D(0, 0, 35, 52));
+                this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(500), 1, 1, 144, 0, 35, 52);
+                getChildren().add(imageView);
+            }
+        }
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }
 

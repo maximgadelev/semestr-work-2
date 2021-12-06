@@ -1,15 +1,18 @@
 package ru.kpfu.itis.gadelev;
 
+
+
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+
 public  class Bullet extends Rectangle {
-    public Bullet(double x, double y, double width, double height, int side,int damage){
-        super(x,y,width,height);
-        setFill(Color.RED);
-        Bullet bullet=this;
+    public Bullet(double x, double y,int side,int damage){
+        super(x,y,20,10);
+   Bullet bullet=this;
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
@@ -27,9 +30,9 @@ public  class Bullet extends Rectangle {
                         }
                     }
 if(side==1){
-    setX(getX()+1);
+    setX(getX()+10);
 }else {
-    setX(getX() - 10);
+   setX(getX() - 10);
 }
             }
         };

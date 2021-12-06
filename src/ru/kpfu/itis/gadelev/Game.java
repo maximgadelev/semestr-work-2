@@ -12,8 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Game extends Application {
     public static ArrayList<Block> platforms = new ArrayList<>();
@@ -69,7 +68,7 @@ public class Game extends Application {
 
         }
 
-        player = new Character();
+        player = new Character("run");
         player.setTranslateX(0);
         player.setTranslateY(400);
         characters.add(player);
@@ -94,22 +93,44 @@ public class Game extends Application {
 
     private void update() {
         if (player.imageView != null) {
+
             if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
-                player.setJumped(true);;
+                if (!player.position.equals("jump")) {
+                    player.spriteAnimation.stop();
+                    player.setSpriteAnimation("jump");
+                }
+                player.setJumped(true);
                 player.jumpPlayer();
                 player.spriteAnimation.play();
             }
+
             if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
+                if (player.isJumped()) {
+                    player.setSpriteAnimation("jump");
+                } else {
+                    if (!player.position.equals("run")) {
+                        player.spriteAnimation.stop();
+                        player.setSpriteAnimation("run");
+                    }
+                }
                 player.setScaleX(-1);
                 player.setSide(0);
-                player.spriteAnimation.play();
                 player.moveX(-5);
+                player.spriteAnimation.play();
             }
             if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
+                if (player.isJumped()) {
+                    player.setSpriteAnimation("jump");
+                } else {
+                    if (!player.position.equals("run")) {
+                        player.spriteAnimation.stop();
+                        player.setSpriteAnimation("run");
+                    }
+                }
                 player.setScaleX(1);
                 player.setSide(1);
-                player.spriteAnimation.play();
                 player.moveX(5);
+                player.spriteAnimation.play();
             }
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
