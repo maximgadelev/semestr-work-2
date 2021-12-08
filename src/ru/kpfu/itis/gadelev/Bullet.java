@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 
 public  class Bullet extends Rectangle {
     public Bullet(double x, double y,int side,int damage){
-        super(x,y,20,10);
+        super(x,y,10,3);
    Bullet bullet=this;
 
         AnimationTimer timer = new AnimationTimer() {

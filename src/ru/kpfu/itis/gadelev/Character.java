@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 
@@ -20,12 +19,13 @@ public class Character extends Pane {
 
     Weapon weapon;
     private int hp = 3;
-    Rectangle currentBonus = null;
+    Bonus currentBonus = null;
+
+
     SpriteAnimation spriteAnimation;
     Image runImage = new Image(getClass().getResourceAsStream("run.png"));
     Image jumpImage = new Image(getClass().getResourceAsStream("jump.png"));
     ImageView imageView;
-
     String position;
 
     public int getSide() {
@@ -175,8 +175,8 @@ public class Character extends Pane {
                 this.imageView = new ImageView(runImage);
             }
             this.position=animationType;
-            this.imageView.setFitHeight(40);
-            this.imageView.setFitWidth(40);
+            this.imageView.setFitHeight(70);
+            this.imageView.setFitWidth(70);
             this.imageView.setViewport(new Rectangle2D(0, 0, 45, 52));
             this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(1000), 6, 6, 0, 0, 45, 52);
             getChildren().add(imageView);
@@ -189,8 +189,8 @@ public class Character extends Pane {
                     this.imageView = new ImageView(jumpImage);
                 }
                 this.position=animationType;
-                this.imageView.setFitHeight(40);
-                this.imageView.setFitWidth(40);
+                this.imageView.setFitHeight(70);
+                this.imageView.setFitWidth(70);
                 this.imageView.setViewport(new Rectangle2D(0, 0, 35, 52));
                 this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(500), 1, 1, 144, 0, 35, 52);
                 getChildren().add(imageView);

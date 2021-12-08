@@ -22,7 +22,7 @@ public class Game extends Application {
 
     Image backgroundImg = new Image(getClass().getResourceAsStream("list.png"));
     public static final int BLOCK_SIZE = 45;
-    public static final int MARIO_SIZE = 40;
+    public static final int MARIO_SIZE = 70;
     public static Pane appRoot = new Pane();
     public static Pane gameRoot = new Pane();
 
@@ -32,7 +32,7 @@ public class Game extends Application {
 
     private void initContent() {
         ImageView backgroundIV = new ImageView(backgroundImg);
-        backgroundIV.setFitHeight(1000);
+        backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
 
         levelWidth = LevelData.levels[levelNumber][0].length() * BLOCK_SIZE;
@@ -70,14 +70,10 @@ public class Game extends Application {
 
         player = new Character("run");
         player.setTranslateX(0);
-        player.setTranslateY(400);
+        player.setTranslateY(250);
         characters.add(player);
-        Bonus bonus = new Bonus(300,500,40,40,"HP_BONUS",Color.RED);
-        Bonus bonus1 = new Bonus(400,500,40,40,"SHOTGUN_BONUS",Color.BLUE);
-        Bonus bonus2 = new Bonus(500,500,40,40,"TWO_BONUS",Color.YELLOW);
-        bonuses.add(bonus);
-        bonuses.add(bonus1);
-        bonuses.add(bonus2);
+        Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
+        Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
         player.translateXProperty().addListener((obs, old, newValue) -> {
             int offset = newValue.intValue();
             if (offset > 640 && offset < levelWidth - 640) {
@@ -85,7 +81,6 @@ public class Game extends Application {
 
             }
         });
-        gameRoot.getChildren().addAll(bonuses);
         gameRoot.getChildren().add(player);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
@@ -135,9 +130,9 @@ public class Game extends Application {
             if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
                 player.setShoot(true);
                 if (player.getSide() == 0) {
-              player.getWeapon().Shoot(player.getTranslateX() - 50, player.getTranslateY(), player.getSide(),player.getWeapon().getType());
+              player.getWeapon().Shoot(player.getTranslateX() - 80, player.getTranslateY()+10, player.getSide(),player.getWeapon().getType());
                 } else {
-                    player.getWeapon().Shoot(player.getTranslateX() + 50, player.getTranslateY(), player.getSide(),player.getWeapon().getType());
+                    player.getWeapon().Shoot(player.getTranslateX() + 80, player.getTranslateY()+10, player.getSide(),player.getWeapon().getType());
                 }
             }
             if (player.playerVelocity.getY() < 10) {
@@ -154,7 +149,7 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage){
         initContent();
-        Scene scene = new Scene(appRoot, 1200, 620);
+        Scene scene = new Scene(appRoot, 1200, 640);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
         scene.setOnKeyReleased(event -> {
