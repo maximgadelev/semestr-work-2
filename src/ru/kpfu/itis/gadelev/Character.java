@@ -5,6 +5,9 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
@@ -28,6 +31,9 @@ public class Character extends Pane {
     ImageView imageView;
     String position;
 
+
+    ImageView hpView;
+    Text hpText=new Text();
     public int getSide() {
         return side;
     }
@@ -40,6 +46,7 @@ public class Character extends Pane {
         this.side = 123;
         this.weapon = new Weapon("PISTOL");
         this.position=position;
+initHp();
         setSpriteAnimation(position);
     }
 
@@ -135,8 +142,10 @@ public class Character extends Pane {
             Game.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
+            hpText.setText(String.valueOf(this.hp));
         } else {
             hp = hp - damage;
+            hpText.setText(String.valueOf(this.hp));
         }
     }
 
@@ -148,10 +157,12 @@ public class Character extends Pane {
                     }
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("SHOTGUN_BONUS")) {
                         this.getWeapon().setType("SHOTGUN");
+                        this.getWeapon().setWeaponImageView(rect.bonusImageView);
                         currentBonus = rect;
                     }
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("TWO_BONUS")) {
                         this.getWeapon().setType("TWO_BONUS");
+                        this.getWeapon().setWeaponImageView(rect.bonusImageView);
                         currentBonus = rect;
                     }
                 }
@@ -204,6 +215,20 @@ public class Character extends Pane {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+    public void initHp(){
+        hpText.setText(String.valueOf(this.hp));
+        hpView=new ImageView(new Image(getClass().getResourceAsStream("HPP.png")));
+        hpView.setViewport(new Rectangle2D(0,0,2000,2000));
+        hpView.setFitWidth(50);
+        hpView.setFitHeight(50);
+        hpView.setLayoutX(0);
+        hpView.setLayoutY(50);
+        hpText.setLayoutX(60);
+        hpText.setLayoutY(80);
+        hpText.setFont(Font.font(30));
+        Game.gameRoot.getChildren().add(hpText);
+        Game.gameRoot.getChildren().add(hpView);
     }
 }
 

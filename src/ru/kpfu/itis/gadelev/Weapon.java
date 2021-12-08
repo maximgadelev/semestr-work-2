@@ -1,14 +1,23 @@
 package ru.kpfu.itis.gadelev;
 
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Weapon {
     String type;
     int damage;
+    ImageView weaponImageView;
 
     public Weapon(String type){
         this.type=type;
         this.damage=1;
+        this.weaponImageView=new ImageView(new Image(getClass().getResourceAsStream("pn.png")));
+        weaponImageView.setFitHeight(40);
+        weaponImageView.setFitWidth(40);
+        weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
+        Game.gameRoot.getChildren().add(weaponImageView);
     }
 
     void Shoot(double x,double y,int side,String type){
@@ -48,5 +57,15 @@ public class Weapon {
 
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public ImageView getWeaponImageView() {
+        return weaponImageView;
+    }
+
+    public void setWeaponImageView(ImageView weaponImageView) {
+        Game.gameRoot.getChildren().remove(this.weaponImageView);
+        this.weaponImageView = weaponImageView;
+        Game.gameRoot.getChildren().add(weaponImageView);
     }
 }

@@ -30,7 +30,7 @@ public  class Bullet extends Rectangle {
                         }
                     }
 if(side==1){
-    setX(getX()+10);
+    setX(getX()+2);
 }else {
    setX(getX() - 10);
 }

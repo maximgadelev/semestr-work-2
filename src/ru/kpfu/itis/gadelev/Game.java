@@ -74,13 +74,13 @@ public class Game extends Application {
         characters.add(player);
         Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
         Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
-        player.translateXProperty().addListener((obs, old, newValue) -> {
-            int offset = newValue.intValue();
-            if (offset > 640 && offset < levelWidth - 640) {
-                gameRoot.setLayoutX(-(offset - 640));
-
-            }
-        });
+//        player.translateXProperty().addListener((obs, old, newValue) -> {
+//            int offset = newValue.intValue();
+//            if (offset > 640 && offset < levelWidth - 640) {
+//                gameRoot.setLayoutX(-(offset - 640));
+//
+//            }
+//        });
         gameRoot.getChildren().add(player);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
