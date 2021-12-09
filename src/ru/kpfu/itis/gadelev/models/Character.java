@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.GameView;
 import ru.kpfu.itis.gadelev.SpriteAnimation;
 
 import java.io.FileInputStream;
@@ -57,15 +58,15 @@ initHp();
     public void moveX(int value) {
         boolean movingRight = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
-            for (Node platform : Game.platforms) {
+            for (Node platform : GameView.platforms) {
                 if (this.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if (movingRight) {
-                        if (this.getTranslateX() + Game.MARIO_SIZE == platform.getTranslateX()) {
+                        if (this.getTranslateX() + GameView.MARIO_SIZE == platform.getTranslateX()) {
                             this.setTranslateX(this.getTranslateX() - 1);
                             return;
                         }
                     } else {
-                        if (this.getTranslateX() == platform.getTranslateX() + Game.BLOCK_SIZE) {
+                        if (this.getTranslateX() == platform.getTranslateX() + GameView.BLOCK_SIZE) {
                             this.setTranslateX(this.getTranslateX() + 1);
                             return;
                         }
@@ -80,16 +81,16 @@ initHp();
     public void moveY(int value) {
         boolean movingDown = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
-            for (Block platform : Game.platforms) {
+            for (Block platform : GameView.platforms) {
                 if (getBoundsInParent().intersects(platform.getBoundsInParent())) {
                     if (movingDown) {
-                        if (this.getTranslateY() + Game.MARIO_SIZE == platform.getTranslateY()) {
+                        if (this.getTranslateY() + GameView.MARIO_SIZE == platform.getTranslateY()) {
                             this.setTranslateY(this.getTranslateY() - 1);
                             canJump = true;
                             return;
                         }
                     } else {
-                        if (this.getTranslateY() == platform.getTranslateY() + Game.BLOCK_SIZE) {
+                        if (this.getTranslateY() == platform.getTranslateY() + GameView.BLOCK_SIZE) {
                             this.setTranslateY(this.getTranslateY() + 1);
                             playerVelocity = new Point2D(0, 10);
                             return;
@@ -102,7 +103,7 @@ initHp();
             if (this.getTranslateY() > 640) {
                 this.setTranslateX(0);
                 this.setTranslateY(400);
-                Game.gameRoot.setLayoutX(0);
+                GameView.gameRoot.setLayoutX(0);
             }
         }
 
@@ -143,7 +144,7 @@ initHp();
         if (hp <= 1) {
             getChildren().remove(imageView);
             imageView = null;
-            Game.gameRoot.getChildren().remove(imageView);
+            GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
             hpText.setText(String.valueOf(this.hp));
@@ -154,7 +155,7 @@ initHp();
     }
 
     public void isBonusEaten() {
-        Game.bonuses.forEach((rect) -> {
+        GameView.bonuses.forEach((rect) -> {
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS")) {
                         this.setHp(this.getHp() + 2);
                         hpText.setText(String.valueOf(this.getHp()));
@@ -173,8 +174,8 @@ initHp();
                 }
         );
 
-        Game.gameRoot.getChildren().remove(currentBonus);
-        Game.bonuses.remove(currentBonus);
+        GameView.gameRoot.getChildren().remove(currentBonus);
+        GameView.bonuses.remove(currentBonus);
     }
 
     public Weapon getWeapon() {
@@ -232,8 +233,8 @@ initHp();
         hpText.setLayoutX(60);
         hpText.setLayoutY(80);
         hpText.setFont(Font.font(30));
-        Game.gameRoot.getChildren().add(hpText);
-        Game.gameRoot.getChildren().add(hpView);
+        GameView.gameRoot.getChildren().add(hpText);
+        GameView.gameRoot.getChildren().add(hpView);
     }
 }
 

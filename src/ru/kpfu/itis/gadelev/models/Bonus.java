@@ -3,8 +3,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.GameView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,9 +43,9 @@ public class Bonus extends Pane {
             bonusImageView.setViewport(new Rectangle2D(0, 0, 2000, 2000));
         }
         getChildren().add(bonusImageView);
-        Game.bonuses.add(this);
-        Game.gameRoot.getChildren().add(this);
-        System.out.println(Game.bonuses.size());
+        GameView.bonuses.add(this);
+        GameView.gameRoot.getChildren().add(this);
+        System.out.println(GameView.bonuses.size());
     }
 
     public String getType() {

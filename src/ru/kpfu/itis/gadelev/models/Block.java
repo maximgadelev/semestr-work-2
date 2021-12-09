@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.GameView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +18,8 @@ public class Block extends Pane {
     }
     public Block(BlockType blockType, int x, int y) throws FileNotFoundException {
         block = new ImageView(blocksImg);
-        block.setFitWidth(Game.BLOCK_SIZE);
-        block.setFitHeight(Game.BLOCK_SIZE);
+        block.setFitWidth(GameView.BLOCK_SIZE);
+        block.setFitHeight(GameView.BLOCK_SIZE);
         setTranslateX(x);
         setTranslateY(y);
 
@@ -28,11 +29,11 @@ public class Block extends Pane {
             case BONUS -> block.setViewport(new Rectangle2D(384, 0, 16, 16));
             case PIPE_TOP -> {
                 block.setViewport(new Rectangle2D(0, 128, 32, 16));
-                block.setFitWidth(Game.BLOCK_SIZE * 2);
+                block.setFitWidth(GameView.BLOCK_SIZE * 2);
             }
             case PIPE_BOTTOM -> {
                 block.setViewport(new Rectangle2D(0, 145, 32, 14));
-                block.setFitWidth(Game.BLOCK_SIZE * 2);
+                block.setFitWidth(GameView.BLOCK_SIZE * 2);
             }
             case INVISIBLE_BLOCK -> {
                 block.setViewport(new Rectangle2D(0, 0, 16, 16));
@@ -41,7 +42,7 @@ public class Block extends Pane {
             case STONE -> block.setViewport(new Rectangle2D(0, 16, 16, 16));
         }
         getChildren().add(block);
-        Game.platforms.add(this);
-        Game.gameRoot.getChildren().add(this);
+        GameView.platforms.add(this);
+        GameView.gameRoot.getChildren().add(this);
     }
 }

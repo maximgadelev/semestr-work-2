@@ -7,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.GameView;
 
 
 public  class Bullet extends Rectangle {
@@ -17,16 +18,16 @@ public  class Bullet extends Rectangle {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                for (Node platform : Game.platforms) {
+                for (Node platform : GameView.platforms) {
                     if (bullet.getBoundsInParent().intersects(platform.getBoundsInParent())) {
                         this.stop();
-                        Game.gameRoot.getChildren().remove(bullet);
+                        GameView.gameRoot.getChildren().remove(bullet);
                     }
                 }
-                    for(Character character:Game.characters){
+                    for(Character character:GameView.characters){
                         if(bullet.getBoundsInParent().intersects(character.getBoundsInParent())) {
                             this.stop();
-                            Game.gameRoot.getChildren().remove(bullet);
+                            GameView.gameRoot.getChildren().remove(bullet);
                             character.getDamage(damage);
                         }
                     }

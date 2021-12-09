@@ -5,7 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import ru.kpfu.itis.gadelev.Game;
-import ru.kpfu.itis.gadelev.models.Bullet;
+import ru.kpfu.itis.gadelev.GameView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ public class Weapon {
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
         weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
-        Game.gameRoot.getChildren().add(weaponImageView);
+        GameView.gameRoot.getChildren().add(weaponImageView);
     }
 
     public void Shoot(double x, double y, int side, String type){
@@ -30,19 +30,19 @@ public class Weapon {
             Bullet bullet1=new Bullet(x,y,side,damage);
             Bullet bullet2=new Bullet(x,y-30,side,damage);
             Bullet bullet3=new Bullet(x,y+20,side,damage);
-            Game.gameRoot.getChildren().add(bullet1);
-            Game.gameRoot.getChildren().add(bullet2);
-            Game.gameRoot.getChildren().add(bullet3);
+            GameView.gameRoot.getChildren().add(bullet1);
+            GameView.gameRoot.getChildren().add(bullet2);
+            GameView.gameRoot.getChildren().add(bullet3);
         }
         if(type.equals("PISTOL")){
             Bullet bullet1 = new Bullet(x,y, side,damage);
-            Game.gameRoot.getChildren().add(bullet1);
+            GameView.gameRoot.getChildren().add(bullet1);
         }
         if(type.equals("TWO_BONUS")){
             Bullet bullet1=new Bullet(x,y,side,damage);
             Bullet bullet2=new Bullet(x,y-30,side,damage);
-            Game.gameRoot.getChildren().add(bullet1);
-            Game.gameRoot.getChildren().add(bullet2);
+            GameView.gameRoot.getChildren().add(bullet1);
+            GameView.gameRoot.getChildren().add(bullet2);
         }
     }
 
@@ -69,8 +69,8 @@ public class Weapon {
     }
 
     public void setWeaponImageView(ImageView weaponImageView) {
-        Game.gameRoot.getChildren().remove(this.weaponImageView);
+        GameView.gameRoot.getChildren().remove(this.weaponImageView);
         this.weaponImageView = weaponImageView;
-        Game.gameRoot.getChildren().add(weaponImageView);
+        GameView.gameRoot.getChildren().add(weaponImageView);
     }
 }
