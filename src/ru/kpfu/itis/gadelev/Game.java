@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +22,7 @@ public class Game extends Application {
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
 
-    Image backgroundImg = new Image(getClass().getResourceAsStream("list.png"));
+    Image backgroundImg = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/list.png"));
     public static final int BLOCK_SIZE = 45;
     public static final int MARIO_SIZE = 70;
     public static Pane appRoot = new Pane();
@@ -30,7 +32,10 @@ public class Game extends Application {
     int levelNumber = 0;
     private int levelWidth;
 
-    private void initContent() {
+    public Game() throws FileNotFoundException {
+    }
+
+    private void initContent() throws FileNotFoundException {
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -148,7 +153,7 @@ public class Game extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws FileNotFoundException {
         initContent();
         Scene scene = new Scene(appRoot, 1200, 640);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -178,5 +183,6 @@ public class Game extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
 

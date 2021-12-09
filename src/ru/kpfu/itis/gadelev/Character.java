@@ -10,6 +10,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 public class Character extends Pane {
 
@@ -26,8 +29,8 @@ public class Character extends Pane {
 
 
     SpriteAnimation spriteAnimation;
-    Image runImage = new Image(getClass().getResourceAsStream("run.png"));
-    Image jumpImage = new Image(getClass().getResourceAsStream("jump.png"));
+    Image runImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/run.png"));
+    Image jumpImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/jump.png"));
     ImageView imageView;
     String position;
 
@@ -42,7 +45,7 @@ public class Character extends Pane {
         this.side = side;
     }
 
-    public Character(String position) {
+    public Character(String position) throws FileNotFoundException {
         this.side = 123;
         this.weapon = new Weapon("PISTOL");
         this.position=position;
@@ -217,9 +220,9 @@ initHp();
     public void setPosition(String position) {
         this.position = position;
     }
-    public void initHp(){
+    public void initHp() throws FileNotFoundException {
         hpText.setText(String.valueOf(this.hp));
-        hpView=new ImageView(new Image(getClass().getResourceAsStream("HPP.png")));
+        hpView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/HPP.png")));
         hpView.setViewport(new Rectangle2D(0,0,2000,2000));
         hpView.setFitWidth(50);
         hpView.setFitHeight(50);

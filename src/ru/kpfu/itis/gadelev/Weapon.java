@@ -5,15 +5,18 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class Weapon {
     String type;
     int damage;
     ImageView weaponImageView;
 
-    public Weapon(String type){
+    public Weapon(String type) throws FileNotFoundException {
         this.type=type;
         this.damage=1;
-        this.weaponImageView=new ImageView(new Image(getClass().getResourceAsStream("pn.png")));
+        this.weaponImageView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/pn.png")));
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
         weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
