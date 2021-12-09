@@ -1,14 +1,15 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.models;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.SpriteAnimation;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,11 +29,11 @@ public class Character extends Pane {
     Bonus currentBonus = null;
 
 
-    SpriteAnimation spriteAnimation;
+    public SpriteAnimation spriteAnimation;
     Image runImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/run.png"));
     Image jumpImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/jump.png"));
-    ImageView imageView;
-    String position;
+    public ImageView imageView;
+    public String position;
 
 
     ImageView hpView;

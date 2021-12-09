@@ -1,9 +1,11 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.models;
 
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import ru.kpfu.itis.gadelev.Game;
+import ru.kpfu.itis.gadelev.models.Bullet;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,7 +25,7 @@ public class Weapon {
         Game.gameRoot.getChildren().add(weaponImageView);
     }
 
-    void Shoot(double x,double y,int side,String type){
+    public void Shoot(double x, double y, int side, String type){
         if(type.equals("SHOTGUN")){
             Bullet bullet1=new Bullet(x,y,side,damage);
             Bullet bullet2=new Bullet(x,y-30,side,damage);

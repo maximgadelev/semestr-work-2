@@ -7,8 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.models.Block;
+import ru.kpfu.itis.gadelev.models.Bonus;
+import ru.kpfu.itis.gadelev.models.Character;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.models;
 
 
 
@@ -6,6 +6,7 @@ package ru.kpfu.itis.gadelev;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
+import ru.kpfu.itis.gadelev.Game;
 
 
 public  class Bullet extends Rectangle {
