@@ -153,6 +153,7 @@ initHp();
         Game.bonuses.forEach((rect) -> {
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS")) {
                         this.setHp(this.getHp() + 2);
+                        hpText.setText(String.valueOf(this.getHp()));
                         currentBonus = rect;
                     }
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("SHOTGUN_BONUS")) {

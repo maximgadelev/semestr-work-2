@@ -74,6 +74,7 @@ public class Game extends Application {
         characters.add(player);
         Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
         Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
+        Bonus bonus3=new Bonus(600,500,"HP_BONUS");
 //        player.translateXProperty().addListener((obs, old, newValue) -> {
 //            int offset = newValue.intValue();
 //            if (offset > 640 && offset < levelWidth - 640) {

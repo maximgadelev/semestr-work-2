@@ -29,6 +29,14 @@ public class Bonus extends Pane {
            bonusImageView.setFitWidth(60);
             bonusImageView.setFitHeight(40);
             bonusImageView.setViewport(new Rectangle2D(0, 0, 1023, 385));
+        }if(type.equals("HP_BONUS")){
+            bonusImage=new Image(getClass().getResourceAsStream("HPP.png"));
+            bonusImageView=new ImageView(bonusImage);
+            setTranslateX(x);
+            setTranslateY(y);
+            bonusImageView.setFitWidth(40);
+            bonusImageView.setFitHeight(40);
+            bonusImageView.setViewport(new Rectangle2D(0, 0, 2000, 2000));
         }
         getChildren().add(bonusImageView);
         Game.bonuses.add(this);
