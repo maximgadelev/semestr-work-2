@@ -35,7 +35,7 @@ public class GameView extends View {
     private Pane pane=null;
 
     private final Game application = getApplication();
-
+    private  final GameView gameView = new GameView();
 
 
     public GameView() throws Exception {
@@ -199,5 +199,7 @@ public class GameView extends View {
         };
         timer.start();
     }
-
+public static GameView getInstance(){
+        return gameView;
+}
 }
