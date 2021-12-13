@@ -1,21 +1,22 @@
-package ru.kpfu.itis.gadelev.server;
 
-import ru.kpfu.itis.gadelev.GameView;
+package ru.kpfu.itis.gadelev.server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.net.SocketException;
 
-public class GameThread implements Runnable {
+public class GameServerThread implements Runnable {
     private final BufferedReader input;
-    private final BufferedWriter output;
-    private final Client client;
-    private final GameView game = GameView.getInstance();
 
-    public GameThread(BufferedReader input, BufferedWriter output, Client client) {
+    private final BufferedWriter output;
+
+    private final GameServer server;
+
+    public GameServerThread(BufferedReader input, BufferedWriter output, GameServer server) {
         this.input = input;
         this.output = output;
-        this.client = client;
+        this.server = server;
     }
 
     public BufferedReader getInput() {
@@ -26,13 +27,22 @@ public class GameThread implements Runnable {
         return output;
     }
 
+    public GameServer getServer() {
+        return server;
+    }
+
+
     @Override
     public void run() {
         try {
             while (true) {
+                System.out.println("1346666");
                 String message = input.readLine();
-
+                server.sendMessage(message, this);
             }
+
+        } catch (SocketException socketException) {
+            server.removeClient(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

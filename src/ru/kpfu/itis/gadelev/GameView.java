@@ -10,9 +10,11 @@ import javafx.scene.layout.Pane;
 import ru.kpfu.itis.gadelev.models.Block;
 import ru.kpfu.itis.gadelev.models.Bonus;
 import ru.kpfu.itis.gadelev.models.Character;
+import ru.kpfu.itis.gadelev.server.Client;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,17 +37,31 @@ public class GameView extends View {
     private Pane pane=null;
 
     private final Game application = getApplication();
-    private  final GameView gameView = new GameView();
+    private  static GameView gameView;
 
+    static {
+        try {
+            gameView = new GameView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    Client client;
+    static {
+        try {
+            gameView = new GameView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public GameView() throws Exception {
     }
 
+
     @Override
     public Parent getView() {
-        if(pane==null){
-
-        }
         return pane;
     }
 
@@ -53,7 +69,10 @@ public class GameView extends View {
     public String getTitle() {
         return null;
     }
-    private void initContent() throws FileNotFoundException {
+    private void initContent() throws IOException {
+        client=new Client();
+        gameView.setClient(client);
+        client.start();
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -90,11 +109,13 @@ public class GameView extends View {
             }
 
         }
-
         player = new Character("run");
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
+        gameView.getClient().sendMessage("name" + "123");
+        gameView.getClient().sendMessage("name" + "123");
+        gameView.getClient().sendMessage("name" + "123");
         Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
         Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
         Bonus bonus3=new Bonus(600,500,"HP_BONUS");
@@ -110,7 +131,7 @@ public class GameView extends View {
 
     }
 
-    private void update() {
+    private void update()  {
         if (player.imageView != null) {
 
             if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
@@ -119,6 +140,7 @@ public class GameView extends View {
                     player.setSpriteAnimation("jump");
                 }
                 player.setJumped(true);
+                gameView.getClient().sendMessage("jjj");
                 player.jumpPlayer();
                 player.spriteAnimation.play();
             }
@@ -135,9 +157,11 @@ public class GameView extends View {
                 player.setScaleX(-1);
                 player.setSide(0);
                 player.moveX(-5);
+                getClient().sendMessage("jjj");
                 player.spriteAnimation.play();
             }
             if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
+                getClient().sendMessage("jjjj");
                 if (player.isJumped()) {
                     player.setSpriteAnimation("jump");
                 } else {
@@ -146,6 +170,7 @@ public class GameView extends View {
                         player.setSpriteAnimation("run");
                     }
                 }
+
                 player.setScaleX(1);
                 player.setSide(1);
                 player.moveX(5);
@@ -171,7 +196,7 @@ public class GameView extends View {
     }
 
 
-    public void createView() throws FileNotFoundException {
+    public void createView() throws IOException {
         initContent();
         Scene scene = new Scene(appRoot);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -202,4 +227,12 @@ public class GameView extends View {
 public static GameView getInstance(){
         return gameView;
 }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

@@ -1,10 +1,12 @@
 package ru.kpfu.itis.gadelev;
-import  javafx.application.Application;
+
+import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.server.Client;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class Game extends Application {
@@ -13,13 +15,9 @@ public class Game extends Application {
     private BorderPane rootLayout;
 
 
-
     private MenuView menuView;
 
     private GameView gameView;
-
-
-
 
 
     public MenuView getMenuView() {
@@ -31,17 +29,16 @@ public class Game extends Application {
     }
 
 
-
-    public void setApplicationSize(int width, int height){
+    public void setApplicationSize(int width, int height) {
         this.getStage().setWidth(width);
         this.getStage().setHeight(height);
     }
 
-    public void setApplicationWidth(int width){
+    public void setApplicationWidth(int width) {
         this.getStage().setWidth(width);
     }
 
-    public void setApplicationHeight(int height){
+    public void setApplicationHeight(int height) {
         this.getStage().setHeight(height);
     }
 
@@ -61,20 +58,17 @@ public class Game extends Application {
 
     private void initLayout() {
         rootLayout = new BorderPane();
-
         Scene scene = new Scene(rootLayout, 400, 600);
         stage.setScene(scene);
         stage.show();
-
         this.setView(getMenuView());
-//        startGame();
     }
 
-    public void startGame(){
+    public void startGame() {
         this.stage.setTitle("Game");
         try {
             gameView.createView();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -88,7 +82,6 @@ public class Game extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 
 
 }

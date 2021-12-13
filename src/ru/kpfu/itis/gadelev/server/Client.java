@@ -8,13 +8,13 @@ import java.nio.charset.StandardCharsets;
 
 public class Client {
      private Socket socket;
-    private GameThread gameThread;
-    private final GameView game = GameView.getInstance();
+    private ClientThread clientThread;
 
     public void sendMessage(String message) {
         try {
-            gameThread.getOutput().write(message);
-            gameThread.getOutput().flush();
+            clientThread.getOutput().write(message);
+            clientThread.getOutput().flush();
+            System.out.println(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,8 +26,8 @@ public class Client {
         BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
 
-        gameThread = new GameThread(input, output, this);
+        clientThread = new ClientThread(input, output, this);
 
-        new Thread(gameThread).start();
+        new Thread(clientThread).start();
     }
 }
