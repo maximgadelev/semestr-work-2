@@ -13,6 +13,7 @@ public class Client {
     public void sendMessage(String message) {
         try {
             clientThread.getOutput().write(message);
+            clientThread.getOutput().newLine();
             clientThread.getOutput().flush();
             System.out.println(message);
         } catch (IOException e) {

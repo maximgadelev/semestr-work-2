@@ -71,7 +71,6 @@ public class GameView extends View {
     }
     private void initContent() throws IOException {
         client=new Client();
-        gameView.setClient(client);
         client.start();
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
@@ -113,9 +112,7 @@ public class GameView extends View {
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
-        gameView.getClient().sendMessage("name" + "123");
-        gameView.getClient().sendMessage("name" + "123");
-        gameView.getClient().sendMessage("name" + "123");
+        getClient().sendMessage("name" + "123");
         Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
         Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
         Bonus bonus3=new Bonus(600,500,"HP_BONUS");
@@ -140,7 +137,7 @@ public class GameView extends View {
                     player.setSpriteAnimation("jump");
                 }
                 player.setJumped(true);
-                gameView.getClient().sendMessage("jjj");
+                getClient().sendMessage("jjj");
                 player.jumpPlayer();
                 player.spriteAnimation.play();
             }

@@ -36,8 +36,8 @@ public class GameServerThread implements Runnable {
     public void run() {
         try {
             while (true) {
-                System.out.println("1346666");
                 String message = input.readLine();
+                System.out.println(message);
                 server.sendMessage(message, this);
             }
 
