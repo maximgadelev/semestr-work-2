@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class GameView extends View {
     public static ArrayList<Block> platforms = new ArrayList<>();
-    private static HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    private  static HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
 
@@ -40,8 +40,17 @@ public class GameView extends View {
     static Client client;
 
 
-    public GameView() throws Exception {
+    public static GameView gameView;
+
+    static {
+        try {
+            gameView = new GameView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    public GameView() throws Exception {}
 
     @Override
     public Parent getView() {

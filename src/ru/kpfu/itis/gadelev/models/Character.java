@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import ru.kpfu.itis.gadelev.Game;
 import ru.kpfu.itis.gadelev.GameView;
 import ru.kpfu.itis.gadelev.SpriteAnimation;
 
@@ -41,6 +42,7 @@ public class Character extends Pane {
 
     ImageView hpView;
     Text hpText=new Text();
+
     public int getSide() {
         return side;
     }
@@ -50,11 +52,11 @@ public class Character extends Pane {
     }
 
     public Character(String position,String name) throws FileNotFoundException {
-        this.side = 123;
+        this.side = 1;
         this.weapon = new Weapon("PISTOL");
         this.position=position;
         this.name=name;
-initHp();
+        initHp();
         setSpriteAnimation(position);
     }
 
@@ -236,7 +238,6 @@ initHp();
     }
     public void updatePlayer(){
         if (this.imageView != null) {
-
             if (isPressed(KeyCode.UP) && this.getTranslateY() >= 5 && !this.isJumped()) {
                 if (!this.position.equals("jump")) {
                     this.spriteAnimation.stop();
@@ -261,7 +262,7 @@ initHp();
                 this.moveX(-5);
                 this.spriteAnimation.play();
             }
-            if (isPressed(KeyCode.RIGHT) && this.getTranslateX() + 40 <= GameView.getLevelWidth()) {
+            if (isPressed(KeyCode.RIGHT) && this.getTranslateX() + 40 <= GameView.gameView.getLevelWidth()) {
                 if (this.isJumped()) {
                     this.setSpriteAnimation("jump");
                 } else {
@@ -280,20 +281,23 @@ initHp();
                 this.setShoot(true);
                 if (this.getSide() == 0) {
                     this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 } else {
                     this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 }
             }
             if (this.playerVelocity.getY() < 10) {
                 this.playerVelocity = this.playerVelocity.add(0, 1);
             }
             this.moveY((int) this.playerVelocity.getY());
-            GameView.getClient().sendMessage(this.getName() +" position is" + this.getTranslateX() +"and"+this.getTranslateY());
+//            GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
+
         }
     }
 
     private boolean isPressed(KeyCode key) {
-        return GameView.getKeys().getOrDefault(key, false);
+        return GameView.gameView.getKeys().getOrDefault(key, false);
     }
 
 }

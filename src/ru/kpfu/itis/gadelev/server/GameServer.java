@@ -27,7 +27,6 @@ public class GameServer {
 
             GameServerThread gameServerThread = new GameServerThread(input, output, this);
             clients.add(gameServerThread);
-
             new Thread(gameServerThread).start();
         }
     }
@@ -35,10 +34,10 @@ public class GameServer {
     public void sendMessage(String message, GameServerThread sender) throws IOException {
         for (GameServerThread client : clients) {
             if (client.equals(sender)){
-                continue;
+                client.getOutput().write(message+ "\n");
+                client.getOutput().newLine();
+                client.getOutput().flush();
             }
-            client.getOutput().write(message+ "\n");
-            client.getOutput().flush();
         }
     }
 
