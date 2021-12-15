@@ -13,6 +13,7 @@ import ru.kpfu.itis.gadelev.models.Character;
 import ru.kpfu.itis.gadelev.server.Client;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,9 +105,7 @@ public class GameView extends View {
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
-        Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
-        Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
-        Bonus bonus3=new Bonus(600,500,"HP_BONUS");
+
 //        player.translateXProperty().addListener((obs, old, newValue) -> {
 //            int offset = newValue.intValue();
 //            if (offset > 640 && offset < levelWidth - 640) {
@@ -120,6 +119,7 @@ public class GameView extends View {
     }
 
     public void createView() throws IOException {
+
         initContent();
         Scene scene = new Scene(appRoot);
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
@@ -138,11 +138,21 @@ public class GameView extends View {
         application.getStage().show();
         application.getStage().setWidth(1000);
         application.getStage().setHeight(800);
-
+        final Long[] time = {System.currentTimeMillis()};
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 player.updatePlayer();
+
+                if(System.currentTimeMillis()- time[0] >5000){
+                    try {
+                        bonuses.clear();
+                        spawnBonuses();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    time[0] =System.currentTimeMillis();
+                }
             }
         };
         timer.start();
@@ -159,6 +169,11 @@ public class GameView extends View {
 
     public static int getLevelWidth() {
         return levelWidth;
+    }
+    public void spawnBonuses() throws FileNotFoundException {
+        Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
+        Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
+        Bonus bonus3=new Bonus(600,500,"HP_BONUS");
     }
 
     public static HashMap<KeyCode, Boolean> getKeys() {
