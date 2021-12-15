@@ -1,14 +1,15 @@
 package ru.kpfu.itis.gadelev.models;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import ru.kpfu.itis.gadelev.Game;
 import ru.kpfu.itis.gadelev.GameView;
 import ru.kpfu.itis.gadelev.SpriteAnimation;
 
@@ -28,6 +29,7 @@ public class Character extends Pane {
     Weapon weapon;
     private int hp = 3;
     Bonus currentBonus = null;
+    String name;
 
 
     public SpriteAnimation spriteAnimation;
@@ -47,10 +49,11 @@ public class Character extends Pane {
         this.side = side;
     }
 
-    public Character(String position) throws FileNotFoundException {
+    public Character(String position,String name) throws FileNotFoundException {
         this.side = 123;
         this.weapon = new Weapon("PISTOL");
         this.position=position;
+        this.name=name;
 initHp();
         setSpriteAnimation(position);
     }
@@ -147,11 +150,10 @@ initHp();
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
-            hpText.setText(String.valueOf(this.hp));
         } else {
             hp = hp - damage;
-            hpText.setText(String.valueOf(this.hp));
         }
+        hpText.setText(String.valueOf(this.hp));
     }
 
     public void isBonusEaten() {
@@ -214,14 +216,6 @@ initHp();
             }
         }
     }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
     public void initHp() throws FileNotFoundException {
         hpText.setText(String.valueOf(this.hp));
         hpView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/HPP.png")));
@@ -236,7 +230,74 @@ initHp();
         GameView.gameRoot.getChildren().add(hpText);
         GameView.gameRoot.getChildren().add(hpView);
     }
+
+    public String getName() {
+        return name;
+    }
+    public void updatePlayer(){
+        if (this.imageView != null) {
+
+            if (isPressed(KeyCode.UP) && this.getTranslateY() >= 5 && !this.isJumped()) {
+                if (!this.position.equals("jump")) {
+                    this.spriteAnimation.stop();
+                    this.setSpriteAnimation("jump");
+                }
+                this.setJumped(true);
+                this.jumpPlayer();
+                this.spriteAnimation.play();
+            }
+
+            if (isPressed(KeyCode.LEFT) && this.getTranslateX() >= 5) {
+                if (this.isJumped()) {
+                    this.setSpriteAnimation("jump");
+                } else {
+                    if (!this.position.equals("run")) {
+                        this.spriteAnimation.stop();
+                        this.setSpriteAnimation("run");
+                    }
+                }
+                this.setScaleX(-1);
+                this.setSide(0);
+                this.moveX(-5);
+                this.spriteAnimation.play();
+            }
+            if (isPressed(KeyCode.RIGHT) && this.getTranslateX() + 40 <= GameView.getLevelWidth()) {
+                if (this.isJumped()) {
+                    this.setSpriteAnimation("jump");
+                } else {
+                    if (!this.position.equals("run")) {
+                        this.spriteAnimation.stop();
+                        this.setSpriteAnimation("run");
+                    }
+                }
+
+                this.setScaleX(1);
+                this.setSide(1);
+                this.moveX(5);
+                this.spriteAnimation.play();
+            }
+            if (isPressed(KeyCode.SPACE) && !this.isShoot()) {
+                this.setShoot(true);
+                if (this.getSide() == 0) {
+                    this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                } else {
+                    this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                }
+            }
+            if (this.playerVelocity.getY() < 10) {
+                this.playerVelocity = this.playerVelocity.add(0, 1);
+            }
+            this.moveY((int) this.playerVelocity.getY());
+            GameView.getClient().sendMessage(this.getName() +" position is" + this.getTranslateX() +"and"+this.getTranslateY());
+        }
+    }
+
+    private boolean isPressed(KeyCode key) {
+        return GameView.getKeys().getOrDefault(key, false);
+    }
+
 }
+
 
 
 

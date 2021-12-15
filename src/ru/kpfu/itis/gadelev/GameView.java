@@ -13,14 +13,13 @@ import ru.kpfu.itis.gadelev.models.Character;
 import ru.kpfu.itis.gadelev.server.Client;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameView extends View {
     public static ArrayList<Block> platforms = new ArrayList<>();
-    private HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    private static HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
 
@@ -32,33 +31,17 @@ public class GameView extends View {
 
     public Character player;
     int levelNumber = 0;
-    private int levelWidth;
+    private static int levelWidth;
 
     private Pane pane=null;
 
     private final Game application = getApplication();
-    private  static GameView gameView;
 
-    static {
-        try {
-            gameView = new GameView();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    static Client client;
 
-    Client client;
-    static {
-        try {
-            gameView = new GameView();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public GameView() throws Exception {
     }
-
 
     @Override
     public Parent getView() {
@@ -108,11 +91,10 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("run");
+        player = new Character("run","First");
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
-        getClient().sendMessage("name" + "123");
         Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
         Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
         Bonus bonus3=new Bonus(600,500,"HP_BONUS");
@@ -123,75 +105,10 @@ public class GameView extends View {
 //
 //            }
 //        });
-        gameRoot.getChildren().add(player);
+        gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
     }
-
-    private void update()  {
-        if (player.imageView != null) {
-
-            if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
-                if (!player.position.equals("jump")) {
-                    player.spriteAnimation.stop();
-                    player.setSpriteAnimation("jump");
-                }
-                player.setJumped(true);
-                getClient().sendMessage("jjj");
-                player.jumpPlayer();
-                player.spriteAnimation.play();
-            }
-
-            if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
-                if (player.isJumped()) {
-                    player.setSpriteAnimation("jump");
-                } else {
-                    if (!player.position.equals("run")) {
-                        player.spriteAnimation.stop();
-                        player.setSpriteAnimation("run");
-                    }
-                }
-                player.setScaleX(-1);
-                player.setSide(0);
-                player.moveX(-5);
-                getClient().sendMessage("jjj");
-                player.spriteAnimation.play();
-            }
-            if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= levelWidth) {
-                getClient().sendMessage("jjjj");
-                if (player.isJumped()) {
-                    player.setSpriteAnimation("jump");
-                } else {
-                    if (!player.position.equals("run")) {
-                        player.spriteAnimation.stop();
-                        player.setSpriteAnimation("run");
-                    }
-                }
-
-                player.setScaleX(1);
-                player.setSide(1);
-                player.moveX(5);
-                player.spriteAnimation.play();
-            }
-            if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
-                player.setShoot(true);
-                if (player.getSide() == 0) {
-                    player.getWeapon().Shoot(player.getTranslateX() - 80, player.getTranslateY()+10, player.getSide(),player.getWeapon().getType());
-                } else {
-                    player.getWeapon().Shoot(player.getTranslateX() + 80, player.getTranslateY()+10, player.getSide(),player.getWeapon().getType());
-                }
-            }
-            if (player.playerVelocity.getY() < 10) {
-                player.playerVelocity = player.playerVelocity.add(0, 1);
-            }
-            player.moveY((int) player.playerVelocity.getY());
-        }
-    }
-
-    private boolean isPressed(KeyCode key) {
-        return keys.getOrDefault(key, false);
-    }
-
 
     public void createView() throws IOException {
         initContent();
@@ -216,20 +133,26 @@ public class GameView extends View {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                update();
+                player.updatePlayer();
             }
         };
         timer.start();
     }
-public static GameView getInstance(){
-        return gameView;
-}
 
-    public Client getClient() {
+
+    public static Client getClient() {
         return client;
     }
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public static int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public static HashMap<KeyCode, Boolean> getKeys() {
+        return keys;
     }
 }

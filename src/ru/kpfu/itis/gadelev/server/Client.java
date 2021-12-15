@@ -1,7 +1,4 @@
 package ru.kpfu.itis.gadelev.server;
-
-import ru.kpfu.itis.gadelev.GameView;
-
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +12,6 @@ public class Client {
             clientThread.getOutput().write(message);
             clientThread.getOutput().newLine();
             clientThread.getOutput().flush();
-            System.out.println(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
