@@ -281,10 +281,10 @@ public class Character extends Pane {
                 this.setShoot(true);
                 if (this.getSide() == 0) {
                     this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
-                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
+//                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 } else {
                     this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
-                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
+//                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 }
             }
             if (this.playerVelocity.getY() < 10) {

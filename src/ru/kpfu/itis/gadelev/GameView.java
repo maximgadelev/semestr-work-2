@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import ru.kpfu.itis.gadelev.models.Block;
 import ru.kpfu.itis.gadelev.models.Bonus;
@@ -33,6 +34,7 @@ public class GameView extends View {
     public Character player;
     int levelNumber = 0;
     private static int levelWidth;
+    static Scene scene;
 
     private Pane pane=null;
 
@@ -40,8 +42,12 @@ public class GameView extends View {
 
     static Client client;
 
+    public BorderPane menu;
+
+    boolean isCreate=false;
 
     public static GameView gameView;
+    AnimationTimer timer;
 
     static {
         try {
@@ -63,8 +69,8 @@ public class GameView extends View {
         return null;
     }
     private void initContent() throws IOException {
-        client=new Client();
-        client.start();
+//        client=new Client();
+//        client.start();
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -113,24 +119,47 @@ public class GameView extends View {
 //
 //            }
 //        });
+        try {
+            menu = new GameMenu(this).createMenu();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
+
 
     }
 
     public void createView() throws IOException {
-
         initContent();
-        Scene scene = new Scene(appRoot);
+        if(isCreate){
+        }else{
+            scene = new Scene(appRoot);
+        }
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
-        scene.setOnKeyReleased(event -> {
+
+
+
+
+            scene.setOnKeyReleased(event -> {
             if (event.getCode().equals(KeyCode.UP)) {
                 player.setJumped(false);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
                 player.setShoot(false);
             }
+                if (event.getCode().equals(KeyCode.ESCAPE)) {
+                    if (!appRoot.getChildren().contains(menu)) {
+                        timer.stop();
+                        showMenu();
+                    } else {
+                        hideMenu();
+                        timer.start();
+                    }
+                }
+
             keys.put(event.getCode(), false);
             player.spriteAnimation.stop();
         });
@@ -139,13 +168,14 @@ public class GameView extends View {
         application.getStage().setWidth(1000);
         application.getStage().setHeight(800);
         final Long[] time = {System.currentTimeMillis()};
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 player.updatePlayer();
 
                 if(System.currentTimeMillis()- time[0] >5000){
                     try {
+                        gameRoot.getChildren().removeAll(bonuses);
                         bonuses.clear();
                         spawnBonuses();
                     } catch (FileNotFoundException e) {
@@ -156,6 +186,7 @@ public class GameView extends View {
             }
         };
         timer.start();
+        isCreate=true;
     }
 
 
@@ -179,4 +210,12 @@ public class GameView extends View {
     public static HashMap<KeyCode, Boolean> getKeys() {
         return keys;
     }
+    public void hideMenu() {
+        appRoot.getChildren().remove(menu);
+    }
+    public void showMenu() {
+        appRoot.getChildren().add(menu);
+    }
+
+
 }
