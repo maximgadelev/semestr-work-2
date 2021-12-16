@@ -100,10 +100,12 @@ if(label!=null) {
         TableColumn nickname = new TableColumn("NICKNAME");
         nickname.setCellValueFactory(new PropertyValueFactory<>("nickName"));
 
-        TableColumn points = new TableColumn("POINTS");
-        points.setCellValueFactory(new PropertyValueFactory<>("singleScore"));
+        TableColumn singleScore= new TableColumn("singleScore");
+        singleScore.setCellValueFactory(new PropertyValueFactory<>("singleScore"));
 
-        tableView.getColumns().addAll(id, nickname, points);
+        TableColumn multiScore = new TableColumn("multiScore");
+        multiScore.setCellValueFactory(new PropertyValueFactory<>("multiScore"));
+        tableView.getColumns().addAll(id, nickname, singleScore,multiScore);
 
         users.getChildren().add(tableView);
     }
