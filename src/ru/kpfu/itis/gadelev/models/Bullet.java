@@ -4,9 +4,11 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.views.GameView;
 public  class Bullet extends Rectangle {
-    public Bullet(double x, double y,int side,int damage){
+    Character bulletCharacter;
+    public Bullet(double x, double y,int side,int damage,Character bulletCharacter){
         super(x,y,10,3);
    Bullet bullet=this;
+   this.bulletCharacter = bulletCharacter;
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -21,7 +23,9 @@ public  class Bullet extends Rectangle {
                         if(bullet.getBoundsInParent().intersects(character.getBoundsInParent())) {
                             this.stop();
                             GameView.gameRoot.getChildren().remove(bullet);
-                            character.getDamage(damage);
+                            if(bullet.getBulletCharacter().getName().equals(character.getName())){
+                                character.getDamage(damage);
+                            }
                         }
                     }
 if(side==1){
@@ -32,5 +36,9 @@ if(side==1){
             }
         };
         timer.start();
+    }
+
+    public Character getBulletCharacter() {
+        return bulletCharacter;
     }
 }

@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.views.*;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class Game extends Application {
 
     public Scene scene;
 
+    Player currentPlayer;
     public void setApplicationSize(int width, int height) {
         this.getStage().setWidth(width);
         this.getStage().setHeight(height);
@@ -121,6 +123,15 @@ public void backToMenu(){
 
     public SigninView getSigninView() {
         return signinView;
+    }
+
+    public  Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public  void setCurrentPlayer(Player currentPlayer) {
+      this.currentPlayer
+                = currentPlayer;
     }
 }
 

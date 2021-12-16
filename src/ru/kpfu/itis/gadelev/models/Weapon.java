@@ -13,10 +13,12 @@ public class Weapon {
     String type;
     int damage;
     ImageView weaponImageView;
+    Character weaponCharacter;
 
-    public Weapon(String type) throws FileNotFoundException {
+    public Weapon(String type,Character character) throws FileNotFoundException {
         this.type=type;
         this.damage=1;
+        this.weaponCharacter=character;
         this.weaponImageView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/pn.png")));
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
@@ -24,22 +26,22 @@ public class Weapon {
         GameView.gameRoot.getChildren().add(weaponImageView);
     }
 
-    public void Shoot(double x, double y, int side, String type){
+    public void Shoot(double x, double y, int side, String type,Character weaponCharacter){
         if(type.equals("SHOTGUN")){
-            Bullet bullet1=new Bullet(x,y,side,damage);
-            Bullet bullet2=new Bullet(x,y-30,side,damage);
-            Bullet bullet3=new Bullet(x,y+20,side,damage);
+            Bullet bullet1=new Bullet(x,y,side,damage, this.weaponCharacter);
+            Bullet bullet2=new Bullet(x,y-30,side,damage, weaponCharacter);
+            Bullet bullet3=new Bullet(x,y+20,side,damage, weaponCharacter);
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
             GameView.gameRoot.getChildren().add(bullet3);
         }
         if(type.equals("PISTOL")){
-            Bullet bullet1 = new Bullet(x,y, side,damage);
+            Bullet bullet1 = new Bullet(x,y, side,damage, weaponCharacter);
             GameView.gameRoot.getChildren().add(bullet1);
         }
         if(type.equals("TWO_BONUS")){
-            Bullet bullet1=new Bullet(x,y,side,damage);
-            Bullet bullet2=new Bullet(x,y-30,side,damage);
+            Bullet bullet1=new Bullet(x,y,side,damage, weaponCharacter);
+            Bullet bullet2=new Bullet(x,y-30,side,damage, weaponCharacter);
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
         }
@@ -71,5 +73,9 @@ public class Weapon {
         GameView.gameRoot.getChildren().remove(this.weaponImageView);
         this.weaponImageView = weaponImageView;
         GameView.gameRoot.getChildren().add(weaponImageView);
+    }
+
+    public Character getWeaponCharacter() {
+        return weaponCharacter;
     }
 }

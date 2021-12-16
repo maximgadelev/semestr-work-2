@@ -110,7 +110,8 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("run","First");
+        player = new Character("run",application.getCurrentPlayer().getNickName());
+        System.out.println(application.getCurrentPlayer().getNickName());
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);

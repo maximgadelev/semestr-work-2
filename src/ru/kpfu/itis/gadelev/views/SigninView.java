@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dao.impl.PlayerDaoImpl;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.dto.PlayerDto;
 import ru.kpfu.itis.gadelev.game.Game;
@@ -24,6 +26,7 @@ public class SigninView extends View {
     private VBox vBox;
     private final Game application = getApplication();
     private final PlayerService<PlayerDto> playerService=new PlayerServiceImpl();
+    private final PlayerDao<Player> playerPlayerDao=new PlayerDaoImpl();
 
     public SigninView() throws Exception {
     }
@@ -37,6 +40,7 @@ public class SigninView extends View {
                     application.setApplicationHeight(230);
                     application.setView(application.getMenuView());
                 } else {
+                    application.setCurrentPlayer(playerPlayerDao.getByNickName(nicknameField.getText()));
                     application.setView(application.getMenuView());
                     nicknameField.setText("");
                 }

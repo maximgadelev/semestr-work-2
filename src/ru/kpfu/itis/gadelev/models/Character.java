@@ -30,6 +30,7 @@ public class Character extends Pane {
     private int hp = 3;
     Bonus currentBonus = null;
     String name;
+    int singleScore;
 
 
     public SpriteAnimation spriteAnimation;
@@ -52,9 +53,10 @@ public class Character extends Pane {
 
     public Character(String position,String name) throws FileNotFoundException {
         this.side = 1;
-        this.weapon = new Weapon("PISTOL");
+        this.weapon = new Weapon("PISTOL",this);
         this.position=position;
         this.name=name;
+        this.singleScore=0;
         initHp();
         setSpriteAnimation(position);
     }
@@ -279,10 +281,10 @@ public class Character extends Pane {
             if (isPressed(KeyCode.SPACE) && !this.isShoot()) {
                 this.setShoot(true);
                 if (this.getSide() == 0) {
-                    this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                    this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
 //                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 } else {
-                    this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType());
+                    this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
 //                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 }
             }
