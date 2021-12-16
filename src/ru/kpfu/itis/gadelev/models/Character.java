@@ -10,9 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import ru.kpfu.itis.gadelev.Game;
-import ru.kpfu.itis.gadelev.GameView;
-import ru.kpfu.itis.gadelev.SpriteAnimation;
+import ru.kpfu.itis.gadelev.views.GameView;
+import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

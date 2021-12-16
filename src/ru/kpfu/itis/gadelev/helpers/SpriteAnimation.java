@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.helpers;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;

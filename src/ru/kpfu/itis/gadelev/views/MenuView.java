@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.views;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ru.kpfu.itis.gadelev.game.Game;
 
 public class MenuView extends View {
 

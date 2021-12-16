@@ -1,7 +1,5 @@
 package ru.kpfu.itis.gadelev.server;
 
-import ru.kpfu.itis.gadelev.GameView;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

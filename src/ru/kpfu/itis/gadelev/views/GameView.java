@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.views;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Parent;
@@ -8,6 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import ru.kpfu.itis.gadelev.game.Game;
+import ru.kpfu.itis.gadelev.game.GameMenu;
+import ru.kpfu.itis.gadelev.game.LevelData;
 import ru.kpfu.itis.gadelev.models.Block;
 import ru.kpfu.itis.gadelev.models.Bonus;
 import ru.kpfu.itis.gadelev.models.Character;
@@ -44,7 +47,7 @@ public class GameView extends View {
 
     public BorderPane menu;
 
-    boolean isCreate=false;
+    public boolean isCreate=false;
 
     public static GameView gameView;
     AnimationTimer timer;

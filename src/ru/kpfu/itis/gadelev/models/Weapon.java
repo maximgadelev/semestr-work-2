@@ -4,8 +4,7 @@ package ru.kpfu.itis.gadelev.models;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import ru.kpfu.itis.gadelev.Game;
-import ru.kpfu.itis.gadelev.GameView;
+import ru.kpfu.itis.gadelev.views.GameView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

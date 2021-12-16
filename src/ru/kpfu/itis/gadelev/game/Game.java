@@ -1,10 +1,14 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.game;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.views.GameView;
+import ru.kpfu.itis.gadelev.views.MenuView;
+import ru.kpfu.itis.gadelev.views.View;
+
 import java.io.IOException;
 
 

@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.game;
 
 public class LevelData {
     static  String[] LEVEL1 =new String[]{

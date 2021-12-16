@@ -1,15 +1,8 @@
 package ru.kpfu.itis.gadelev.models;
-
-
-
-
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import ru.kpfu.itis.gadelev.Game;
-import ru.kpfu.itis.gadelev.GameView;
-
-
+import ru.kpfu.itis.gadelev.views.GameView;
 public  class Bullet extends Rectangle {
     public Bullet(double x, double y,int side,int damage){
         super(x,y,10,3);

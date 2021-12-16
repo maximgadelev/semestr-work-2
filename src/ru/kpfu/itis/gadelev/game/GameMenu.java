@@ -1,4 +1,4 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.game;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,8 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import ru.kpfu.itis.gadelev.game.Game;
+import ru.kpfu.itis.gadelev.views.GameView;
 
-import static ru.kpfu.itis.gadelev.View.getApplication;
+import static ru.kpfu.itis.gadelev.views.View.getApplication;
 
 public class GameMenu extends Pane {
     private final Game game = getApplication();

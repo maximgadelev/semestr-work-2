@@ -1,6 +1,7 @@
-package ru.kpfu.itis.gadelev;
+package ru.kpfu.itis.gadelev.views;
 
 import javafx.scene.Parent;
+import ru.kpfu.itis.gadelev.game.Game;
 
 public abstract class View {
 
