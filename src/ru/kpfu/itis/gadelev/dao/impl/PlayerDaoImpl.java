@@ -15,8 +15,9 @@ public class PlayerDaoImpl implements PlayerDao<Player> {
     @Override
     public boolean save(Player player) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into player(nickname) values (?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player (nickname) values (?);");
             preparedStatement.setString(1,player.getNickName());
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

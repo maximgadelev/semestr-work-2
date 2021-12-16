@@ -11,7 +11,9 @@ public class Player {
         this.singleScore=singleScore;
         this.multiScore=multiScore;
     }
-
+public Player(String nickName){
+        this.nickName=nickName;
+}
     public int getId() {
         return id;
     }

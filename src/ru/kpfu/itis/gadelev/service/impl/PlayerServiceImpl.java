@@ -10,7 +10,8 @@ public class PlayerServiceImpl implements PlayerService {
     private final PlayerDao<Player> playerDao = new PlayerDaoImpl();
     @Override
     public boolean save(Player player) {
-        return playerDao.save(new Player(player.getId(),
+        return playerDao.save(new Player(
+                player.getId(),
                 player.getNickName(),
                 player.getSingleScore(),
                 player.getMultiScore()));
@@ -19,7 +20,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PlayerDto getByNickName(String nickname) {
         Player player= playerDao.getByNickName(nickname);
-        if(playerDao !=null){
+        if(player !=null){
             return new PlayerDto(player.getId(),
                     player.getNickName(),
                     player.getSingleScore(),

@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.views.GameView;
 import ru.kpfu.itis.gadelev.views.MenuView;
+import ru.kpfu.itis.gadelev.views.SigninView;
 import ru.kpfu.itis.gadelev.views.View;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class Game extends Application {
     private MenuView menuView;
 
     private GameView gameView;
+    SigninView signinView;
 
 
     public MenuView getMenuView() {
@@ -56,6 +58,7 @@ public class Game extends Application {
 
         this.menuView = new MenuView();
         this.gameView = new GameView();
+        this.signinView=new SigninView();
         this.initLayout();
 
     }
@@ -65,7 +68,7 @@ public class Game extends Application {
         scene = new Scene(rootLayout, 400, 600);
         stage.setScene(scene);
         stage.show();
-        this.setView(getMenuView());
+        this.setView(signinView);
     }
 
     public void startGame() {
@@ -109,6 +112,8 @@ public class Game extends Application {
         launch(args);
     }
 
-
+    public SigninView getSigninView() {
+        return signinView;
+    }
 }
 
