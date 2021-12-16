@@ -10,12 +10,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import ru.kpfu.itis.gadelev.game.Game;
 
+import java.io.IOException;
+
 public class MenuView extends View {
 
     private String title = "Menu";
     private AnchorPane pane = null;
     private VBox vBox;
     public Button singlePlayer;
+    public Button scores;
 
     public String getTitle() {
         return title;
@@ -26,6 +29,26 @@ public class MenuView extends View {
         public void handle(ActionEvent actionEvent) {
             if (singlePlayer == actionEvent.getSource()) {
                 application.startGame();
+            }
+        }
+    };
+
+    private final EventHandler<ActionEvent> scoresEvent = new EventHandler<>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if (scores == actionEvent.getSource()) {
+                ScoresView scoresView = null;
+                try {
+                    scoresView = new ScoresView();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    scoresView.createView();
+                    application.setView(scoresView);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     };
@@ -43,7 +66,6 @@ public class MenuView extends View {
         if (pane == null) {
             this.createView();
         }
-
         return pane;
     }
 
@@ -62,12 +84,12 @@ public class MenuView extends View {
         singlePlayer.setMaxHeight(2000);
         singlePlayer.setFont(font);
 
-//        multiplayer = new Button("multiplayer");
-//        multiplayer.setOnAction(multiplayerEvent);
-//
-//        multiplayer.setMaxWidth(1000);
-//        multiplayer.setMaxHeight(2000);
-//        multiplayer.setFont(font);
+        scores = new Button("scores");
+        scores.setOnAction(scoresEvent);
+
+        scores.setMaxWidth(1000);
+        scores.setMaxHeight(2000);
+        scores.setFont(font);
 //
 //        chat = new Button("chat");
 //        chat.setOnAction(chatEvent);
@@ -90,9 +112,7 @@ public class MenuView extends View {
 //        exit.setMaxHeight(2000);
 //        exit.setFont(font);
 //
-//        vBox.getChildren().addAll(singlePlayer, multiplayer, chat, skin, exit);
-//
-vBox.getChildren().add(singlePlayer);
+        vBox.getChildren().addAll(singlePlayer, scores);
         AnchorPane.setTopAnchor(vBox, 5.0);
         AnchorPane.setLeftAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);

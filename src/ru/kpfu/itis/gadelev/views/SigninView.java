@@ -5,12 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.dto.PlayerDto;
 import ru.kpfu.itis.gadelev.game.Game;
@@ -22,7 +20,6 @@ public class SigninView extends View {
     private String title = "Sign in";
     private AnchorPane pane = null;
     private TextField nicknameField;
-    private Text signInExceptionArea;
     private Button signInButton;
     private VBox vBox;
     private final Game application = getApplication();
@@ -36,9 +33,7 @@ public class SigninView extends View {
             if (signInButton == actionEvent.getSource()) {
                 PlayerDto player = playerService.getByNickName(nicknameField.getText());
                 if (player == null) {
-                    signInExceptionArea.setText("No player with this nickname.");
                     System.out.println( playerService.save(new Player(nicknameField.getText())));
-                    System.out.println(playerService.getByNickName(nicknameField.getText()));
                     application.setApplicationHeight(230);
                     application.setView(application.getMenuView());
                 } else {
@@ -69,21 +64,18 @@ public class SigninView extends View {
 
         Label nicknameLabel = new Label("Nickname");
         nicknameField = new TextField();
-        signInExceptionArea = new Text();
 
 
 
-        signInButton = new Button("start");
+        signInButton = new Button("Go");
         signInButton.setOnAction(signInEvent);
 
-        vBox.getChildren().addAll(nicknameLabel, nicknameField, signInButton, signInExceptionArea);
+        vBox.getChildren().addAll(nicknameLabel, nicknameField, signInButton);
 
         AnchorPane.setTopAnchor(vBox, 5.0);
         AnchorPane.setLeftAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);
-
         pane.getChildren().add(vBox);
-
         application.setApplicationSize(235, 210);
 
     }
