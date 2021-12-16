@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.views.GameView;
 public  class Bullet extends Rectangle {
     Character bulletCharacter;
+    Bot diedBot;
     public Bullet(double x, double y,int side,int damage,Character bulletCharacter){
         super(x,y,10,3);
    Bullet bullet=this;
@@ -28,6 +29,16 @@ public  class Bullet extends Rectangle {
                             }
                         }
                     }
+
+                        GameView.bots.forEach((rect)->{
+                            if(bullet.getBoundsInParent().intersects(rect.getBoundsInParent())){
+                                this.stop();
+                                bullet.getBulletCharacter().singleScore++;
+                                GameView.gameRoot.getChildren().remove(bullet);
+                                rect.getDamage();
+                            }
+                        });
+
 if(side==1){
     setX(getX()+2);
 }else {

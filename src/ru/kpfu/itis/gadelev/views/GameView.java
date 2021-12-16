@@ -13,6 +13,7 @@ import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
 import ru.kpfu.itis.gadelev.models.Block;
 import ru.kpfu.itis.gadelev.models.Bonus;
+import ru.kpfu.itis.gadelev.models.Bot;
 import ru.kpfu.itis.gadelev.models.Character;
 import ru.kpfu.itis.gadelev.server.Client;
 
@@ -27,6 +28,7 @@ public class GameView extends View {
     private  static HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
+    public static ArrayList<Bot> bots = new ArrayList<>();
 
     Image backgroundImg = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/list.png"));
     public static final int BLOCK_SIZE = 45;
@@ -128,7 +130,9 @@ public class GameView extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+Bot bot = new Bot(800,500);
+        bots.add(bot);
+        gameRoot.getChildren().addAll(bots);
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 

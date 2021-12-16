@@ -10,6 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dto.PlayerDto;
+import ru.kpfu.itis.gadelev.service.PlayerService;
+import ru.kpfu.itis.gadelev.service.impl.PlayerServiceImpl;
 import ru.kpfu.itis.gadelev.views.GameView;
 import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
 
@@ -18,7 +22,7 @@ import java.io.FileNotFoundException;
 
 
 public class Character extends Pane {
-
+    PlayerService<PlayerDto> playerService = new PlayerServiceImpl();
     private int side;
     public Point2D playerVelocity = new Point2D(0, 0);
 
@@ -153,6 +157,7 @@ public class Character extends Pane {
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
+            playerService.updateMultiScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
         } else {
             hp = hp - damage;
         }
