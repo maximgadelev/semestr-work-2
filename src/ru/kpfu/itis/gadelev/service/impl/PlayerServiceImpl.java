@@ -6,6 +6,9 @@ import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.dto.PlayerDto;
 import ru.kpfu.itis.gadelev.service.PlayerService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PlayerServiceImpl implements PlayerService {
     private final PlayerDao<Player> playerDao = new PlayerDaoImpl();
     @Override
@@ -38,5 +41,16 @@ playerDao.updateSingleScore(id,score);
     @Override
     public void updateMultiScore(int id, int score) {
 playerDao.updateMultiScore(id, score);
+    }
+
+    @Override
+    public List<PlayerDto> getAll() {
+        List<Player> players=playerDao.getAll();
+        return players.stream().map(player -> new PlayerDto(
+                player.getId(),
+                player.getNickName(),
+                player.getSingleScore(),
+                player.getMultiScore()
+        )).collect(Collectors.toList());
     }
 }

@@ -30,7 +30,6 @@ public class ScoresView extends View {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("playerList.fxml"));
         pane=loader.load();
         Scene scene = new Scene(pane);
-        scene.getStylesheets().add("/users.css");
        application.getStage().setTitle(getTitle());
         application.getStage().setScene(scene);
         application.getStage().show();

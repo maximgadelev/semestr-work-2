@@ -4,10 +4,9 @@ import ru.kpfu.itis.gadelev.dao.PlayerDao;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.helpers.PostgresConnectionHelper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDaoImpl implements PlayerDao<Player> {
     private final Connection connection = PostgresConnectionHelper.getConnection();
@@ -71,5 +70,28 @@ public class PlayerDaoImpl implements PlayerDao<Player> {
         }catch (SQLException sqlException){
 
         }
+    }
+
+    @Override
+    public List<Player> getAll() {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM player";
+            ResultSet resultSet = statement.executeQuery(sql);
+            List<Player> players = new ArrayList<>();
+            while (resultSet.next()){
+                Player player = new Player(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nickname"),
+                        resultSet.getInt("single_score"),
+                        resultSet.getInt("multi_score")
+                );
+                players.add(player);
+            }
+            return players;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 }

@@ -7,11 +7,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dao.impl.PlayerDaoImpl;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
+import ru.kpfu.itis.gadelev.dto.PlayerDto;
+import ru.kpfu.itis.gadelev.service.PlayerService;
+import ru.kpfu.itis.gadelev.service.impl.PlayerServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class PlayerController {
+    PlayerService<PlayerDto> playerService = new PlayerServiceImpl();
+    PlayerDao<Player> playerPlayerDao = new PlayerDaoImpl();
     @FXML
     private TextField nickname;
 
@@ -31,9 +40,8 @@ public class PlayerController {
     private ObservableList<Player> resultList = FXCollections.observableArrayList();
 
     public PlayerController() {
-        userList.add(new Player( 1,"Ivan",50, 50));
-        userList.add(new Player( 2,"Petr", 50,60));
-        userList.add(new Player( 3,"Artem", 4,70));
+        List<Player> players = playerPlayerDao.getAll();
+        userList.addAll(players);
     }
 
     @FXML
@@ -48,10 +56,11 @@ public class PlayerController {
                 loadData();
             }
         });
-
-        nickname.textProperty().addListener(((observable, oldValue, newValue) ->
-                label.setText(newValue)
-        ));
+if(label!=null) {
+    nickname.textProperty().addListener(((observable, oldValue, newValue) ->
+            label.setText(newValue)
+    ));
+}
 
         initTable();
     }
