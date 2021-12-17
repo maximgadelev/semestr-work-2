@@ -21,10 +21,8 @@ public class GameServer {
 
         while (true) {
             Socket clientSocket = socket.accept();
-
            this.input  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8));
-
             GameServerThread gameServerThread = new GameServerThread(input, output, this);
             clients.add(gameServerThread);
             new Thread(gameServerThread).start();
@@ -35,7 +33,6 @@ public class GameServer {
         for (GameServerThread client : clients) {
             if (client.equals(sender)){
                 client.getOutput().write(message+ "\n");
-                client.getOutput().newLine();
                 client.getOutput().flush();
             }
         }

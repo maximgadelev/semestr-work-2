@@ -28,6 +28,7 @@ public class ClientThread implements Runnable {
         try {
             while (true) {
                 String message = input.readLine();
+                System.out.println(message);
             }
         } catch (IOException e) {
             e.printStackTrace();

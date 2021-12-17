@@ -242,7 +242,7 @@ public class Character extends Pane {
     public String getName() {
         return name;
     }
-    public void updatePlayer(){
+    public synchronized void updatePlayer(){
         if (this.imageView != null) {
             if (isPressed(KeyCode.UP) && this.getTranslateY() >= 5 && !this.isJumped()) {
                 if (!this.position.equals("jump")) {
@@ -287,19 +287,16 @@ public class Character extends Pane {
                 this.setShoot(true);
                 if (this.getSide() == 0) {
                     this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
-//                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 } else {
                     this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
-//                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
                 }
             }
             if (this.playerVelocity.getY() < 10) {
                 this.playerVelocity = this.playerVelocity.add(0, 1);
             }
             this.moveY((int) this.playerVelocity.getY());
-//            GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
-
         }
+                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
     }
 
     private boolean isPressed(KeyCode key) {

@@ -83,7 +83,7 @@ public class Game extends Application {
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
-            gameView.createViewForSingle("SINGLE");
+            gameView.createView("SINGLE");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +98,7 @@ public class Game extends Application {
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
-            gameView.createViewForSingle("MULTI");
+            gameView.createView("MULTI");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -73,11 +73,72 @@ public class GameView extends View {
     public String getTitle() {
         return null;
     }
-    private void initContent(String type) throws IOException {
-        if(type.equals("MULTI")){
-            //        client=new Client();
-//        client.start();
+    private void initContentForMulti() throws IOException {
+                client=new Client();
+        client.start();
+
+        ImageView backgroundIV = new ImageView(backgroundImg);
+        backgroundIV.setFitHeight(640);
+        backgroundIV.setFitWidth(1000);
+
+        levelWidth = LevelData.levels[levelNumber][0].length() * BLOCK_SIZE;
+        for (int i = 0; i < LevelData.levels[levelNumber].length; i++) {
+            String line = LevelData.levels[levelNumber][i];
+            for (int j = 0; j < line.length(); j++) {
+                switch (line.charAt(j)) {
+                    case '0':
+                        break;
+                    case '1':
+                        Block platformFloor = new Block(Block.BlockType.PLATFORM, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '2':
+                        Block brick = new Block(Block.BlockType.BRICK, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '3':
+                        Block bonus = new Block(Block.BlockType.BONUS, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '4':
+                        Block stone = new Block(Block.BlockType.STONE, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '5':
+                        Block PipeTopBlock = new Block(Block.BlockType.PIPE_TOP, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '6':
+                        Block PipeBottomBlock = new Block(Block.BlockType.PIPE_BOTTOM, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                    case '*':
+                        Block InvisibleBlock = new Block(Block.BlockType.INVISIBLE_BLOCK, j * BLOCK_SIZE, i * BLOCK_SIZE);
+                        break;
+                }
+            }
+
         }
+        player = new Character("run",application.getCurrentPlayer().getNickName());
+        System.out.println(application.getCurrentPlayer().getNickName());
+        player.setTranslateX(0);
+        player.setTranslateY(250);
+        characters.add(player);
+
+//        player.translateXProperty().addListener((obs, old, newValue) -> {
+//            int offset = newValue.intValue();
+//            if (offset > 640 && offset < levelWidth - 640) {
+//                gameRoot.setLayoutX(-(offset - 640));
+//
+//            }
+//        });
+        try {
+            menu = new GameMenu(this).createMenu();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Bot bot = new Bot(800,500);
+//        bots.add(bot);
+//        gameRoot.getChildren().addAll(bots);
+        gameRoot.getChildren().addAll(characters);
+        appRoot.getChildren().addAll(backgroundIV, gameRoot);
+    }
+
+    private void initContentForSingle() throws IOException{
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -138,11 +199,15 @@ public class GameView extends View {
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
-
     }
 
-    public void createViewForSingle(String type) throws IOException {
-        initContent(type);
+
+    public void createView(String type) throws IOException {
+        if(type.equals("SINGLE")){
+            initContentForSingle();
+        }else{
+            initContentForMulti();
+        }
         if(isCreate){
         }else{
             scene = new Scene(appRoot);
