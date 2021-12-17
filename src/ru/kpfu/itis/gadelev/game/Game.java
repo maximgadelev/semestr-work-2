@@ -73,7 +73,7 @@ public class Game extends Application {
         this.setView(signinView);
     }
 
-    public void startGame() {
+    public void startSingleGame() {
         this.stage.setTitle("Game");
         try {
             if (gameView.isCreate) {
@@ -83,7 +83,22 @@ public class Game extends Application {
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
-            gameView.createView();
+            gameView.createViewForSingle("SINGLE");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void startmultiGame() {
+        this.stage.setTitle("Game");
+        try {
+            if (gameView.isCreate) {
+                GameView.gameRoot.getChildren().clear();
+                GameView.appRoot.getChildren().clear();
+                GameView.characters.clear();
+                gameView.player=null;
+                GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
+            }
+            gameView.createViewForSingle("MULTI");
         } catch (IOException e) {
             e.printStackTrace();
         }

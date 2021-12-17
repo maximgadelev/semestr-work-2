@@ -18,6 +18,7 @@ public class MenuView extends View {
     private AnchorPane pane = null;
     private VBox vBox;
     public Button singlePlayer;
+    public Button multiPlayer;
     public Button scores;
 
     public String getTitle() {
@@ -28,7 +29,15 @@ public class MenuView extends View {
         @Override
         public void handle(ActionEvent actionEvent) {
             if (singlePlayer == actionEvent.getSource()) {
-                application.startGame();
+                application.startSingleGame();
+            }
+        }
+    };
+    private final EventHandler<ActionEvent> multiPlayerEvent=new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            if(multiPlayer==actionEvent.getSource()){
+                application.startmultiGame();
             }
         }
     };
@@ -90,6 +99,12 @@ public class MenuView extends View {
         scores.setMaxWidth(1000);
         scores.setMaxHeight(2000);
         scores.setFont(font);
+
+        multiPlayer=new Button("multiPlayer");
+        multiPlayer.setOnAction(multiPlayerEvent);
+        multiPlayer.setMaxWidth(1000);
+        multiPlayer.setMaxHeight(2000);
+        multiPlayer.setFont(font);
 //
 //        chat = new Button("chat");
 //        chat.setOnAction(chatEvent);
@@ -112,7 +127,7 @@ public class MenuView extends View {
 //        exit.setMaxHeight(2000);
 //        exit.setFont(font);
 //
-        vBox.getChildren().addAll(singlePlayer, scores);
+        vBox.getChildren().addAll(singlePlayer, scores,multiPlayer);
         AnchorPane.setTopAnchor(vBox, 5.0);
         AnchorPane.setLeftAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);

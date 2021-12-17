@@ -73,9 +73,11 @@ public class GameView extends View {
     public String getTitle() {
         return null;
     }
-    private void initContent() throws IOException {
-//        client=new Client();
+    private void initContent(String type) throws IOException {
+        if(type.equals("MULTI")){
+            //        client=new Client();
 //        client.start();
+        }
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -130,17 +132,17 @@ public class GameView extends View {
         } catch (Exception e) {
             e.printStackTrace();
         }
-Bot bot = new Bot(800,500);
-        bots.add(bot);
-        gameRoot.getChildren().addAll(bots);
+//        Bot bot = new Bot(800,500);
+//        bots.add(bot);
+//        gameRoot.getChildren().addAll(bots);
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
 
     }
 
-    public void createView() throws IOException {
-        initContent();
+    public void createViewForSingle(String type) throws IOException {
+        initContent(type);
         if(isCreate){
         }else{
             scene = new Scene(appRoot);

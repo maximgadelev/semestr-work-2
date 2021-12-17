@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.views.GameView;
 
 import static ru.kpfu.itis.gadelev.views.View.getApplication;
@@ -55,7 +54,7 @@ public class GameMenu extends Pane {
         @Override
         public void handle(ActionEvent actionEvent) {
             if (restart == actionEvent.getSource()) {
-               game.startGame();
+               game.startSingleGame();
             }
         }
     };
