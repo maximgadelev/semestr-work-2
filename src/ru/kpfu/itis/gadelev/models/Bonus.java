@@ -44,7 +44,6 @@ public class Bonus extends Pane {
         getChildren().add(bonusImageView);
         GameView.bonuses.add(this);
         GameView.gameRoot.getChildren().add(this);
-        System.out.println(GameView.bonuses.size());
     }
 
     public String getType() {

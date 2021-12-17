@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
@@ -113,8 +114,8 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("run",application.getCurrentPlayer().getNickName());
-        System.out.println(application.getCurrentPlayer().getNickName());
+        player = new Character(application.getCurrentPlayer().getNickName());
+        client.sendMessage("new " + player.getName() + "\n");
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
@@ -134,6 +135,12 @@ public class GameView extends View {
 //        Bot bot = new Bot(800,500);
 //        bots.add(bot);
 //        gameRoot.getChildren().addAll(bots);
+        for (Character character:characters
+             ) {
+            if(character==player){
+
+            }
+        }
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
     }
@@ -175,7 +182,7 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("run",application.getCurrentPlayer().getNickName());
+        player = new Character(application.getCurrentPlayer().getNickName());
         System.out.println(application.getCurrentPlayer().getNickName());
         player.setTranslateX(0);
         player.setTranslateY(250);
@@ -291,6 +298,18 @@ public class GameView extends View {
     public void showMenu() {
         appRoot.getChildren().add(menu);
     }
+public synchronized void createNewGamer(String name){
+    try {
+        Character character = new Character(name);
+        javafx.application.Platform.runLater(()->{
+            gameRoot.getChildren().addAll(character);
+            GameView.characters.add(character);
 
+        });
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+
+}
 
 }

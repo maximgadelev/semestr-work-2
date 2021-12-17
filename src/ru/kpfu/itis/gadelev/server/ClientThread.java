@@ -1,5 +1,7 @@
 package ru.kpfu.itis.gadelev.server;
 
+import ru.kpfu.itis.gadelev.views.GameView;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -8,6 +10,7 @@ public class ClientThread implements Runnable {
     private final BufferedReader input;
     private final BufferedWriter output;
     private final Client client;
+    private GameView gameView = GameView.gameView;
 
     public ClientThread(BufferedReader input, BufferedWriter output, Client client) {
         this.input = input;
@@ -28,7 +31,12 @@ public class ClientThread implements Runnable {
         try {
             while (true) {
                 String message = input.readLine();
-                System.out.println(message);
+                if(message!=null){
+                    String [] directions =message.split(" ");
+                if(directions[0].equals("new")){
+gameView.createNewGamer(directions[1]);
+                }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

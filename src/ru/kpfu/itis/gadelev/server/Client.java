@@ -7,9 +7,9 @@ public class Client {
      private Socket socket;
     private ClientThread clientThread;
 
-    public void sendMessage(String name,double x,double y) {
+    public void sendMessage(String name) {
         try {
-            clientThread.getOutput().write("Положение "+ name + " по ОХ:" + x + ", по ОУ:" + y);
+            clientThread.getOutput().write(name);
             clientThread.getOutput().newLine();
             clientThread.getOutput().flush();
         } catch (IOException e) {

@@ -1,6 +1,7 @@
 package ru.kpfu.itis.gadelev.models;
 
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,10 +13,10 @@ import java.io.FileNotFoundException;
 public class Weapon {
     String type;
     int damage;
-    ImageView weaponImageView;
+   ImageView weaponImageView;
     Character weaponCharacter;
 
-    public Weapon(String type,Character character) throws FileNotFoundException {
+    public Weapon(String type, Character character) throws FileNotFoundException {
         this.type=type;
         this.damage=1;
         this.weaponCharacter=character;
@@ -23,7 +24,9 @@ public class Weapon {
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
         weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
-        GameView.gameRoot.getChildren().add(weaponImageView);
+        javafx.application.Platform.runLater(()-> {
+            GameView.gameRoot.getChildren().add(weaponImageView);
+        });
     }
 
     public void Shoot(double x, double y, int side, String type,Character weaponCharacter){

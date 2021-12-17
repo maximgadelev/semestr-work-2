@@ -55,10 +55,10 @@ public class Character extends Pane {
         this.side = side;
     }
 
-    public Character(String position,String name) throws FileNotFoundException {
+    public Character(String name) throws FileNotFoundException {
         this.side = 1;
         this.weapon = new Weapon("PISTOL",this);
-        this.position=position;
+        this.position="run";
         this.name=name;
         this.singleScore=0;
         initHp();
@@ -150,7 +150,7 @@ public class Character extends Pane {
         this.hp = hp;
     }
 
-    public void getDamage(int damage) {
+    public synchronized void getDamage(int damage) {
         if (hp <= 1) {
             getChildren().remove(imageView);
             imageView = null;
@@ -164,7 +164,7 @@ public class Character extends Pane {
         hpText.setText(String.valueOf(this.hp));
     }
 
-    public void isBonusEaten() {
+    public synchronized void  isBonusEaten() {
         GameView.bonuses.forEach((rect) -> {
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS")) {
                         this.setHp(this.getHp() + 2);
@@ -235,13 +235,18 @@ public class Character extends Pane {
         hpText.setLayoutX(60);
         hpText.setLayoutY(80);
         hpText.setFont(Font.font(30));
-        GameView.gameRoot.getChildren().add(hpText);
-        GameView.gameRoot.getChildren().add(hpView);
+        javafx.application.Platform.runLater(()->{
+                    GameView.gameRoot.getChildren().add(hpText);
+                    GameView.gameRoot.getChildren().add(hpView);
+                }
+                );
+
     }
 
     public String getName() {
         return name;
     }
+
     public synchronized void updatePlayer(){
         if (this.imageView != null) {
             if (isPressed(KeyCode.UP) && this.getTranslateY() >= 5 && !this.isJumped()) {
@@ -296,7 +301,7 @@ public class Character extends Pane {
             }
             this.moveY((int) this.playerVelocity.getY());
         }
-                    GameView.gameView.getClient().sendMessage(name,this.getTranslateX(),this.getTranslateY());
+                    GameView.gameView.getClient().sendMessage(name + " position " + " is " + this.getTranslateX()+" " + + this.getTranslateY());
     }
 
     private boolean isPressed(KeyCode key) {

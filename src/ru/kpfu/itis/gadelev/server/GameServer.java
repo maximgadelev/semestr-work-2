@@ -31,12 +31,14 @@ public class GameServer {
 
     public void sendMessage(String message, GameServerThread sender) throws IOException {
         for (GameServerThread client : clients) {
-            if (client.equals(sender)){
+            if (client.equals(sender)) {
+                continue;
+            }
                 client.getOutput().write(message+ "\n");
                 client.getOutput().flush();
             }
         }
-    }
+
 
     public void removeClient(GameServerThread gameServerThread) {
         clients.remove(gameServerThread);
