@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
+import ru.kpfu.itis.gadelev.server.Client;
 import ru.kpfu.itis.gadelev.views.*;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class Game extends Application {
     public Scene scene;
 
     Player currentPlayer;
+    Client client;
     public void setApplicationSize(int width, int height) {
         this.getStage().setWidth(width);
         this.getStage().setHeight(height);
@@ -84,11 +86,11 @@ public class Game extends Application {
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
             gameView.createView("SINGLE");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void startmultiGame() {
+    public void startmultiGame() throws Exception {
         this.stage.setTitle("Game");
         try {
             if (gameView.isCreate) {
@@ -98,6 +100,8 @@ public class Game extends Application {
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
+            this.client=new Client(this);
+            client.start();
             gameView.createView("MULTI");
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,6 +151,13 @@ public void backToMenu(){
     public  void setCurrentPlayer(Player currentPlayer) {
       this.currentPlayer
                 = currentPlayer;
+    }
+    public GameView getGameView() {
+        return gameView;
+    }
+
+    public Client getClient() {
+        return client;
     }
 }
 

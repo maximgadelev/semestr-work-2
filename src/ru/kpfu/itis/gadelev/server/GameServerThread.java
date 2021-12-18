@@ -38,7 +38,6 @@ public class GameServerThread implements Runnable {
             while (true) {
                 String message = input.readLine();
                 server.sendMessage(message, this);
-                System.out.println(message);
             }
         } catch (SocketException socketException) {
             server.removeClient(this);

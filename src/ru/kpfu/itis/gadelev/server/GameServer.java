@@ -12,7 +12,6 @@ import java.util.List;
 public class GameServer {
     private static final int PORT = 5555;
     private ServerSocket socket;
-    BufferedReader input;
     private final List<GameServerThread> clients = new ArrayList<>();
 
 
@@ -21,7 +20,7 @@ public class GameServer {
 
         while (true) {
             Socket clientSocket = socket.accept();
-           this.input  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
+          BufferedReader input  = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), StandardCharsets.UTF_8));
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8));
             GameServerThread gameServerThread = new GameServerThread(input, output, this);
             clients.add(gameServerThread);
@@ -34,7 +33,7 @@ public class GameServer {
             if (client.equals(sender)) {
                 continue;
             }
-                client.getOutput().write(message+ "\n");
+                client.getOutput().write(message + "\n");
                 client.getOutput().flush();
             }
         }

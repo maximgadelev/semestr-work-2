@@ -10,8 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import ru.kpfu.itis.gadelev.dao.PlayerDao;
 import ru.kpfu.itis.gadelev.dto.PlayerDto;
+import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.service.PlayerService;
 import ru.kpfu.itis.gadelev.service.impl.PlayerServiceImpl;
 import ru.kpfu.itis.gadelev.views.GameView;
@@ -19,6 +19,8 @@ import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import static ru.kpfu.itis.gadelev.views.View.getApplication;
 
 
 public class Character extends Pane {
@@ -29,7 +31,7 @@ public class Character extends Pane {
     private boolean canJump = true;
     private boolean isJumped = false;
     private boolean isShoot = false;
-
+      Game game = getApplication();
     Weapon weapon;
     private int hp = 3;
     Bonus currentBonus = null;
@@ -46,7 +48,8 @@ public class Character extends Pane {
 
     ImageView hpView;
     Text hpText=new Text();
-
+double x;
+double y;
     public int getSide() {
         return side;
     }
@@ -55,17 +58,18 @@ public class Character extends Pane {
         this.side = side;
     }
 
-    public Character(String name) throws FileNotFoundException {
+    public Character() throws Exception {
         this.side = 1;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
-        this.name=name;
+        this.name=game.getCurrentPlayer().getNickName();
         this.singleScore=0;
         initHp();
         setSpriteAnimation(position);
     }
 
     public void moveX(int value) {
+        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " 7" + "\n");
         boolean movingRight = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Node platform : GameView.platforms) {
@@ -89,6 +93,7 @@ public class Character extends Pane {
     }
 
     public void moveY(int value) {
+        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getHp() + "\n");
         boolean movingDown = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Block platform : GameView.platforms) {
@@ -196,8 +201,10 @@ public class Character extends Pane {
     public void setSpriteAnimation(String animationType) {
         if (animationType.equals("run")) {
             if (imageView != null) {
-                getChildren().remove(imageView);
-                this.imageView.setImage(runImage);
+                javafx.application.Platform.runLater(()->{
+                    getChildren().remove(imageView);
+                    this.imageView.setImage(runImage);
+                });
             } else {
                 this.imageView = new ImageView(runImage);
             }
@@ -206,25 +213,33 @@ public class Character extends Pane {
             this.imageView.setFitWidth(70);
             this.imageView.setViewport(new Rectangle2D(0, 0, 45, 52));
             this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(1000), 6, 6, 0, 0, 45, 52);
-            getChildren().add(imageView);
+            javafx.application.Platform.runLater(()-> {
+                getChildren().add(imageView);
+            });
         } else {
             if (animationType.equals("jump")) {
                 if (imageView != null) {
-                    getChildren().remove(imageView);
-                    this.imageView.setImage(jumpImage);
+                    javafx.application.Platform.runLater(()-> {
+                        getChildren().remove(imageView);
+                        this.imageView.setImage(jumpImage);
+                    });
                 } else {
-                    this.imageView = new ImageView(jumpImage);
+                    javafx.application.Platform.runLater(()-> {
+                        this.imageView = new ImageView(jumpImage);
+                    });
                 }
                 this.position=animationType;
                 this.imageView.setFitHeight(70);
                 this.imageView.setFitWidth(70);
                 this.imageView.setViewport(new Rectangle2D(0, 0, 35, 52));
                 this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(500), 1, 1, 144, 0, 35, 52);
-                getChildren().add(imageView);
+                javafx.application.Platform.runLater(()-> {
+                    getChildren().add(imageView);
+                });
             }
         }
     }
-    public void initHp() throws FileNotFoundException {
+    public synchronized void initHp() throws FileNotFoundException {
         hpText.setText(String.valueOf(this.hp));
         hpView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/HPP.png")));
         hpView.setViewport(new Rectangle2D(0,0,2000,2000));
@@ -236,8 +251,8 @@ public class Character extends Pane {
         hpText.setLayoutY(80);
         hpText.setFont(Font.font(30));
         javafx.application.Platform.runLater(()->{
-                    GameView.gameRoot.getChildren().add(hpText);
-                    GameView.gameRoot.getChildren().add(hpView);
+                    GameView.appRoot.getChildren().add(hpText);
+                    GameView.appRoot.getChildren().add(hpView);
                 }
                 );
 
@@ -247,67 +262,27 @@ public class Character extends Pane {
         return name;
     }
 
-    public synchronized void updatePlayer(){
-        if (this.imageView != null) {
-            if (isPressed(KeyCode.UP) && this.getTranslateY() >= 5 && !this.isJumped()) {
-                if (!this.position.equals("jump")) {
-                    this.spriteAnimation.stop();
-                    this.setSpriteAnimation("jump");
-                }
-                this.setJumped(true);
-                this.jumpPlayer();
-                this.spriteAnimation.play();
-            }
 
-            if (isPressed(KeyCode.LEFT) && this.getTranslateX() >= 5) {
-                if (this.isJumped()) {
-                    this.setSpriteAnimation("jump");
-                } else {
-                    if (!this.position.equals("run")) {
-                        this.spriteAnimation.stop();
-                        this.setSpriteAnimation("run");
-                    }
-                }
-                this.setScaleX(-1);
-                this.setSide(0);
-                this.moveX(-5);
-                this.spriteAnimation.play();
-            }
-            if (isPressed(KeyCode.RIGHT) && this.getTranslateX() + 40 <= GameView.gameView.getLevelWidth()) {
-                if (this.isJumped()) {
-                    this.setSpriteAnimation("jump");
-                } else {
-                    if (!this.position.equals("run")) {
-                        this.spriteAnimation.stop();
-                        this.setSpriteAnimation("run");
-                    }
-                }
 
-                this.setScaleX(1);
-                this.setSide(1);
-                this.moveX(5);
-                this.spriteAnimation.play();
-            }
-            if (isPressed(KeyCode.SPACE) && !this.isShoot()) {
-                this.setShoot(true);
-                if (this.getSide() == 0) {
-                    this.getWeapon().Shoot(this.getTranslateX() - 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
-                } else {
-                    this.getWeapon().Shoot(this.getTranslateX() + 80, this.getTranslateY()+10, this.getSide(),this.getWeapon().getType(),this);
-                }
-            }
-            if (this.playerVelocity.getY() < 10) {
-                this.playerVelocity = this.playerVelocity.add(0, 1);
-            }
-            this.moveY((int) this.playerVelocity.getY());
-        }
-                    GameView.gameView.getClient().sendMessage(name + " position " + " is " + this.getTranslateX()+" " + + this.getTranslateY());
+
+    public double getX() {
+        return this.getTranslateX();
+    }
+    public double getY() {
+        return this.getTranslateY();
     }
 
-    private boolean isPressed(KeyCode key) {
-        return GameView.gameView.getKeys().getOrDefault(key, false);
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 }
 
 

@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
@@ -20,13 +19,12 @@ import ru.kpfu.itis.gadelev.server.Client;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameView extends View {
     public static ArrayList<Block> platforms = new ArrayList<>();
-    private  static HashMap<KeyCode, Boolean> keys = new HashMap<>();
+    private static HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
     public static ArrayList<Bot> bots = new ArrayList<>();
@@ -38,11 +36,18 @@ public class GameView extends View {
     public static Pane gameRoot = new Pane();
 
     public Character player;
+    public Character secondPlayer;
+    public double secondPlayerX;
+    public double secondPlayerY;
+    public int secondPlayerHp;
+
+
+
     int levelNumber = 0;
     private static int levelWidth;
-    static Scene scene;
 
-    private Pane pane=null;
+
+    private Pane pane = null;
 
     private final Game application = getApplication();
 
@@ -50,7 +55,7 @@ public class GameView extends View {
 
     public BorderPane menu;
 
-    public boolean isCreate=false;
+    public boolean isCreate = false;
 
     public static GameView gameView;
     AnimationTimer timer;
@@ -63,7 +68,8 @@ public class GameView extends View {
         }
     }
 
-    public GameView() throws Exception {}
+    public GameView() throws Exception {
+    }
 
     @Override
     public Parent getView() {
@@ -74,9 +80,9 @@ public class GameView extends View {
     public String getTitle() {
         return null;
     }
-    private void initContentForMulti() throws IOException {
-                client=new Client();
-        client.start();
+
+    private void initContentForMulti() throws Exception {
+
 
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
@@ -114,12 +120,12 @@ public class GameView extends View {
             }
 
         }
-        player = new Character(application.getCurrentPlayer().getNickName());
-        client.sendMessage("new " + player.getName() + "\n");
+        player = new Character();
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
-
+        secondPlayer=new Character();
+         characters.add(secondPlayer);
 //        player.translateXProperty().addListener((obs, old, newValue) -> {
 //            int offset = newValue.intValue();
 //            if (offset > 640 && offset < levelWidth - 640) {
@@ -135,17 +141,12 @@ public class GameView extends View {
 //        Bot bot = new Bot(800,500);
 //        bots.add(bot);
 //        gameRoot.getChildren().addAll(bots);
-        for (Character character:characters
-             ) {
-            if(character==player){
 
-            }
-        }
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
     }
 
-    private void initContentForSingle() throws IOException{
+    private void initContentForSingle() throws Exception {
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -182,8 +183,8 @@ public class GameView extends View {
             }
 
         }
-        player = new Character(application.getCurrentPlayer().getNickName());
-        System.out.println(application.getCurrentPlayer().getNickName());
+        player = new Character();
+
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
@@ -209,66 +210,67 @@ public class GameView extends View {
     }
 
 
-    public void createView(String type) throws IOException {
-        if(type.equals("SINGLE")){
+    public void createView(String type) throws Exception {
+        if (type.equals("SINGLE")) {
             initContentForSingle();
-        }else{
+        } else {
             initContentForMulti();
         }
-        if(isCreate){
-        }else{
-            scene = new Scene(appRoot);
-        }
+
+  Scene scene = new Scene(appRoot);
+
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
 
-
-
-
-            scene.setOnKeyReleased(event -> {
+        scene.setOnKeyReleased(event -> {
             if (event.getCode().equals(KeyCode.UP)) {
                 player.setJumped(false);
             }
             if (event.getCode().equals(KeyCode.SPACE)) {
                 player.setShoot(false);
             }
-                if (event.getCode().equals(KeyCode.ESCAPE)) {
-                    if (!appRoot.getChildren().contains(menu)) {
-                        timer.stop();
-                        showMenu();
-                    } else {
-                        hideMenu();
-                        timer.start();
-                    }
+            if (event.getCode().equals(KeyCode.ESCAPE)) {
+                if (!appRoot.getChildren().contains(menu)) {
+                    timer.stop();
+                    showMenu();
+                } else {
+                    hideMenu();
+                    timer.start();
                 }
+            }
 
             keys.put(event.getCode(), false);
             player.spriteAnimation.stop();
         });
+        final Long[] time = {System.currentTimeMillis()};
+        timer = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                secondPlayer.setTranslateX(secondPlayerX);
+                secondPlayer.setTranslateY(secondPlayerY);
+                secondPlayer.setHp(secondPlayerHp);
+                updatePlayer();
+                if (System.currentTimeMillis() - time[0] > 5000) {
+//                    try {
+                        gameRoot.getChildren().removeAll(bonuses);
+                        bonuses.clear();
+//                        spawnBonuses();
+//                    }
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+                    time[0] = System.currentTimeMillis();
+                }
+            }
+        };
+
+        timer.start();
+        isCreate = true;
         application.getStage().setScene(scene);
         application.getStage().show();
         application.getStage().setWidth(1000);
         application.getStage().setHeight(800);
-        final Long[] time = {System.currentTimeMillis()};
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                player.updatePlayer();
-
-                if(System.currentTimeMillis()- time[0] >5000){
-                    try {
-                        gameRoot.getChildren().removeAll(bonuses);
-                        bonuses.clear();
-                        spawnBonuses();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    time[0] =System.currentTimeMillis();
-                }
-            }
-        };
-        timer.start();
-        isCreate=true;
     }
 
 
@@ -283,33 +285,86 @@ public class GameView extends View {
     public static int getLevelWidth() {
         return levelWidth;
     }
+
     public void spawnBonuses() throws FileNotFoundException {
-        Bonus bonus1 = new Bonus(400,500,"SHOTGUN_BONUS");
-        Bonus bonus2 = new Bonus(500,500,"TWO_BONUS");
-        Bonus bonus3=new Bonus(600,500,"HP_BONUS");
+        Bonus bonus1 = new Bonus(400, 500, "SHOTGUN_BONUS");
+        Bonus bonus2 = new Bonus(500, 500, "TWO_BONUS");
+        Bonus bonus3 = new Bonus(600, 500, "HP_BONUS");
     }
 
     public static HashMap<KeyCode, Boolean> getKeys() {
         return keys;
     }
+
     public void hideMenu() {
         appRoot.getChildren().remove(menu);
     }
+
     public void showMenu() {
         appRoot.getChildren().add(menu);
     }
-public synchronized void createNewGamer(String name){
-    try {
-        Character character = new Character(name);
-        javafx.application.Platform.runLater(()->{
-            gameRoot.getChildren().addAll(character);
-            GameView.characters.add(character);
 
-        });
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
+    public synchronized void updatePlayer(){
+        if (player.imageView != null) {
+            if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
+                if (!player.position.equals("jump")) {
+                    player.spriteAnimation.stop();
+                    player.setSpriteAnimation("jump");
+                }
+                player.setJumped(true);
+                player.jumpPlayer();
+                player.spriteAnimation.play();
+            }
+
+            if (isPressed(KeyCode.LEFT) && player.getTranslateX() >= 5) {
+                if (player.isJumped()) {
+                    player.setSpriteAnimation("jump");
+                } else {
+                    if (!player.position.equals("run")) {
+                        player.spriteAnimation.stop();
+                        player.setSpriteAnimation("run");
+                    }
+                }
+                player.setScaleX(-1);
+                player.setSide(0);
+                player.moveX(-5);
+                player.spriteAnimation.play();
+            }
+            if (isPressed(KeyCode.RIGHT) && player.getTranslateX() + 40 <= getLevelWidth()) {
+                if (player.isJumped()) {
+                    player.setSpriteAnimation("jump");
+                } else {
+                    if (!player.position.equals("run")) {
+                        player.spriteAnimation.stop();
+                        player.setSpriteAnimation("run");
+                    }
+                }
+
+                player.setScaleX(1);
+                player.setSide(1);
+                player.moveX(5);
+                player.spriteAnimation.play();
+            }
+            if (isPressed(KeyCode.SPACE) && !player.isShoot()) {
+                player.setShoot(true);
+                if (player.getSide() == 0) {
+                    player.getWeapon().Shoot(player.getTranslateX() - 80, player.getTranslateY()+10, player.getSide(),player.getWeapon().getType(),player);
+                } else {
+                    player.getWeapon().Shoot(player.getTranslateX() + 80, player.getTranslateY()+10,player.getSide(),player.getWeapon().getType(),player);
+                }
+            }
+            if (player.playerVelocity.getY() < 10) {
+                player.playerVelocity = player.playerVelocity.add(0, 1);
+            }
+            player.moveY((int) player.playerVelocity.getY());
+        }
+
+    }
+    private boolean isPressed(KeyCode key) {
+        return getKeys().getOrDefault(key, false);
     }
 
 }
 
-}
+
+
