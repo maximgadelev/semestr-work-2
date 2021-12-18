@@ -162,7 +162,7 @@ double y;
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
-            playerService.updateMultiScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
+            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
         } else {
             hp = hp - damage;
         }

@@ -8,12 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
-import ru.kpfu.itis.gadelev.models.Block;
-import ru.kpfu.itis.gadelev.models.Bonus;
-import ru.kpfu.itis.gadelev.models.Bot;
+import ru.kpfu.itis.gadelev.models.*;
 import ru.kpfu.itis.gadelev.models.Character;
 import ru.kpfu.itis.gadelev.server.Client;
 
@@ -250,7 +249,12 @@ public class GameView extends View {
                 secondPlayer.setTranslateX(secondPlayerX);
                 secondPlayer.setTranslateY(secondPlayerY);
                 secondPlayer.setHp(secondPlayerHp);
-                updatePlayer();
+
+                try {
+                    updatePlayer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (System.currentTimeMillis() - time[0] > 5000) {
 //                    try {
                         gameRoot.getChildren().removeAll(bonuses);
@@ -304,7 +308,7 @@ public class GameView extends View {
         appRoot.getChildren().add(menu);
     }
 
-    public synchronized void updatePlayer(){
+    public synchronized void updatePlayer() throws Exception {
         if (player.imageView != null) {
             if (isPressed(KeyCode.UP) && player.getTranslateY() >= 5 && !player.isJumped()) {
                 if (!player.position.equals("jump")) {
@@ -364,6 +368,18 @@ public class GameView extends View {
         return getKeys().getOrDefault(key, false);
     }
 
+    public void addBullets(double x,double y,int side,int damage) throws Exception {
+        javafx.application.Platform.runLater(()->{
+            try {
+                Bullet bullet = new Bullet(x,y,side,damage);
+                gameRoot.getChildren().add(bullet);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+
+    }
 }
 
 

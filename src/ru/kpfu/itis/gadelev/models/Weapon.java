@@ -5,18 +5,22 @@ import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.views.GameView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import static ru.kpfu.itis.gadelev.views.View.getApplication;
+
 public class Weapon {
     String type;
     int damage;
    ImageView weaponImageView;
+   Game game= getApplication();
     Character weaponCharacter;
 
-    public Weapon(String type, Character character) throws FileNotFoundException {
+    public Weapon(String type, Character character) throws Exception {
         this.type=type;
         this.damage=1;
         this.weaponCharacter=character;
@@ -29,22 +33,24 @@ public class Weapon {
         });
     }
 
-    public void Shoot(double x, double y, int side, String type,Character weaponCharacter){
+    public void Shoot(double x, double y, int side, String type,Character weaponCharacter) throws Exception {
         if(type.equals("SHOTGUN")){
-            Bullet bullet1=new Bullet(x,y,side,damage, this.weaponCharacter);
-            Bullet bullet2=new Bullet(x,y-30,side,damage, weaponCharacter);
-            Bullet bullet3=new Bullet(x,y+20,side,damage, weaponCharacter);
+            Bullet bullet1=new Bullet(x,y,side,damage);
+            Bullet bullet2=new Bullet(x,y-30,side,damage);
+            Bullet bullet3=new Bullet(x,y+20,side,damage);
+
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
             GameView.gameRoot.getChildren().add(bullet3);
         }
         if(type.equals("PISTOL")){
-            Bullet bullet1 = new Bullet(x,y, side,damage, weaponCharacter);
+            Bullet bullet1 = new Bullet(x,y, side,damage);
+            game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage +"\n");
             GameView.gameRoot.getChildren().add(bullet1);
         }
         if(type.equals("TWO_BONUS")){
-            Bullet bullet1=new Bullet(x,y,side,damage, weaponCharacter);
-            Bullet bullet2=new Bullet(x,y-30,side,damage, weaponCharacter);
+            Bullet bullet1=new Bullet(x,y,side,damage);
+            Bullet bullet2=new Bullet(x,y-30,side,damage);
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
         }

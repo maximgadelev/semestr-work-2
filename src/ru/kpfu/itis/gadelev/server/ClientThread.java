@@ -33,15 +33,21 @@ public class ClientThread implements Runnable {
         try {
             while (true) {
                 String message = input.readLine();
-                String [] directions=message.split(" ");
-                if(directions[0].equals("move")) {
-                    client.getGame().getGameView().secondPlayerX = Double.parseDouble(message.split(" ")[1]);
-                    client.getGame().getGameView().secondPlayerY = Double.parseDouble(message.split(" ")[2]);
-                    client.getGame().getGameView().secondPlayerHp=Integer.parseInt(message.split(" ")[3]);
-                    System.out.println(client.getGame().getGameView().secondPlayerHp);
+                if (message != null) {
+                    String[] directions = message.split(" ");
+                    if (directions[0].equals("move")) {
+                        client.getGame().getGameView().secondPlayerX = Double.parseDouble(directions[1]);
+                        client.getGame().getGameView().secondPlayerY = Double.parseDouble(directions[2]);
+                        client.getGame().getGameView().secondPlayerHp = Integer.parseInt(directions[3]);
+                    }
+                    if (directions[0].equals("bullet")) {
+                        System.out.println(directions[1]);
+                        System.out.println(directions[2]);
+                        client.getGame().getGameView().addBullets(Double.parseDouble(directions[1]), Double.parseDouble(directions[2]),Integer.parseInt(directions[3]),Integer.parseInt(directions[4]));
+                    }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
