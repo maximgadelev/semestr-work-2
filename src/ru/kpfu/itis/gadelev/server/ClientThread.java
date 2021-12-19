@@ -38,12 +38,21 @@ public class ClientThread implements Runnable {
                     if (directions[0].equals("move")) {
                         client.getGame().getGameView().secondPlayerX = Double.parseDouble(directions[1]);
                         client.getGame().getGameView().secondPlayerY = Double.parseDouble(directions[2]);
-                        client.getGame().getGameView().secondPlayerHp = Integer.parseInt(directions[3]);
+                        client.getGame().getGameView().secondPlayerName = directions[3];
+
                     }
                     if (directions[0].equals("bullet")) {
-                        System.out.println(directions[1]);
-                        System.out.println(directions[2]);
                         client.getGame().getGameView().addBullets(Double.parseDouble(directions[1]), Double.parseDouble(directions[2]),Integer.parseInt(directions[3]),Integer.parseInt(directions[4]));
+
+                    }
+                    if(directions[0].equals("died")){
+                      client.getGame().getGameView().deletePlayer(directions[1]);
+
+                    }
+                    if(directions[0].equals("win")){
+                     client.getGame().getGameView().showWinMenu(client.game.getStage(),directions[1]);
+                        System.out.println(directions[1]);
+                        System.out.println(message);
                     }
                 }
             }

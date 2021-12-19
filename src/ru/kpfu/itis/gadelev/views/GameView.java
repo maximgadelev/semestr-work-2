@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
@@ -20,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameView extends View {
     public static ArrayList<Block> platforms = new ArrayList<>();
@@ -38,7 +40,7 @@ public class GameView extends View {
     public Character secondPlayer;
     public double secondPlayerX;
     public double secondPlayerY;
-    public int secondPlayerHp;
+    public String secondPlayerName;
 
 
 
@@ -58,6 +60,7 @@ public class GameView extends View {
 
     public static GameView gameView;
     AnimationTimer timer;
+    WinMenu winMenu;
 
     static {
         try {
@@ -122,16 +125,10 @@ public class GameView extends View {
         player = new Character("first");
         player.setTranslateX(0);
         player.setTranslateY(250);
+        System.out.println(player.getName());
         characters.add(player);
         secondPlayer=new Character("second");
-         characters.add(secondPlayer);
-//        player.translateXProperty().addListener((obs, old, newValue) -> {
-//            int offset = newValue.intValue();
-//            if (offset > 640 && offset < levelWidth - 640) {
-//                gameRoot.setLayoutX(-(offset - 640));
-//
-//            }
-//        });
+        characters.add(secondPlayer);
         try {
             menu = new GameMenu(this).createMenu();
         } catch (Exception e) {
@@ -246,9 +243,11 @@ public class GameView extends View {
 
             @Override
             public void handle(long now) {
+
                 secondPlayer.setTranslateX(secondPlayerX);
                 secondPlayer.setTranslateY(secondPlayerY);
-                secondPlayer.setHp(secondPlayerHp);
+                secondPlayer.setName(secondPlayerName);
+
 
                 try {
                     updatePlayer();
@@ -378,9 +377,29 @@ public class GameView extends View {
             }
         });
 
-
     }
+
+
+ public void deletePlayer(String name){
+     CopyOnWriteArrayList<Character> charactersToDelete=new CopyOnWriteArrayList<>();
+     for (Character character:characters
+          ) {
+         if(character.getName().equals(name)){
+             charactersToDelete.add(character);
+         }
+     }
+     javafx.application.Platform.runLater(()->{
+         gameRoot.getChildren().removeAll(charactersToDelete);
+             application.getClient().sendMessage("win" + " " +characters.get(0).getName()+"\n");
+             showWinMenu(application.getStage(),characters.get(0).getName());
+     });
+ }
+
+ public void showWinMenu(Stage stage, String name){
+        winMenu=new WinMenu(stage,name);
+ }
 }
+
 
 
 

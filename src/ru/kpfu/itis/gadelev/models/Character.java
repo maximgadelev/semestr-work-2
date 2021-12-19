@@ -5,7 +5,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -24,7 +23,6 @@ import static ru.kpfu.itis.gadelev.views.View.getApplication;
 
 
 public class Character extends Pane {
-    PlayerService<PlayerDto> playerService = new PlayerServiceImpl();
     private int side;
     public Point2D playerVelocity = new Point2D(0, 0);
 
@@ -48,8 +46,8 @@ public class Character extends Pane {
 
     ImageView hpView;
     Text hpText=new Text();
-double x;
-double y;
+
+    public boolean isDead=false;
     public int getSide() {
         return side;
     }
@@ -71,7 +69,7 @@ double y;
     }
 
     public void moveX(int value) {
-        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " 7" + "\n");
+        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getName() +"\n");
         boolean movingRight = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Node platform : GameView.platforms) {
@@ -95,7 +93,7 @@ double y;
     }
 
     public void moveY(int value) {
-        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getHp() + "\n");
+        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getName() +"\n");
         boolean movingDown = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Block platform : GameView.platforms) {
@@ -159,11 +157,14 @@ double y;
 
     public synchronized void getDamage(int damage) {
         if (hp <= 1) {
+            hp=0;
             getChildren().remove(imageView);
             imageView = null;
+            this.isDead=true;
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
+            game.getClient().sendMessage("died" + " " + this.getName() + "\n");
 //            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
         } else {
             hp = hp - damage;
@@ -284,6 +285,10 @@ double y;
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }
 
