@@ -28,9 +28,11 @@ public class Weapon {
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
         weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
-        javafx.application.Platform.runLater(()-> {
-            GameView.gameRoot.getChildren().add(weaponImageView);
-        });
+        if(character.getType().equals("first")) {
+            javafx.application.Platform.runLater(() -> {
+                GameView.gameRoot.getChildren().add(weaponImageView);
+            });
+        }
     }
 
     public void Shoot(double x, double y, int side, String type,Character weaponCharacter) throws Exception {

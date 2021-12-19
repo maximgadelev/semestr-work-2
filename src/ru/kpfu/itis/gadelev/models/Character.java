@@ -45,6 +45,8 @@ public class Character extends Pane {
     Text hpText=new Text();
 
     public boolean isDead=false;
+
+    public String type;
     public int getSide() {
         return side;
     }
@@ -55,6 +57,7 @@ public class Character extends Pane {
 
     public Character(String type) throws Exception {
         this.side = 1;
+        this.type=type;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
         this.name=game.getCurrentPlayer().getNickName();
@@ -291,6 +294,10 @@ public class Character extends Pane {
 
     public boolean isDead() {
         return isDead;
+    }
+
+    public String getType() {
+        return type;
     }
 }
 
