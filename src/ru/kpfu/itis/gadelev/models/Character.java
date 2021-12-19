@@ -9,6 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dao.impl.PlayerDaoImpl;
+import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.views.GameView;
 import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
@@ -32,6 +35,8 @@ public class Character extends Pane {
     Bonus currentBonus = null;
     String name;
     int singleScore;
+    int multiscore;
+    int idPlayer;
 
 
     public SpriteAnimation spriteAnimation;
@@ -40,6 +45,7 @@ public class Character extends Pane {
     public ImageView imageView;
     public String position;
 
+    PlayerDao<Player> playerDaoPlayerDao = new PlayerDaoImpl();
 
     ImageView hpView;
     Text hpText=new Text();
@@ -56,7 +62,10 @@ public class Character extends Pane {
     }
 
     public Character(String type) throws Exception {
+        this.multiscore=playerDaoPlayerDao.getByNickName(game.getCurrentPlayer().getNickName()).getMultiScore();
+        this.singleScore=playerDaoPlayerDao.getByNickName(game.getCurrentPlayer().getNickName()).getSingleScore();
         this.side = 1;
+        this.idPlayer=game.getCurrentPlayer().getId();
         this.type=type;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
@@ -208,7 +217,7 @@ public class Character extends Pane {
 
     public void setSpriteAnimation(String animationType) {
         if (animationType.equals("run")) {
-            if (imageView != null) {
+            if (this.imageView != null) {
                 javafx.application.Platform.runLater(()->{
                     getChildren().remove(imageView);
                     this.imageView.setImage(runImage);
@@ -221,19 +230,20 @@ public class Character extends Pane {
             this.imageView.setFitWidth(70);
             this.imageView.setViewport(new Rectangle2D(0, 0, 45, 52));
             this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(1000), 6, 6, 0, 0, 45, 52);
+
             javafx.application.Platform.runLater(()-> {
                 getChildren().add(imageView);
             });
         } else {
             if (animationType.equals("jump")) {
-                if (imageView != null) {
+                if (this.imageView != null) {
                     javafx.application.Platform.runLater(()-> {
-                        getChildren().remove(imageView);
-                        this.imageView.setImage(jumpImage);
+                        getChildren().remove(this.imageView);
+                        this.imageView.setImage(this.jumpImage);
                     });
                 } else {
                     javafx.application.Platform.runLater(()-> {
-                        this.imageView = new ImageView(jumpImage);
+                        this.imageView = new ImageView(this.jumpImage);
                     });
                 }
                 this.position=animationType;
@@ -241,8 +251,9 @@ public class Character extends Pane {
                 this.imageView.setFitWidth(70);
                 this.imageView.setViewport(new Rectangle2D(0, 0, 35, 52));
                 this.spriteAnimation = new SpriteAnimation(this.imageView, Duration.millis(500), 1, 1, 144, 0, 35, 52);
+
                 javafx.application.Platform.runLater(()-> {
-                    getChildren().add(imageView);
+                    getChildren().add(this.imageView);
                 });
             }
         }
@@ -298,6 +309,22 @@ public class Character extends Pane {
 
     public String getType() {
         return type;
+    }
+
+    public int getMultiscore() {
+        return multiscore;
+    }
+
+    public int getSingleScore() {
+        return singleScore;
+    }
+
+    public void setMultiscore(int multiscore) {
+        this.multiscore = multiscore;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
     }
 }
 

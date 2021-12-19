@@ -12,6 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dao.impl.PlayerDaoImpl;
+import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 
 
 public class WinMenu {
@@ -21,7 +24,7 @@ public class WinMenu {
     Button button;
     Stage stage;
     String winner;
-
+PlayerDao<Player> playerPlayerDao = new PlayerDaoImpl();
     public WinMenu(Stage stage,String winner){
         this.stage=stage;
         this.winner=winner;
@@ -45,7 +48,8 @@ public class WinMenu {
             button.setMaxWidth(200);
             button.setFont(font);
             button.setOnAction(closeEvent);
-            Label label=new Label(winner + " WIN!!!");
+            Player player=playerPlayerDao.getByNickName(winner);
+            Label label=new Label(winner + " WIN!!!" + " his score is " +player.getMultiScore());
             label.setFont(font);
             label.setTextFill(Color.RED);
             vbox.getChildren().add(label);

@@ -9,6 +9,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import ru.kpfu.itis.gadelev.dao.PlayerDao;
+import ru.kpfu.itis.gadelev.dao.impl.PlayerDaoImpl;
+import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
 import ru.kpfu.itis.gadelev.game.LevelData;
@@ -40,7 +43,7 @@ public class GameView extends View {
     public double secondPlayerX;
     public double secondPlayerY;
     public String secondPlayerName;
-
+    public String secondPlayerAnim;
 
 
     int levelNumber = 0;
@@ -61,6 +64,7 @@ public class GameView extends View {
     AnimationTimer timer;
     WinMenu winMenu;
 
+    PlayerDao<Player> playerDaoPlayerDao = new PlayerDaoImpl();
     static {
         try {
             gameView = new GameView();
@@ -250,6 +254,7 @@ public class GameView extends View {
                 secondPlayer.setTranslateX(secondPlayerX);
                 secondPlayer.setTranslateY(secondPlayerY);
                 secondPlayer.setName(secondPlayerName);
+
                 try {
                     updatePlayer();
                 } catch (Exception e) {
@@ -384,6 +389,8 @@ public class GameView extends View {
      }
      javafx.application.Platform.runLater(()->{
          gameRoot.getChildren().removeAll(charactersToDelete);
+         characters.get(0).setMultiscore(characters.get(0).getMultiscore()+1);
+         playerDaoPlayerDao.updateMultiScore(characters.get(0).getIdPlayer(),characters.get(0).getMultiscore());
              application.getClient().sendMessage("win" + " " +characters.get(0).getName()+"\n");
              showWinMenu(application.getStage(),characters.get(0).getName());
      });
@@ -413,6 +420,7 @@ public class GameView extends View {
             gameRoot.getChildren().removeAll(bonuses2);
         });
     }
+
 }
 
 

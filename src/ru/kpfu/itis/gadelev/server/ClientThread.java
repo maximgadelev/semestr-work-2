@@ -39,7 +39,6 @@ public class ClientThread implements Runnable {
                         client.getGame().getGameView().secondPlayerX = Double.parseDouble(directions[1]);
                         client.getGame().getGameView().secondPlayerY = Double.parseDouble(directions[2]);
                         client.getGame().getGameView().secondPlayerName = directions[3];
-
                     }
                     if (directions[0].equals("bullet")) {
                         client.getGame().getGameView().addBullets(Double.parseDouble(directions[1]), Double.parseDouble(directions[2]),Integer.parseInt(directions[3]),Integer.parseInt(directions[4]));
@@ -52,7 +51,6 @@ public class ClientThread implements Runnable {
                     if(directions[0].equals("win")){
                      client.getGame().getGameView().showWinMenu(client.game.getStage(),directions[1]);
                         System.out.println(directions[1]);
-                        System.out.println(message);
                     }
                     if(directions[0].equals("bonus")){
                         client.getGame().getGameView().spawnBonusToRoot(Double.parseDouble(directions[1]),Double.parseDouble(directions[2]),directions[3]);
