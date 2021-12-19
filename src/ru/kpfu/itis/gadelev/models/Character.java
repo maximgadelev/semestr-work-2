@@ -58,13 +58,15 @@ double y;
         this.side = side;
     }
 
-    public Character() throws Exception {
+    public Character(String type) throws Exception {
         this.side = 1;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
         this.name=game.getCurrentPlayer().getNickName();
         this.singleScore=0;
-        initHp();
+        if(type.equals("first")) {
+            initHp();
+        }
         setSpriteAnimation(position);
     }
 
@@ -162,7 +164,7 @@ double y;
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
-            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
+//            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
         } else {
             hp = hp - damage;
         }
@@ -251,8 +253,8 @@ double y;
         hpText.setLayoutY(80);
         hpText.setFont(Font.font(30));
         javafx.application.Platform.runLater(()->{
-                    GameView.appRoot.getChildren().add(hpText);
-                    GameView.appRoot.getChildren().add(hpView);
+                    GameView.gameRoot.getChildren().add(hpText);
+                    GameView.gameRoot.getChildren().add(hpView);
                 }
                 );
 

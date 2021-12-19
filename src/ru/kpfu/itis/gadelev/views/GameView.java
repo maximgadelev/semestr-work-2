@@ -119,11 +119,11 @@ public class GameView extends View {
             }
 
         }
-        player = new Character();
+        player = new Character("first");
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
-        secondPlayer=new Character();
+        secondPlayer=new Character("second");
          characters.add(secondPlayer);
 //        player.translateXProperty().addListener((obs, old, newValue) -> {
 //            int offset = newValue.intValue();
@@ -182,7 +182,7 @@ public class GameView extends View {
             }
 
         }
-        player = new Character();
+        player = new Character("first");
 
         player.setTranslateX(0);
         player.setTranslateY(250);
