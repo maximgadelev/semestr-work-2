@@ -45,7 +45,7 @@ public class WinMenu {
             button.setMaxWidth(200);
             button.setFont(font);
             button.setOnAction(closeEvent);
-            Label label=new Label(winner + "WIN!!!");
+            Label label=new Label(winner + " WIN!!!");
             label.setFont(font);
             label.setTextFill(Color.RED);
             vbox.getChildren().add(label);

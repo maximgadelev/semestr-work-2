@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.game.GameMenu;
@@ -214,7 +213,11 @@ public class GameView extends View {
         }
 
   Scene scene = new Scene(appRoot);
-
+        try {
+            spawnBonusesToServer();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
 
@@ -247,24 +250,14 @@ public class GameView extends View {
                 secondPlayer.setTranslateX(secondPlayerX);
                 secondPlayer.setTranslateY(secondPlayerY);
                 secondPlayer.setName(secondPlayerName);
-
-
                 try {
                     updatePlayer();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if (System.currentTimeMillis() - time[0] > 5000) {
-//                    try {
-                        gameRoot.getChildren().removeAll(bonuses);
-                        bonuses.clear();
-//                        spawnBonuses();
-//                    }
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-                    time[0] = System.currentTimeMillis();
-                }
+
+
+
             }
         };
 
@@ -289,11 +282,12 @@ public class GameView extends View {
         return levelWidth;
     }
 
-    public void spawnBonuses() throws FileNotFoundException {
-        Bonus bonus1 = new Bonus(400, 500, "SHOTGUN_BONUS");
-        Bonus bonus2 = new Bonus(500, 500, "TWO_BONUS");
-        Bonus bonus3 = new Bonus(600, 500, "HP_BONUS");
+    public void spawnBonusesToServer() throws FileNotFoundException {
+        application.getClient().sendMessage("bonus"+ " " + 400 + " " + 500 + " " + "SHOTGUN_BONUS" + "\n");
+        application.getClient().sendMessage("bonus"+ " " + 500 + " " + 500+ " " + "TWO_BONUS" + "\n");
+        application.getClient().sendMessage("bonus"+ " " + 600 + " " + 500 + " " + "HP_BONUS" + "\n");
     }
+
 
     public static HashMap<KeyCode, Boolean> getKeys() {
         return keys;
@@ -397,7 +391,28 @@ public class GameView extends View {
 
  public void showWinMenu(Stage stage, String name){
         winMenu=new WinMenu(stage,name);
- }
+    }
+   public void spawnBonusToRoot(double x,double y,String type) throws FileNotFoundException {
+        Bonus bonus = new Bonus(x,y,type);
+        javafx.application.Platform.runLater(()->{
+            bonuses.add(bonus);
+            gameRoot.getChildren().add(bonus);
+        });
+
+    }
+    public void removeBonus(String type){
+        CopyOnWriteArrayList<Bonus> bonuses2 = new CopyOnWriteArrayList<>();
+        for (Bonus bonus:bonuses
+             ) {
+            if(bonus.getType().equals(type)){
+                bonuses2.add(bonus);
+            }
+        }
+        javafx.application.Platform.runLater(()->{
+            bonuses.removeAll(bonuses2);
+            gameRoot.getChildren().removeAll(bonuses2);
+        });
+    }
 }
 
 

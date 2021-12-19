@@ -41,9 +41,9 @@ public class Bonus extends Pane {
             bonusImageView.setFitHeight(40);
             bonusImageView.setViewport(new Rectangle2D(0, 0, 2000, 2000));
         }
-        getChildren().add(bonusImageView);
-        GameView.bonuses.add(this);
-        GameView.gameRoot.getChildren().add(this);
+        javafx.application.Platform.runLater(()->{
+            getChildren().add(bonusImageView);
+        });
     }
 
     public String getType() {

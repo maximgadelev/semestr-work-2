@@ -54,6 +54,12 @@ public class ClientThread implements Runnable {
                         System.out.println(directions[1]);
                         System.out.println(message);
                     }
+                    if(directions[0].equals("bonus")){
+                        client.getGame().getGameView().spawnBonusToRoot(Double.parseDouble(directions[1]),Double.parseDouble(directions[2]),directions[3]);
+                    }
+                    if(directions[0].equals("taken")){
+                        client.getGame().getGameView().removeBonus(directions[1]);
+                    }
                 }
             }
         } catch (Exception e) {

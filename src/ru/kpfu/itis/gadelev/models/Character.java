@@ -9,10 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import ru.kpfu.itis.gadelev.dto.PlayerDto;
 import ru.kpfu.itis.gadelev.game.Game;
-import ru.kpfu.itis.gadelev.service.PlayerService;
-import ru.kpfu.itis.gadelev.service.impl.PlayerServiceImpl;
 import ru.kpfu.itis.gadelev.views.GameView;
 import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
 
@@ -191,9 +188,14 @@ public class Character extends Pane {
                     }
                 }
         );
-
-        GameView.gameRoot.getChildren().remove(currentBonus);
-        GameView.bonuses.remove(currentBonus);
+        if(currentBonus!=null) {
+            game.getClient().sendMessage("taken" + " " + currentBonus.type + "\n");
+            javafx.application.Platform.runLater(() -> {
+                        GameView.gameRoot.getChildren().remove(currentBonus);
+                        GameView.bonuses.remove(currentBonus);
+                    }
+            );
+        }
     }
 
     public Weapon getWeapon() {
