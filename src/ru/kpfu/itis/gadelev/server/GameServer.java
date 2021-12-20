@@ -43,10 +43,7 @@ public class GameServer {
         clients.remove(gameServerThread);
     }
 
-//    public static void main(String[] args) throws IOException {
-//        GameServer gameServer = new GameServer();
-//        gameServer.start();
-//    }
+
 
     public List<GameServerThread> getClients() {
         return clients;

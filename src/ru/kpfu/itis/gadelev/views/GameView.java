@@ -91,7 +91,7 @@ Scene scene;
 
     private void initContentForMulti() throws Exception {
 
-
+        appRoot = new Pane();
         ImageView backgroundIV = new ImageView(backgroundImg);
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
@@ -129,11 +129,11 @@ Scene scene;
 
         }
         player = new Character("first","MULTI");
-        player.setTranslateX(0);
+        player.setTranslateX(160);
         player.setTranslateY(250);
-        System.out.println(player.getName());
         characters.add(player);
         secondPlayer=new Character("second","MULTI");
+
         characters.add(secondPlayer);
         try {
             menu = new GameMenu(this).createMenu();
@@ -188,7 +188,7 @@ Scene scene;
         }
         player = new Character("first","SINGLE");
 
-        player.setTranslateX(0);
+        player.setTranslateX(150);
         player.setTranslateY(250);
         characters.add(player);
 
@@ -215,13 +215,12 @@ Scene scene;
             this.type="MULTI";
             initContentForMulti();
         }
-  scene = new Scene(appRoot);
-        try {
-            if(type.equals("MULTI")){
-                spawnBonusesToServer();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        scene = new Scene(appRoot);
+        if(type.equals("MULTI")){
+
+            application.getClient().sendMessage("bonus"+ " " + 400 + " " + 500 + " " + "SHOTGUN_BONUS" + "\n");
+            application.getClient().sendMessage("bonus"+ " " + 500 + " " + 500+ " " + "TWO_BONUS" + "\n");
+            application.getClient().sendMessage("bonus"+ " " + 700 + " " + 230 + " " + "HP_BONUS" + "\n");
         }
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 
@@ -289,11 +288,7 @@ if(type.equals("MULTI")) {
         return levelWidth;
     }
 
-    public void spawnBonusesToServer() throws FileNotFoundException {
-        application.getClient().sendMessage("bonus"+ " " + 400 + " " + 500 + " " + "SHOTGUN_BONUS" + "\n");
-        application.getClient().sendMessage("bonus"+ " " + 500 + " " + 500+ " " + "TWO_BONUS" + "\n");
-        application.getClient().sendMessage("bonus"+ " " + 600 + " " + 500 + " " + "HP_BONUS" + "\n");
-    }
+
 
 
     public static HashMap<KeyCode, Boolean> getKeys() {
@@ -403,9 +398,9 @@ if(type.equals("MULTI")) {
     }
    public void spawnBonusToRoot(double x,double y,String type) throws FileNotFoundException {
         Bonus bonus = new Bonus(x,y,type);
+        application.getClient().getGame().getGameView().bonuses.add(bonus);
         javafx.application.Platform.runLater(()->{
-            bonuses.add(bonus);
-            gameRoot.getChildren().add(bonus);
+            application.getClient().getGame().getGameView().gameRoot.getChildren().addAll(bonus);
         });
 
     }
@@ -422,7 +417,6 @@ if(type.equals("MULTI")) {
             gameRoot.getChildren().removeAll(bonuses2);
         });
     }
-
     public String getType() {
         return type;
     }

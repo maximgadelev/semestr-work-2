@@ -31,7 +31,7 @@ public class Character extends Pane {
     private boolean isShoot = false;
       Game game = getApplication();
     Weapon weapon;
-    private int hp = 3;
+    private int hp;
     Bonus currentBonus = null;
     String name;
     int singleScore;
@@ -68,6 +68,7 @@ String typeOfMulti;
         this.typeOfMulti=typeOfMulti;
         this.idPlayer=game.getCurrentPlayer().getId();
         this.type=type;
+        this.hp=3;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
         this.name=game.getCurrentPlayer().getNickName();
@@ -188,11 +189,11 @@ String typeOfMulti;
         hpText.setText(String.valueOf(this.hp));
     }
 
-    public synchronized void  isBonusEaten() {
+    public  void  isBonusEaten() {
         GameView.bonuses.forEach((rect) -> {
-                    if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS")) {
-                        this.setHp(this.getHp() + 2);
-                        hpText.setText(String.valueOf(this.getHp()));
+                    if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS") && this.getHp()>=3 && this.getHp()<5) {
+                        this.setHp(this.hp+2);
+                        this.hpText.setText(String.valueOf(this.hp));
                         currentBonus = rect;
                     }
                     if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("SHOTGUN_BONUS")) {
@@ -207,7 +208,8 @@ String typeOfMulti;
                     }
                 }
         );
-        if(currentBonus!=null) {
+
+        if(currentBonus!=null){
             game.getClient().sendMessage("taken" + " " + currentBonus.type + "\n");
             javafx.application.Platform.runLater(() -> {
                         GameView.gameRoot.getChildren().remove(currentBonus);
