@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class GameView extends View {
+    public String type;
     public static ArrayList<Block> platforms = new ArrayList<>();
     private static HashMap<KeyCode, Boolean> keys = new HashMap<>();
     public static ArrayList<Character> characters = new ArrayList<>();
@@ -43,8 +44,8 @@ public class GameView extends View {
     public double secondPlayerX;
     public double secondPlayerY;
     public String secondPlayerName;
-    public String secondPlayerAnim;
 
+Scene scene;
 
     int levelNumber = 0;
     private static int levelWidth;
@@ -65,6 +66,7 @@ public class GameView extends View {
     WinMenu winMenu;
 
     PlayerDao<Player> playerDaoPlayerDao = new PlayerDaoImpl();
+
     static {
         try {
             gameView = new GameView();
@@ -74,6 +76,7 @@ public class GameView extends View {
     }
 
     public GameView() throws Exception {
+
     }
 
     @Override
@@ -125,12 +128,12 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("first");
+        player = new Character("first","MULTI");
         player.setTranslateX(0);
         player.setTranslateY(250);
         System.out.println(player.getName());
         characters.add(player);
-        secondPlayer=new Character("second");
+        secondPlayer=new Character("second","MULTI");
         characters.add(secondPlayer);
         try {
             menu = new GameMenu(this).createMenu();
@@ -147,6 +150,7 @@ public class GameView extends View {
 
     private void initContentForSingle() throws Exception {
         ImageView backgroundIV = new ImageView(backgroundImg);
+        appRoot = new Pane();
         backgroundIV.setFitHeight(640);
         backgroundIV.setFitWidth(1000);
 
@@ -182,19 +186,13 @@ public class GameView extends View {
             }
 
         }
-        player = new Character("first");
+        player = new Character("first","SINGLE");
 
         player.setTranslateX(0);
         player.setTranslateY(250);
         characters.add(player);
 
-//        player.translateXProperty().addListener((obs, old, newValue) -> {
-//            int offset = newValue.intValue();
-//            if (offset > 640 && offset < levelWidth - 640) {
-//                gameRoot.setLayoutX(-(offset - 640));
-//
-//            }
-//        });
+
         try {
             menu = new GameMenu(this).createMenu();
         } catch (Exception e) {
@@ -211,14 +209,17 @@ public class GameView extends View {
 
     public void createView(String type) throws Exception {
         if (type.equals("SINGLE")) {
+            this.type="SINGLE";
             initContentForSingle();
         } else {
+            this.type="MULTI";
             initContentForMulti();
         }
-
-  Scene scene = new Scene(appRoot);
+  scene = new Scene(appRoot);
         try {
-            spawnBonusesToServer();
+            if(type.equals("MULTI")){
+                spawnBonusesToServer();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -251,10 +252,11 @@ public class GameView extends View {
             @Override
             public void handle(long now) {
 
-                secondPlayer.setTranslateX(secondPlayerX);
-                secondPlayer.setTranslateY(secondPlayerY);
-                secondPlayer.setName(secondPlayerName);
-
+if(type.equals("MULTI")) {
+    secondPlayer.setTranslateX(secondPlayerX);
+    secondPlayer.setTranslateY(secondPlayerY);
+    secondPlayer.setName(secondPlayerName);
+}
                 try {
                     updatePlayer();
                 } catch (Exception e) {
@@ -421,6 +423,17 @@ public class GameView extends View {
         });
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public static GameView getGameView() {
+        return gameView;
+    }
 }
 
 

@@ -56,15 +56,16 @@ public class Character extends Pane {
     public int getSide() {
         return side;
     }
-
+String typeOfMulti;
     public void setSide(int side) {
         this.side = side;
     }
 
-    public Character(String type) throws Exception {
+    public Character(String type,String typeOfMulti) throws Exception {
         this.multiscore=playerDaoPlayerDao.getByNickName(game.getCurrentPlayer().getNickName()).getMultiScore();
         this.singleScore=playerDaoPlayerDao.getByNickName(game.getCurrentPlayer().getNickName()).getSingleScore();
         this.side = 1;
+        this.typeOfMulti=typeOfMulti;
         this.idPlayer=game.getCurrentPlayer().getId();
         this.type=type;
         this.weapon = new Weapon("PISTOL",this);
@@ -78,7 +79,9 @@ public class Character extends Pane {
     }
 
     public void moveX(int value) {
-        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getName() +"\n");
+        if(this.typeOfMulti.equals("MULTI")) {
+            game.getClient().sendMessage("move" + " " + this.getTranslateX() + " " + this.getTranslateY() + " " + this.getName() + "\n");
+        }
         boolean movingRight = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Node platform : GameView.platforms) {
@@ -102,7 +105,9 @@ public class Character extends Pane {
     }
 
     public void moveY(int value) {
-        game.getClient().sendMessage("move"+ " " + this.getTranslateX() + " " + this.getTranslateY()+ " " + this.getName() +"\n");
+        if(this.typeOfMulti.equals("MULTI")) {
+            game.getClient().sendMessage("move" + " " + this.getTranslateX() + " " + this.getTranslateY() + " " + this.getName() + "\n");
+        }
         boolean movingDown = value > 0;
         for (int i = 0; i < Math.abs(value); i++) {
             for (Block platform : GameView.platforms) {
@@ -173,7 +178,9 @@ public class Character extends Pane {
             GameView.gameRoot.getChildren().remove(imageView);
             currentBonus = null;
             weapon.setType("PISTOL");
-            game.getClient().sendMessage("died" + " " + this.getName() + "\n");
+            if(typeOfMulti.equals("MULTI")) {
+                game.getClient().sendMessage("died" + " " + this.getName() + "\n");
+            }
 //            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
         } else {
             hp = hp - damage;

@@ -40,23 +40,29 @@ public class Weapon {
             Bullet bullet1=new Bullet(x,y,side,damage);
             Bullet bullet2=new Bullet(x,y-30,side,damage);
             Bullet bullet3=new Bullet(x,y+20,side,damage);
+            if(weaponCharacter.typeOfMulti.equals("MULTI")) {
             game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage +"\n");
             game.getClient().sendMessage("bullet" + " " + x + " " + (y-30) + " " + side + " " + damage +"\n");
             game.getClient().sendMessage("bullet" + " " + x + " " + (y+20) + " " + side + " " + damage +"\n");
+            }
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
             GameView.gameRoot.getChildren().add(bullet3);
         }
         if(type.equals("PISTOL")){
             Bullet bullet1 = new Bullet(x,y, side,damage);
-            game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage +"\n");
+            if(weaponCharacter.typeOfMulti.equals("MULTI")) {
+                game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage + "\n");
+            }
             GameView.gameRoot.getChildren().add(bullet1);
         }
         if(type.equals("TWO_BONUS")){
             Bullet bullet1=new Bullet(x,y,side,damage);
             Bullet bullet2=new Bullet(x,y-30,side,damage);
-            game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage +"\n");
-            game.getClient().sendMessage("bullet" + " " + x + " " + (y-30) + " " + side + " " + damage +"\n");
+            if(weaponCharacter.typeOfMulti.equals("MULTI")) {
+                game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage + "\n");
+                game.getClient().sendMessage("bullet" + " " + x + " " + (y - 30) + " " + side + " " + damage + "\n");
+            }
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
         }
