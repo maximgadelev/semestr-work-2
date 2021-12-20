@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class GameServer {
-    private static final int PORT = 5555;
+    private  int PORT;
     private ServerSocket socket;
     private final List<GameServerThread> clients = new ArrayList<>();
 
@@ -43,8 +43,16 @@ public class GameServer {
         clients.remove(gameServerThread);
     }
 
-    public static void main(String[] args) throws IOException {
-        GameServer gameServer = new GameServer();
-        gameServer.start();
+//    public static void main(String[] args) throws IOException {
+//        GameServer gameServer = new GameServer();
+//        gameServer.start();
+//    }
+
+    public List<GameServerThread> getClients() {
+        return clients;
     }
+    public GameServer(int PORT){
+        this.PORT=PORT;
+    }
+
 }

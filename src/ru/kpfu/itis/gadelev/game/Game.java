@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.server.Client;
+import ru.kpfu.itis.gadelev.server.GameServer;
 import ru.kpfu.itis.gadelev.views.*;
 
 import java.io.IOException;
@@ -37,7 +38,10 @@ public class Game extends Application {
     public Scene scene;
 
     Player currentPlayer;
-    Client client;
+
+    public Client client;
+
+    public GameServer gameServer;
     public void setApplicationSize(int width, int height) {
         this.getStage().setWidth(width);
         this.getStage().setHeight(height);
@@ -100,8 +104,7 @@ public class Game extends Application {
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
             }
-            this.client=new Client(this);
-            client.start();
+
             gameView.createView("MULTI");
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,5 +162,13 @@ public void backToMenu(){
     public Client getClient() {
         return client;
     }
+
+    public void setGameServer(GameServer gameServer) {
+        this.gameServer = gameServer;
+    }
+    public void startClient(int port) throws IOException {
+        getClient().start(port);
+    }
+
 }
 

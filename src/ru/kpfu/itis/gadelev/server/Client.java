@@ -26,8 +26,8 @@ public class Client {
         }
     }
 
-    public void start() throws IOException {
-        socket = new Socket("127.0.0.1", 5555);
+    public void start(int port) throws IOException {
+        socket = new Socket("127.0.0.1", port);
 
         BufferedWriter output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));

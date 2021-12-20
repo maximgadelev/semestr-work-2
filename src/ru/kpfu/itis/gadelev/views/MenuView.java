@@ -38,7 +38,7 @@ public class MenuView extends View {
         public void handle(ActionEvent actionEvent) {
             if(multiPlayer==actionEvent.getSource()){
                 try {
-                    application.startmultiGame();
+                    application.setView(new Lobby());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
