@@ -49,6 +49,7 @@ public class Character extends Pane {
 
     ImageView hpView;
     Text hpText=new Text();
+    Text nickText=new Text();
 
     public boolean isDead=false;
 
@@ -71,10 +72,21 @@ String typeOfMulti;
         this.hp=3;
         this.weapon = new Weapon("PISTOL",this);
         this.position="run";
-        this.name=game.getCurrentPlayer().getNickName();
         this.singleScore=0;
         if(type.equals("first")) {
             initHp();
+            this.name=game.getCurrentPlayer().getNickName();
+            this.nickText.setText(game.getCurrentPlayer().getNickName());
+            this.nickText.setTranslateY(this.getTranslateY()-20);
+            this.nickText.setTranslateY(this.getTranslateX());
+            this.nickText.setFont(Font.font(15));
+            GameView.gameRoot.getChildren().add(nickText);
+        }else{
+            this.nickText.setText(game.getCurrentPlayer().getNickName());
+            this.nickText.setTranslateY(this.getTranslateY()-20);
+            this.nickText.setTranslateY(this.getTranslateX());
+            this.nickText.setFont(Font.font(15));
+            GameView.gameRoot.getChildren().add(nickText);
         }
         setSpriteAnimation(position);
     }
@@ -334,6 +346,14 @@ String typeOfMulti;
 
     public int getIdPlayer() {
         return idPlayer;
+    }
+
+    public Text getNickText() {
+        return nickText;
+    }
+
+    public void setNickText(Text nickText) {
+        this.nickText = nickText;
     }
 }
 

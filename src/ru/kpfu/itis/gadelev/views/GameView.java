@@ -255,6 +255,10 @@ if(type.equals("MULTI")) {
     secondPlayer.setTranslateX(secondPlayerX);
     secondPlayer.setTranslateY(secondPlayerY);
     secondPlayer.setName(secondPlayerName);
+    secondPlayer.getNickText().setText(secondPlayerName);
+    secondPlayer.getNickText().setLayoutY(secondPlayerY-20);
+    secondPlayer.getNickText().setLayoutX(secondPlayerX+10);
+
 }
                 try {
                     updatePlayer();
