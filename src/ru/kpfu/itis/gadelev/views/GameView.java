@@ -133,13 +133,7 @@ Scene scene;
         player.setTranslateY(250);
         characters.add(player);
         secondPlayer=new Character("second","MULTI");
-
         characters.add(secondPlayer);
-        try {
-            menu = new GameMenu(this).createMenu();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
     }
@@ -225,35 +219,35 @@ Scene scene;
             if (event.getCode().equals(KeyCode.SPACE)) {
                 player.setShoot(false);
             }
-            if(this.type.equals("SINGLE")){
-            if (event.getCode().equals(KeyCode.ESCAPE)) {
-                if (!appRoot.getChildren().contains(menu)) {
-                    timer.stop();
-                    if(this.type.equals("SINGLE")) {
-                        for (Bot bot : bots
-                        ) {
-                            bot.getAnimationTimer().stop();
+            if(this.type.equals("SINGLE")) {
+                if (event.getCode().equals(KeyCode.ESCAPE)) {
+                    if (!appRoot.getChildren().contains(menu)) {
+                        timer.stop();
+                        if (this.type.equals("SINGLE")) {
+                            for (Bot bot : bots
+                            ) {
+                                bot.getAnimationTimer().stop();
+                            }
                         }
-                    }
-
-                    showMenu();
-                } else {
-                    hideMenu();
+                        showMenu();
+                    } else {
+                        hideMenu();
                         for (Bot bot : bots
                         ) {
                             bot.getAnimationTimer().start();
                         }
 
-                    timer.start();
+                        timer.start();
+                    }
                 }
             }
 
             keys.put(event.getCode(), false);
             player.spriteAnimation.stop();
-        }});
+        });
 
         final Long[] time = {System.currentTimeMillis()};
-        timer = new AnimationTimer() {
+        AnimationTimer timer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
@@ -276,6 +270,7 @@ if(type.equals("SINGLE")){
             bots.clear();
             bots.add(new Bot(1000,400));
             bots.add(new Bot(1050,300));
+            bots.add(new Bot(800,550));
             gameRoot.getChildren().addAll(bots);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

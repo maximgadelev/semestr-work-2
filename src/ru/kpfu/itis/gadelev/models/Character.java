@@ -266,14 +266,17 @@ String typeOfMulti;
 
             javafx.application.Platform.runLater(()-> {
                 getChildren().add(imageView);
+                this.imageView.setImage(runImage);
             });
         } else {
             if (animationType.equals("jump")) {
                 if (this.imageView != null) {
                     javafx.application.Platform.runLater(()-> {
+
                         getChildren().remove(this.imageView);
+                        this.imageView.setImage(this.jumpImage);
                     });
-                    this.imageView.setImage(this.jumpImage);
+
                 } else {
                     javafx.application.Platform.runLater(()-> {
                         this.imageView = new ImageView(this.jumpImage);

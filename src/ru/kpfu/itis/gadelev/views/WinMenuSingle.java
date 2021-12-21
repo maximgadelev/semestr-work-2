@@ -37,7 +37,7 @@ public class WinMenuSingle {
         public void handle(ActionEvent actionEvent) {
             if (button == actionEvent.getSource()) {
                 try {
-                    game.endGame();
+                    game.getStage().close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -88,13 +88,13 @@ public class Game extends Application {
                 GameView.appRoot.getChildren().clear();
                 GameView.gameRoot.getChildren().removeAll(GameView.bonuses);
                 GameView.bonuses.clear();
+                GameView.bots.clear();
                 GameView.characters.clear();
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
                 GameView.appRoot=null;
                 GameView.gameRoot=new Pane();
                 GameView.appRoot=new Pane();
-                this.gameView=new GameView();
             }
             gameView.createView("SINGLE");
         } catch (Exception e) {
@@ -138,6 +138,7 @@ public class Game extends Application {
         stage.setWidth(220);
         stage.setHeight(285);
         stage.show();
+        gameView.isCreate=false;
         this.setView(getMenuView());
     }
 
