@@ -86,10 +86,15 @@ public class Game extends Application {
             if (gameView.isCreate) {
                 GameView.gameRoot.getChildren().clear();
                 GameView.appRoot.getChildren().clear();
+                GameView.gameRoot.getChildren().removeAll(GameView.bonuses);
+                GameView.bonuses.clear();
                 GameView.characters.clear();
                 gameView.player=null;
                 GameView.appRoot.getChildren().removeAll(GameView.gameRoot);
                 GameView.appRoot=null;
+                GameView.gameRoot=new Pane();
+                GameView.appRoot=new Pane();
+                this.gameView=new GameView();
             }
             gameView.createView("SINGLE");
         } catch (Exception e) {

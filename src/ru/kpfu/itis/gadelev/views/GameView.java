@@ -225,29 +225,33 @@ Scene scene;
             if (event.getCode().equals(KeyCode.SPACE)) {
                 player.setShoot(false);
             }
+            if(this.type.equals("SINGLE")){
             if (event.getCode().equals(KeyCode.ESCAPE)) {
                 if (!appRoot.getChildren().contains(menu)) {
                     timer.stop();
-                    for (Bot bot:bots
-                         ) {
-                        bot.getAnimationTimer().stop();
+                    if(this.type.equals("SINGLE")) {
+                        for (Bot bot : bots
+                        ) {
+                            bot.getAnimationTimer().stop();
+                        }
                     }
-                    Bullet.animationTimer.stop();
+
                     showMenu();
                 } else {
                     hideMenu();
-                    for (Bot bot:bots
-                    ) {
-                        bot.getAnimationTimer().start();
-                    }
-                    Bullet.animationTimer.start();
+                        for (Bot bot : bots
+                        ) {
+                            bot.getAnimationTimer().start();
+                        }
+
                     timer.start();
                 }
             }
 
             keys.put(event.getCode(), false);
             player.spriteAnimation.stop();
-        });
+        }});
+
         final Long[] time = {System.currentTimeMillis()};
         timer = new AnimationTimer() {
 
@@ -266,6 +270,9 @@ if(type.equals("MULTI")) {
 if(type.equals("SINGLE")){
     if(System.currentTimeMillis()-time[0]>5000){
         try {
+            gameRoot.getChildren().removeAll(bonuses);
+            bonuses.clear();
+            spawnBonuses();
             bots.clear();
             bots.add(new Bot(1000,400));
             bots.add(new Bot(1050,300));
@@ -448,10 +455,14 @@ if(type.equals("SINGLE")){
     public static GameView getGameView() {
         return gameView;
     }
-    public void spawnBots() throws FileNotFoundException {
-        bots.clear();
-        Bot bot1 = new Bot(1000,400);
-        bots.add(bot1);
+    public void spawnBonuses() throws FileNotFoundException {
+        Bonus bonus1 = new Bonus(960,370,"SHOTGUN_BONUS");
+        Bonus bonus2 = new Bonus(500,370,"TWO_BONUS");
+        Bonus bonus3 = new Bonus(730,230,"HP_BONUS");
+        bonuses.add(bonus1);
+        bonuses.add(bonus2);
+        bonuses.add(bonus3);
+        gameRoot.getChildren().addAll(bonuses);
     }
 
 }

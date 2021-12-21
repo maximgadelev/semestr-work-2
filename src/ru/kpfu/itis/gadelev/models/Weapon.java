@@ -37,13 +37,13 @@ public class Weapon {
 
     public void Shoot(double x, double y, int side, String type,Character weaponCharacter) throws Exception {
         if(type.equals("SHOTGUN")){
-            Bullet bullet1=new Bullet(x,y,side,damage);
-            Bullet bullet2=new Bullet(x,y-30,side,damage);
-            Bullet bullet3=new Bullet(x,y+20,side,damage);
+            Bullet bullet1=new Bullet(x,y+15,side,damage);
+            Bullet bullet2=new Bullet(x,y,side,damage);
+            Bullet bullet3=new Bullet(x,y+25,side,damage);
             if(weaponCharacter.typeOfMulti.equals("MULTI")) {
-            game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage +"\n");
-            game.getClient().sendMessage("bullet" + " " + x + " " + (y-30) + " " + side + " " + damage +"\n");
-            game.getClient().sendMessage("bullet" + " " + x + " " + (y+20) + " " + side + " " + damage +"\n");
+            game.getClient().sendMessage("bullet" + " " + x + " " + (y+15) + " " + side + " " + damage +"\n");
+            game.getClient().sendMessage("bullet" + " " + x + " " + (y) + " " + side + " " + damage +"\n");
+            game.getClient().sendMessage("bullet" + " " + x + " " + (y+25) + " " + side + " " + damage +"\n");
             }
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);
@@ -52,16 +52,16 @@ public class Weapon {
         if(type.equals("PISTOL")){
             Bullet bullet1 = new Bullet(x,y+10, side,damage);
             if(weaponCharacter.typeOfMulti.equals("MULTI")) {
-                game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage + "\n");
+                game.getClient().sendMessage("bullet" + " " + x + " " + y+10 + " " + side + " " + damage + "\n");
             }
             GameView.gameRoot.getChildren().add(bullet1);
         }
         if(type.equals("TWO_BONUS")){
-            Bullet bullet1=new Bullet(x,y,side,damage);
-            Bullet bullet2=new Bullet(x,y-30,side,damage);
+            Bullet bullet1=new Bullet(x,y+25,side,damage);
+            Bullet bullet2=new Bullet(x,y,side,damage);
             if(weaponCharacter.typeOfMulti.equals("MULTI")) {
-                game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage + "\n");
-                game.getClient().sendMessage("bullet" + " " + x + " " + (y - 30) + " " + side + " " + damage + "\n");
+                game.getClient().sendMessage("bullet" + " " + x + " " + y+25 + " " + side + " " + damage + "\n");
+                game.getClient().sendMessage("bullet" + " " + x + " " + (y) + " " + side + " " + damage + "\n");
             }
             GameView.gameRoot.getChildren().add(bullet1);
             GameView.gameRoot.getChildren().add(bullet2);

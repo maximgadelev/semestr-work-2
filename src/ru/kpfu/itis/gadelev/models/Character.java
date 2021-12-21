@@ -228,14 +228,19 @@ String typeOfMulti;
                 }
         );
 
-        if(currentBonus!=null){
-            game.getClient().sendMessage("taken" + " " + currentBonus.type + "\n");
-            javafx.application.Platform.runLater(() -> {
-                        GameView.gameRoot.getChildren().remove(currentBonus);
-                        GameView.bonuses.remove(currentBonus);
-                    }
-            );
-        }
+        if(currentBonus!=null) {
+            if (game.getGameView().type.equals("MULTI")) {
+                game.getClient().sendMessage("taken" + " " + currentBonus.type + "\n");
+                javafx.application.Platform.runLater(() -> {
+                            GameView.gameRoot.getChildren().remove(currentBonus);
+                            GameView.bonuses.remove(currentBonus);
+                        }
+                );
+            }else{
+                GameView.gameRoot.getChildren().remove(currentBonus);
+                GameView.bonuses.remove(currentBonus);
+            }
+            }
     }
 
     public Weapon getWeapon() {
