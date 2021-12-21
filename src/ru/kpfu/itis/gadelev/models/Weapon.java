@@ -50,7 +50,7 @@ public class Weapon {
             GameView.gameRoot.getChildren().add(bullet3);
         }
         if(type.equals("PISTOL")){
-            Bullet bullet1 = new Bullet(x,y, side,damage);
+            Bullet bullet1 = new Bullet(x,y+10, side,damage);
             if(weaponCharacter.typeOfMulti.equals("MULTI")) {
                 game.getClient().sendMessage("bullet" + " " + x + " " + y + " " + side + " " + damage + "\n");
             }

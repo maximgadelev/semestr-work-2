@@ -20,6 +20,7 @@ public class ClientThread implements Runnable {
         this.client = client;
     }
 
+
     public BufferedReader getInput() {
         return input;
     }

@@ -3,51 +3,81 @@ package ru.kpfu.itis.gadelev.models;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
-import ru.kpfu.itis.gadelev.game.Game;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import ru.kpfu.itis.gadelev.views.GameView;
 
-public class Bot extends Rectangle {
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+public class Bot extends Pane {
     private int hp = 3;
-    Rectangle rectangle;
-
-    public Bot(double x, double y) {
-        super(x, y, 40, 40);
-        rectangle=this;
-        for (Node platform : GameView.platforms) {
-            if (this.getBoundsInParent().intersects(platform.getBoundsInParent())) {
-                if (this.getTranslateX() + 40 == platform.getTranslateX()) {
-                    this.setTranslateX(this.getTranslateX() - 1);
-                }
-            }
-                    if (this.getTranslateX() == platform.getTranslateX() + GameView.BLOCK_SIZE) {
-                        this.setTranslateX(this.getTranslateX() + 1);
+    Image botImage;
+    boolean isDead=false;
+    ImageView botImageView;
+    public  AnimationTimer animationTimer;
+    public Bot(double x, double y) throws FileNotFoundException {
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+this.botImage=new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/bot.png"));
+this.botImageView=new ImageView(botImage);
+botImageView.setFitWidth(50);
+botImageView.setFitHeight(50);
+botImageView.setViewport(new Rectangle2D(0,0,324,267));
+getChildren().add(botImageView);
+Bot bot = this;
+ animationTimer = new AnimationTimer() {
+    @Override
+    public void handle(long l) {
+        if (botImageView!=null) {
+            for (Character character : GameView.characters) {
+                if (bot.getBoundsInParent().intersects(character.getBoundsInParent())) {
+                    this.stop();
+                    GameView.gameRoot.getChildren().remove(bot);
+                    GameView.bots.remove(bot);
+                    GameView.gameRoot.getChildren().remove(botImageView);
+                    try {
+                        character.getDamage(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                if (this.getTranslateY() + 40 == platform.getTranslateY()) {
-                    this.setTranslateY(this.getTranslateY() - 1);
                 }
-            if (this.getTranslateY() == platform.getTranslateY() + GameView.BLOCK_SIZE) {
-                this.setTranslateY(this.getTranslateY() + 1);
-            }
-                }
-            }
-            public void getDamage(){
-                if (hp <= 1) {
-                    GameView.bots.remove(rectangle);
-                    GameView.gameRoot.getChildren().remove(rectangle);
-                    rectangle=null;
-                } else {
-                    hp = hp - 1;
-                }
+                break;
             }
 
-    public int getHp() {
-        return hp;
+            for (Node platform : GameView.platforms) {
+                if (bot.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+                    setTranslateY(getTranslateY() - 5);
+                }
+            }
+            if(bot.getTranslateX()<=0){
+                GameView.gameRoot.getChildren().remove(bot);
+                GameView.gameRoot.getChildren().remove(bot.botImageView);
+                getChildren().remove(bot);
+                getChildren().remove(bot.botImageView);
+                GameView.bots.remove(bot);
+                botImageView=null;
+            }
+            setTranslateX(getTranslateX() - 5);
+        }
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+};
+animationTimer.start();
+    }
+
+    public void dead(Bot bot) {
+        getChildren().remove(bot.botImageView);
+        bot.botImageView = null;
+        isDead=true;
+        GameView.gameRoot.getChildren().remove(bot.botImageView);
+    }
+
+    public  AnimationTimer getAnimationTimer() {
+        return animationTimer;
     }
 }
 

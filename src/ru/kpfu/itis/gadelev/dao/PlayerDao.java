@@ -8,4 +8,5 @@ public interface PlayerDao<T> {
     void updateSingleScore(int id,int score);
     void updateMultiScore(int id,int score);
     List<T> getAll();
+
 }

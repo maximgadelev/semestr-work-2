@@ -15,6 +15,7 @@ import ru.kpfu.itis.gadelev.dataBaseModel.Player;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.views.GameView;
 import ru.kpfu.itis.gadelev.helpers.SpriteAnimation;
+import ru.kpfu.itis.gadelev.views.WinMenuSingle;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +30,7 @@ public class Character extends Pane {
     private boolean canJump = true;
     private boolean isJumped = false;
     private boolean isShoot = false;
-      Game game = getApplication();
+    Game game = getApplication();
     Weapon weapon;
     private int hp;
     Bonus currentBonus = null;
@@ -182,7 +183,7 @@ String typeOfMulti;
         this.hp = hp;
     }
 
-    public synchronized void getDamage(int damage) {
+    public synchronized void getDamage(int damage) throws Exception {
         if (hp <= 1) {
             hp=0;
             getChildren().remove(imageView);
@@ -194,7 +195,9 @@ String typeOfMulti;
             if(typeOfMulti.equals("MULTI")) {
                 game.getClient().sendMessage("died" + " " + this.getName() + "\n");
             }
-//            playerService.updateSingleScore(playerService.getByNickName(this.getName()).getId(),this.singleScore);
+            if(typeOfMulti.equals("SINGLE")){
+                showWin(this.getName());
+            }
         } else {
             hp = hp - damage;
         }
@@ -203,7 +206,11 @@ String typeOfMulti;
 
     public  void  isBonusEaten() {
         GameView.bonuses.forEach((rect) -> {
-                    if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS") && this.getHp()>=3 && this.getHp()<5) {
+                    if (this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS") && this.getHp()>=3 && this.getHp()<5 && typeOfMulti.equals("MULTI")) {
+                        this.setHp(this.hp+2);
+                        this.hpText.setText(String.valueOf(this.hp));
+                        currentBonus = rect;
+                    }else if(this.getBoundsInParent().intersects(rect.getBoundsInParent()) && rect.getType().equals("HP_BONUS") && typeOfMulti.equals("SINGLE")){
                         this.setHp(this.hp+2);
                         this.hpText.setText(String.valueOf(this.hp));
                         currentBonus = rect;
@@ -241,8 +248,8 @@ String typeOfMulti;
             if (this.imageView != null) {
                 javafx.application.Platform.runLater(()->{
                     getChildren().remove(imageView);
-                    this.imageView.setImage(runImage);
                 });
+                this.imageView.setImage(runImage);
             } else {
                 this.imageView = new ImageView(runImage);
             }
@@ -260,8 +267,8 @@ String typeOfMulti;
                 if (this.imageView != null) {
                     javafx.application.Platform.runLater(()-> {
                         getChildren().remove(this.imageView);
-                        this.imageView.setImage(this.jumpImage);
                     });
+                    this.imageView.setImage(this.jumpImage);
                 } else {
                     javafx.application.Platform.runLater(()-> {
                         this.imageView = new ImageView(this.jumpImage);
@@ -354,6 +361,9 @@ String typeOfMulti;
 
     public void setNickText(Text nickText) {
         this.nickText = nickText;
+    }
+    public void showWin(String winner) throws Exception {
+        WinMenuSingle winMenuSingle = new WinMenuSingle(game.getStage(),winner);
     }
 }
 

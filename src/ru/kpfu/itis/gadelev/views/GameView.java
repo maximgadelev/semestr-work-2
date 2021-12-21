@@ -93,8 +93,8 @@ Scene scene;
 
         appRoot = new Pane();
         ImageView backgroundIV = new ImageView(backgroundImg);
-        backgroundIV.setFitHeight(640);
-        backgroundIV.setFitWidth(1000);
+        backgroundIV.setFitHeight(1080);
+        backgroundIV.setFitWidth(1920);
 
         levelWidth = LevelData.levels[levelNumber][0].length() * BLOCK_SIZE;
         for (int i = 0; i < LevelData.levels[levelNumber].length; i++) {
@@ -140,10 +140,6 @@ Scene scene;
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Bot bot = new Bot(800,500);
-//        bots.add(bot);
-//        gameRoot.getChildren().addAll(bots);
-
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
     }
@@ -151,8 +147,8 @@ Scene scene;
     private void initContentForSingle() throws Exception {
         ImageView backgroundIV = new ImageView(backgroundImg);
         appRoot = new Pane();
-        backgroundIV.setFitHeight(640);
-        backgroundIV.setFitWidth(1000);
+        backgroundIV.setFitHeight(1080);
+        backgroundIV.setFitWidth(1920);
 
         levelWidth = LevelData.levels[levelNumber][0].length() * BLOCK_SIZE;
         for (int i = 0; i < LevelData.levels[levelNumber].length; i++) {
@@ -198,9 +194,6 @@ Scene scene;
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        Bot bot = new Bot(800,500);
-//        bots.add(bot);
-//        gameRoot.getChildren().addAll(bots);
         gameRoot.getChildren().addAll(characters);
         appRoot.getChildren().addAll(backgroundIV, gameRoot);
 
@@ -235,9 +228,19 @@ Scene scene;
             if (event.getCode().equals(KeyCode.ESCAPE)) {
                 if (!appRoot.getChildren().contains(menu)) {
                     timer.stop();
+                    for (Bot bot:bots
+                         ) {
+                        bot.getAnimationTimer().stop();
+                    }
+                    Bullet.animationTimer.stop();
                     showMenu();
                 } else {
                     hideMenu();
+                    for (Bot bot:bots
+                    ) {
+                        bot.getAnimationTimer().start();
+                    }
+                    Bullet.animationTimer.start();
                     timer.start();
                 }
             }
@@ -260,6 +263,19 @@ if(type.equals("MULTI")) {
     secondPlayer.getNickText().setLayoutX(secondPlayerX+10);
 
 }
+if(type.equals("SINGLE")){
+    if(System.currentTimeMillis()-time[0]>5000){
+        try {
+            bots.clear();
+            bots.add(new Bot(1000,400));
+            bots.add(new Bot(1050,300));
+            gameRoot.getChildren().addAll(bots);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        time[0]=System.currentTimeMillis();
+    }
+}
                 try {
                     updatePlayer();
                 } catch (Exception e) {
@@ -275,8 +291,8 @@ if(type.equals("MULTI")) {
         isCreate = true;
         application.getStage().setScene(scene);
         application.getStage().show();
-        application.getStage().setWidth(1000);
-        application.getStage().setHeight(800);
+        application.getStage().setWidth(1080);
+        application.getStage().setHeight(1920);
     }
 
 
@@ -432,6 +448,12 @@ if(type.equals("MULTI")) {
     public static GameView getGameView() {
         return gameView;
     }
+    public void spawnBots() throws FileNotFoundException {
+        bots.clear();
+        Bot bot1 = new Bot(1000,400);
+        bots.add(bot1);
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ru.kpfu.itis.gadelev.dataBaseModel.Player;
+import ru.kpfu.itis.gadelev.models.Bullet;
 import ru.kpfu.itis.gadelev.server.Client;
 import ru.kpfu.itis.gadelev.server.GameServer;
 import ru.kpfu.itis.gadelev.views.*;
@@ -125,6 +126,8 @@ public class Game extends Application {
         GameView.appRoot=new Pane();
         GameView.gameRoot=new Pane();
         GameView.characters.clear();
+        Bullet.killed=0;
+        GameView.bots.clear();
         this.gameView = new GameView();
         stage.setScene(scene);
         stage.setWidth(220);

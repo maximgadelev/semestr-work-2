@@ -5,18 +5,21 @@ import javafx.scene.shape.Rectangle;
 import ru.kpfu.itis.gadelev.game.Game;
 import ru.kpfu.itis.gadelev.views.GameView;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import static ru.kpfu.itis.gadelev.views.View.getApplication;
 
 public  class Bullet extends Rectangle {
     Game game = getApplication();
-
+public static int killed=0;
+public static AnimationTimer animationTimer;
     public Bullet(double x, double y,int side,int damage) throws Exception {
         super(x,y,10,3);
-
+CopyOnWriteArrayList<Bot> bots1 = new CopyOnWriteArrayList<>();
         Bullet bullet=this;
 
 
-        AnimationTimer timer = new AnimationTimer() {
+         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 for (Node platform : GameView.platforms) {
@@ -33,27 +36,36 @@ public  class Bullet extends Rectangle {
                                 GameView.gameRoot.getChildren().remove(bullet);
                             });
                             if(game.getCurrentPlayer().getNickName().equals(character.getName())){
-                                character.getDamage(damage);
+                                try {
+                                    character.getDamage(damage);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
 
                         GameView.bots.forEach((rect)->{
-                            if(bullet.getBoundsInParent().intersects(rect.getBoundsInParent())){
-                                this.stop();
+                            if(bullet.getBoundsInParent().intersects(rect.getBoundsInParent()) && !rect.isDead){
                                 GameView.gameRoot.getChildren().remove(bullet);
-                                rect.getDamage();
+                                System.out.println("Коснулся" );
+                                this.stop();
+                                GameView.gameRoot.getChildren().remove(rect);
+                                GameView.gameRoot.getChildren().remove(rect.botImageView);
+                                rect.dead(rect);
+                                killed++;
                             }
-                        });
+                        }
+                        );
 
 if(side==1){
     setX(getX()+10);
 }else {
-   setX(getX() - 10);
+   setX(getX()-10);
 }
             }
         };
-        timer.start();
+        animationTimer.start();
     }
 
 
