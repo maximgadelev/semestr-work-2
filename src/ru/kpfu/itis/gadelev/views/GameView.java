@@ -211,9 +211,9 @@ Scene scene;
         scene = new Scene(appRoot);
         if(type.equals("MULTI")){
 
-            application.getClient().sendMessage("bonus"+ " " + 400 + " " + 500 + " " + "SHOTGUN_BONUS" + "\n");
-            application.getClient().sendMessage("bonus"+ " " + 500 + " " + 500+ " " + "TWO_BONUS" + "\n");
-            application.getClient().sendMessage("bonus"+ " " + 700 + " " + 230 + " " + "HP_BONUS" + "\n");
+            application.getClient().sendMessage("bonus"+ " " + 960 + " " + 370 + " " + "SHOTGUN_BONUS" + "\n");
+            application.getClient().sendMessage("bonus"+ " " + 500 + " " + 370+ " " + "TWO_BONUS" + "\n");
+            application.getClient().sendMessage("bonus"+ " " + 730 + " " + 230 + " " + "HP_BONUS" + "\n");
         }
         scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 

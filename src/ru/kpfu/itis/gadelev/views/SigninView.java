@@ -37,6 +37,7 @@ public class SigninView extends View {
                 PlayerDto player = playerService.getByNickName(nicknameField.getText());
                 if (player == null) {
                     System.out.println( playerService.save(new Player(nicknameField.getText())));
+                    application.setCurrentPlayer(playerPlayerDao.getByNickName(nicknameField.getText()));
                     application.setApplicationHeight(230);
                     application.setView(application.getMenuView());
                 } else {
