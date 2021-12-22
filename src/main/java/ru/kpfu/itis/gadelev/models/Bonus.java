@@ -16,7 +16,7 @@ public class Bonus extends Pane {
     public Bonus(double x, double y,String type) throws FileNotFoundException {
         this.type=type;
         if(type.equals("SHOTGUN_BONUS")){
-            bonusImage=new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/shotgun.png"));
+            bonusImage=new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/shotgun.png"));
             bonusImageView=new ImageView(bonusImage);
             setTranslateX(x);
             setTranslateY(y);
@@ -25,7 +25,7 @@ public class Bonus extends Pane {
             bonusImageView.setViewport(new Rectangle2D(0, 0, 512, 512));
         }
         if(type.equals("TWO_BONUS")){
-            bonusImage=new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/two.png"));
+            bonusImage=new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/two.png"));
            bonusImageView=new ImageView(bonusImage);
            setTranslateX(x);
            setTranslateY(y);
@@ -33,7 +33,7 @@ public class Bonus extends Pane {
             bonusImageView.setFitHeight(40);
             bonusImageView.setViewport(new Rectangle2D(0, 0, 1023, 385));
         }if(type.equals("HP_BONUS")){
-            bonusImage=new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/HPP.png"));
+            bonusImage=new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/HPP.png"));
             bonusImageView=new ImageView(bonusImage);
             setTranslateX(x);
             setTranslateY(y);

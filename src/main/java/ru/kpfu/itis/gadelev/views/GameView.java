@@ -33,7 +33,7 @@ public class GameView extends View {
     public static ArrayList<Bonus> bonuses = new ArrayList<>();
     public static ArrayList<Bot> bots = new ArrayList<>();
 
-    Image backgroundImg = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/list.png"));
+    Image backgroundImg = new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/list.png"));
     public static final int BLOCK_SIZE = 45;
     public static final int MARIO_SIZE = 70;
     public static Pane appRoot = new Pane();
@@ -236,7 +236,6 @@ Scene scene;
                         ) {
                             bot.getAnimationTimer().start();
                         }
-
                         timer.start();
                     }
                 }
@@ -247,7 +246,7 @@ Scene scene;
         });
 
         final Long[] time = {System.currentTimeMillis()};
-        AnimationTimer timer = new AnimationTimer() {
+   timer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {

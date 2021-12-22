@@ -41,8 +41,8 @@ public class Character extends Pane {
 
 
     public SpriteAnimation spriteAnimation;
-    Image runImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/run.png"));
-    Image jumpImage = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/jump.png"));
+    Image runImage = new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/run.png"));
+    Image jumpImage = new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/jump.png"));
     public ImageView imageView;
     public String position;
 
@@ -296,7 +296,7 @@ String typeOfMulti;
     }
     public synchronized void initHp() throws FileNotFoundException {
         hpText.setText(String.valueOf(this.hp));
-        hpView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/HPP.png")));
+        hpView=new ImageView(new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/HPP.png")));
         hpView.setViewport(new Rectangle2D(0,0,2000,2000));
         hpView.setFitWidth(50);
         hpView.setFitHeight(50);

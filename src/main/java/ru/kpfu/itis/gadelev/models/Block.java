@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 
 
 public class Block extends Pane {
-    Image blocksImg = new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/2.png"));
+    Image blocksImg = new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/2.png"));
     ImageView block;
     public enum BlockType {
         PLATFORM, BRICK, BONUS, PIPE_TOP, PIPE_BOTTOM, INVISIBLE_BLOCK, STONE

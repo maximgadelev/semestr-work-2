@@ -22,7 +22,7 @@ public class Bot extends Pane {
     public Bot(double x, double y) throws FileNotFoundException {
         this.setTranslateX(x);
         this.setTranslateY(y);
-this.botImage=new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/bot.png"));
+this.botImage=new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/bot.png"));
 this.botImageView=new ImageView(botImage);
 botImageView.setFitWidth(50);
 botImageView.setFitHeight(50);

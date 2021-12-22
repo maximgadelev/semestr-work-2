@@ -24,7 +24,7 @@ public class Weapon {
         this.type=type;
         this.damage=1;
         this.weaponCharacter=character;
-        this.weaponImageView=new ImageView(new Image(new FileInputStream("src/ru/kpfu/itis/gadelev/images/pn.png")));
+        this.weaponImageView=new ImageView(new Image(new FileInputStream("src/main/java/ru/kpfu/itis/gadelev/images/pn.png")));
         weaponImageView.setFitHeight(40);
         weaponImageView.setFitWidth(40);
         weaponImageView.setViewport(new Rectangle2D(0,0,580,580));
