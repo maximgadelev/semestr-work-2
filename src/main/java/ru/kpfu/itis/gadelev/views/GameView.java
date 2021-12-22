@@ -231,12 +231,12 @@ Scene scene;
                         }
                         showMenu();
                     } else {
-                        hideMenu();
                         for (Bot bot : bots
                         ) {
                             bot.getAnimationTimer().start();
                         }
                         timer.start();
+                        hideMenu();
                     }
                 }
             }
@@ -317,6 +317,11 @@ if(type.equals("SINGLE")){
     }
 
     public void hideMenu() {
+        timer.start();
+        for (Bot bot : bots
+        ) {
+            bot.getAnimationTimer().start();
+        }
         appRoot.getChildren().remove(menu);
     }
 

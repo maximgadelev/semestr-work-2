@@ -1,12 +1,12 @@
 package ru.kpfu.itis.gadelev.server;
 
-import ru.kpfu.itis.gadelev.game.Game;
+
 import ru.kpfu.itis.gadelev.views.GameView;
 
-import javax.xml.namespace.QName;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
+
 
 public class ClientThread implements Runnable {
     private final BufferedReader input;

@@ -272,7 +272,6 @@ String typeOfMulti;
             if (animationType.equals("jump")) {
                 if (this.imageView != null) {
                     javafx.application.Platform.runLater(()-> {
-
                         getChildren().remove(this.imageView);
                         this.imageView.setImage(this.jumpImage);
                     });

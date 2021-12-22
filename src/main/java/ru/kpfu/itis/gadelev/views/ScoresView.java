@@ -7,11 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import ru.kpfu.itis.gadelev.dataBaseModel.Player;
-import ru.kpfu.itis.gadelev.dto.PlayerDto;
 import ru.kpfu.itis.gadelev.game.Game;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ScoresView extends View {
@@ -50,7 +47,7 @@ public class ScoresView extends View {
         }
     };
     void createView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("playerList.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/playerList.fxml"));
         pane=loader.load();
         Scene scene = new Scene(pane);
         backButton = new Button("Back");
